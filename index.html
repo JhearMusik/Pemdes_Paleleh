@@ -13,7 +13,7 @@
     <header class="header">
         <nav class="navbar">
             <div class="logo-container" onclick="showPage('view-beranda')">
-                <img src="https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg" alt="Logo Buol" style="width: 45px; height: 45px; object-fit: contain; border-radius: 50%;">
+                <img id="display-navbar-logo" src="https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg" alt="Logo Buol" style="width: 45px; height: 45px; object-fit: contain; border-radius: 50%;">
                 <div class="logo-text">
                     <span class="logo-title">PEMERINTAH KABUPATEN BUOL</span>
                     <span class="logo-subtitle">PEMERINTAH DESA PALELEH</span>
@@ -46,7 +46,7 @@
                     <ul class="dropdown-menu" id="display-navbar-tautan"></ul>
                 </li>
                 <li class="dropdown">
-                    <a class="nav-link btn-layanan-surat"><i class="fas fa-file-alt"></i> Layanan Desa <i class="fas fa-chevron-down"></i></a>
+                    <a class="nav-link"><i class="fas fa-file-alt"></i> Layanan Desa <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a onclick="showPage('view-layanan-surat')"><i class="fas fa-file-signature"></i> Permohonan Surat</a></li>
                         <li><a onclick="showPage('view-pengaduan')"><i class="fas fa-bullhorn"></i> Pengaduan Masyarakat</a></li>
@@ -182,20 +182,35 @@
 
         <!-- SEJARAH -->
         <section id="view-sejarah" class="page-view" style="display: none;"><div class="card-content"><h2>Sejarah Desa Paleleh</h2><div id="display-sejarah"></div></div></section>
+        
         <!-- VISI MISI -->
-        <section id="view-visimisi" class="page-view" style="display: none;"><div class="card-content"><h2>Visi & Misi</h2><div class="visi-box"><h4 id="display-visi"></h4></div><div id="display-misi-list" class="misi-list-container"></div></div></section>
+        <section id="view-visimisi" class="page-view" style="display: none;">
+            <div class="card-content">
+                <h2>Visi & Misi</h2>
+                <div class="visi-box"><h4 id="display-visi"></h4></div>
+                <h3>Misi Desa:</h3>
+                <div id="display-misi-list" class="misi-list-container"></div>
+            </div>
+        </section>
+
         <!-- TUPOKSI -->
-        <section id="view-tupoksi" class="page-view" style="display: none;"><div class="card-content"><h2>Tupoksi</h2><div id="display-tupoksi-list" class="tupoksi-list-container"></div></div></section>
+        <section id="view-tupoksi" class="page-view" style="display: none;"><div class="card-content"><h2>Tupoksi Aparat Desa</h2><div id="display-tupoksi-list" class="tupoksi-list-container"></div></div></section>
+        
         <!-- SARANA -->
         <section id="view-sarana" class="page-view" style="display: none;"><div class="card-content"><h2>Fasilitas & Sarana Desa</h2><div id="display-sarana-list" class="grid-cards-responsive"></div></div></section>
+        
         <!-- STRUKTUR -->
         <section id="view-struktur" class="page-view" style="display: none;"><div class="card-content"><h2>Struktur Organisasi</h2><img id="display-struktur-img" style="max-width:100%;"></div></section>
+        
         <!-- APARAT -->
         <section id="view-aparat" class="page-view" style="display: none;"><div class="card-content"><h2>Aparat & Staf Desa</h2><div id="display-aparat-list" class="grid-cards-responsive"></div></div></section>
+        
         <!-- BPD LPM -->
         <section id="view-bpd-lpm" class="page-view" style="display: none;"><div class="card-content"><h2>BPD & LPM</h2><div id="display-pengurus-bpd-lpm-list" class="grid-cards-responsive"></div></div></section>
+        
         <!-- KARANG TARUNA PKK -->
         <section id="view-karangtaruna-pkk" class="page-view" style="display: none;"><div class="card-content"><h2>Karang Taruna & PKK</h2><div id="display-karangtaruna-pkk-list" class="grid-cards-responsive"></div></div></section>
+        
         <!-- KEPENDUDUKAN -->
         <section id="view-kependudukan" class="page-view" style="display: none;">
             <div class="card-content" style="max-width: 700px; margin: 0 auto; text-align: center;">
@@ -207,10 +222,28 @@
                 </div>
             </div>
         </section>
+
         <!-- ANGGARAN -->
         <section id="view-anggaran" class="page-view" style="display: none;"><div class="card-content"><h2>Anggaran Desa</h2><div class="grid-anggaran-summary"><div class="card-anggaran-add"><h4>ADD</h4><h2 id="display-total-add">Rp 0</h2></div><div class="card-anggaran-dds"><h4>DDS</h4><h2 id="display-total-dds">Rp 0</h2></div></div><div id="display-anggaran-list" class="misi-list-container"></div></div></section>
+        
         <!-- KONTAK -->
-        <section id="view-kontak" class="page-view" style="display: none;"><div class="card-content"><h2>Kontak</h2><p id="display-kontak-alamat"></p></div></section>
+        <section id="view-kontak" class="page-view" style="display: none;">
+            <div class="card-content">
+                <h2>Kontak & Kantor Desa</h2>
+                <div class="grid-kontak">
+                    <div>
+                        <p class="info-kontak-item"><i class="fas fa-map-marker-alt"></i> <strong>Alamat:</strong> <span id="display-kontak-alamat">Jln. Trans Sulawesi, Desa Paleleh, Buol</span></p>
+                        <p class="info-kontak-item"><i class="fas fa-phone-alt"></i> <strong>Telepon/HP:</strong> <span id="display-kontak-telp">+62 822-0000-0000</span></p>
+                        <p class="info-kontak-item"><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="display-kontak-email">desapaleleh@buolkab.go.id</span></p>
+                    </div>
+                    <div>
+                        <div class="maps-container">
+                            <iframe id="display-kontak-maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.814!2d121.3!3d0.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDgnNDguMCJOIDEyMcKwMTgnMDAuMCJF!5e0!3m2!1sid!2sid!4v1600000000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- LOGIN ADMIN -->
         <section id="view-login-petugas" class="page-view" style="display: none;">
@@ -239,7 +272,7 @@
                 <button id="btn-tab-sarana" onclick="switchTab('tab-sarana')" class="tab-btn">Fasilitas Desa</button>
                 <button id="btn-tab-anggaran" onclick="switchTab('tab-anggaran')" class="tab-btn">Anggaran</button>
                 <button id="btn-tab-video" onclick="switchTab('tab-video')" class="tab-btn">Video</button>
-                <button id="btn-tab-beranda" onclick="switchTab('tab-beranda')" class="tab-btn">Beranda</button>
+                <button id="btn-tab-beranda" onclick="switchTab('tab-beranda')" class="tab-btn">Beranda & Logo</button>
                 <button id="btn-tab-tautan" onclick="switchTab('tab-tautan')" class="tab-btn">Tautan</button>
                 <button id="btn-tab-sejarah" onclick="switchTab('tab-sejarah')" class="tab-btn">Sejarah</button>
                 <button id="btn-tab-visimisi" onclick="switchTab('tab-visimisi')" class="tab-btn">Visi & Misi</button>
@@ -329,15 +362,89 @@
                 <div id="admin-video-list" class="admin-item-list"></div>
             </div>
 
-            <!-- TAB LAINNYA -->
-            <div id="tab-beranda" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Beranda</h3><form onsubmit="saveBerandaData(event)"><input type="text" id="input-beranda-banner" class="form-control" placeholder="URL Banner"><textarea id="input-beranda-sambutan" class="form-control" rows="3"></textarea><input type="text" id="input-beranda-kepala-desa" class="form-control" placeholder="URL Foto Kades"><button type="submit" class="btn-primary" style="margin-top:10px;">Simpan</button></form></div>
-            <div id="tab-tautan" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Tautan</h3><div class="grid-2col"><input type="text" id="input-tautan-nama" class="form-control"><input type="text" id="input-tautan-url" class="form-control"></div><button onclick="tambahTautanItem()" class="btn-accent">Tambah</button><div id="admin-tautan-list" class="admin-item-list"></div></div>
-            <div id="tab-sejarah" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Sejarah</h3><form onsubmit="savePageContent(event, 'sejarah')"><textarea id="input-content-sejarah" class="form-control" rows="5"></textarea><button type="submit" class="btn-primary" style="margin-top:10px;">Simpan</button></form></div>
-            <div id="tab-visimisi" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Visi Misi</h3><input type="text" id="input-content-visi" class="form-control"><button onclick="saveVisiOnly()" class="btn-primary" style="margin-top:10px;">Simpan Visi</button></div>
-            <div id="tab-tupoksi" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Tupoksi</h3><div class="grid-2col"><input type="text" id="input-tupoksi-judul" class="form-control"><input type="text" id="input-tupoksi-deskripsi" class="form-control"></div><button onclick="tambahTupoksiItem()" class="btn-accent">Tambah</button><div id="admin-tupoksi-list" class="admin-item-list"></div></div>
-            <div id="tab-struktur" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Struktur</h3><form onsubmit="saveStrukturGambar(event)"><input type="text" id="input-struktur-img" class="form-control"><button type="submit" class="btn-primary" style="margin-top:10px;">Simpan</button></form></div>
-            <div id="tab-karangtaruna-pkk" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Karang Taruna & PKK</h3><div class="grid-2col"><input type="text" id="input-ktpkk-judul" class="form-control"><input type="text" id="input-ktpkk-foto" class="form-control"></div><textarea id="input-ktpkk-ket" class="form-control" rows="2" style="margin-bottom:10px;"></textarea><button onclick="tambahKegiatanKtPkk()" class="btn-accent">Tambah</button><div id="admin-ktpkk-list" class="admin-item-list"></div></div>
-            <div id="tab-kontak" class="admin-tab-content admin-card-box" style="display: none;"><h3 class="admin-section-title">Kontak</h3><form onsubmit="saveKontakData(event)"><textarea id="input-kontak-alamat" class="form-control" rows="2"></textarea><input type="text" id="input-kontak-telp" class="form-control" style="margin-top:10px;"><input type="email" id="input-kontak-email" class="form-control" style="margin-top:10px;"><textarea id="input-kontak-maps" class="form-control" rows="2" style="margin-top:10px;"></textarea><button type="submit" class="btn-primary" style="margin-top:10px;">Simpan</button></form></div>
+            <!-- TAB BERANDA & LOGO -->
+            <div id="tab-beranda" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Beranda & Logo Daerah</h3>
+                <form onsubmit="saveBerandaData(event)">
+                    <div class="form-group"><label>URL Logo Daerah:</label><input type="text" id="input-beranda-logo" class="form-control" placeholder="https://..." required></div>
+                    <div class="form-group"><label>URL Banner Video:</label><input type="text" id="input-beranda-banner" class="form-control" required></div>
+                    <div class="form-group"><label>Sambutan Kades:</label><textarea id="input-beranda-sambutan" class="form-control" rows="3" required></textarea></div>
+                    <div class="form-group"><label>URL Foto Kades:</label><input type="text" id="input-beranda-kepala-desa" class="form-control" required></div>
+                    <button type="submit" class="btn-primary">Simpan Beranda & Logo</button>
+                </form>
+                <div style="margin-top:25px;">
+                    <h4>Kelola Berita / Kegiatan Beranda</h4>
+                    <div class="grid-2col"><input type="text" id="input-kegiatan-judul" placeholder="Judul Kegiatan" class="form-control"><input type="text" id="input-kegiatan-foto" placeholder="URL Foto" class="form-control"></div>
+                    <textarea id="input-kegiatan-ket" rows="2" placeholder="Keterangan Kegiatan" class="form-control" style="margin-bottom:10px;"></textarea>
+                    <button type="button" onclick="tambahKegiatanItem()" class="btn-accent">Tambah Kegiatan</button>
+                    <div id="admin-kegiatan-list" class="admin-item-list"></div>
+                </div>
+            </div>
+
+            <!-- TAB TAUTAN -->
+            <div id="tab-tautan" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Tautan Terkait</h3>
+                <div class="grid-2col"><input type="text" id="input-tautan-nama" placeholder="Nama Tautan" class="form-control"><input type="text" id="input-tautan-url" placeholder="URL Tautan" class="form-control"></div>
+                <button onclick="tambahTautanItem()" class="btn-accent">Tambah Tautan</button>
+                <div id="admin-tautan-list" class="admin-item-list"></div>
+            </div>
+
+            <!-- TAB SEJARAH -->
+            <div id="tab-sejarah" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Sejarah Desa</h3>
+                <form onsubmit="savePageContent(event, 'sejarah')">
+                    <textarea id="input-content-sejarah" class="form-control" rows="5" required></textarea>
+                    <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Sejarah</button>
+                </form>
+            </div>
+
+            <!-- TAB VISI & MISI (DENGAN TAMBAH & HAPUS MISI) -->
+            <div id="tab-visimisi" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Visi & Misi Desa</h3>
+                <div class="form-group"><label>Visi Desa:</label><input type="text" id="input-content-visi" class="form-control" required></div>
+                <button type="button" onclick="saveVisiOnly()" class="btn-primary" style="margin-bottom:20px;">Simpan Visi</button>
+                <hr style="margin-bottom:20px;">
+                <div class="form-group"><label>Tambah Poin Misi:</label><div style="display:flex;gap:10px;"><input type="text" id="input-content-misi" placeholder="Tulis misi..." class="form-control"><button type="button" onclick="tambahMisiItem()" class="btn-accent">Tambah Misi</button></div></div>
+                <div id="admin-misi-list" class="admin-item-list"></div>
+            </div>
+
+            <!-- TAB TUPOKSI -->
+            <div id="tab-tupoksi" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Tupoksi Aparat</h3>
+                <div class="grid-2col"><input type="text" id="input-tupoksi-judul" placeholder="Jabatan" class="form-control"><input type="text" id="input-tupoksi-deskripsi" placeholder="Tugas Pokok" class="form-control"></div>
+                <button onclick="tambahTupoksiItem()" class="btn-accent">Tambah Tupoksi</button>
+                <div id="admin-tupoksi-list" class="admin-item-list"></div>
+            </div>
+
+            <!-- TAB STRUKTUR -->
+            <div id="tab-struktur" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Struktur Organisasi</h3>
+                <form onsubmit="saveStrukturGambar(event)">
+                    <input type="text" id="input-struktur-img" placeholder="URL Gambar Struktur Organisasi" class="form-control" required>
+                    <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Struktur</button>
+                </form>
+            </div>
+
+            <!-- TAB KARANG TARUNA & PKK -->
+            <div id="tab-karangtaruna-pkk" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Karang Taruna & PKK</h3>
+                <div class="grid-2col"><input type="text" id="input-ktpkk-judul" placeholder="Judul Kegiatan" class="form-control"><input type="text" id="input-ktpkk-foto" placeholder="URL Foto" class="form-control"></div>
+                <textarea id="input-ktpkk-ket" class="form-control" rows="2" placeholder="Keterangan..." style="margin-bottom:10px;"></textarea>
+                <button onclick="tambahKegiatanKtPkk()" class="btn-accent">Tambah Kegiatan</button>
+                <div id="admin-ktpkk-list" class="admin-item-list"></div>
+            </div>
+
+            <!-- TAB KONTAK (ALAMAT, MAPS, EMAIL, TELP) -->
+            <div id="tab-kontak" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Kontak & Lokasi Desa</h3>
+                <form onsubmit="saveKontakData(event)">
+                    <div class="form-group"><label>Alamat Kantor:</label><textarea id="input-kontak-alamat" class="form-control" rows="2" required></textarea></div>
+                    <div class="form-group"><label>Nomor Telepon / HP:</label><input type="text" id="input-kontak-telp" class="form-control" required></div>
+                    <div class="form-group"><label>Email Resmi:</label><input type="email" id="input-kontak-email" class="form-control" required></div>
+                    <div class="form-group"><label>URL Embed Google Maps (iframe src):</label><textarea id="input-kontak-maps" class="form-control" rows="3" required></textarea></div>
+                    <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Kontak</button>
+                </form>
+            </div>
         </section>
     </main>
 
