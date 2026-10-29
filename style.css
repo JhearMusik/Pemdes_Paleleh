@@ -109,3 +109,30 @@ footer { background: linear-gradient(135deg, var(--primary-color) 0%, #04382c 10
 .accessibility-body { padding: 20px; flex-grow: 1; overflow-y: auto; }
 .font-size-control { border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: #f8fafc; text-align: center; }
 .btn-circle-acc { background: #e0f2fe; color: #0284c7; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+/* Styling Teks Logo Tersusun ke Bawah */
+.logo-text-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.logo-line-1 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.logo-line-2 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: 0.3px;
+}
+
+.logo-line-3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+}
