@@ -1,3 +1,8 @@
+// --- Inisialisasi Supabase Client (Opsional jika terhubung Cloud DB) ---
+const SUPABASE_URL = '[https://haocjvzfurqpnrvatmro.supabase.co](https://haocjvzfurqpnrvatmro.supabase.co)';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseClient = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
 // --- 1. NAVIGASI HALAMAN (SHOW PAGE) ---
 function showPage(pageId) {
   const views = document.querySelectorAll('.page-view');
@@ -17,57 +22,46 @@ function showPage(pageId) {
 // --- FUNGSI AKSESIBILITAS SIDEBAR & UKURAN FONT ---
 function toggleAccessibilityModal() {
   const modal = document.getElementById('accessibilityModal');
-  if (modal) {
-    modal.classList.toggle('active');
-  }
+  if (modal) modal.classList.toggle('active');
 }
 
 let currentFontScale = 1;
 function changeFontSize(amount) {
   currentFontScale += amount / 100;
-  
   if (currentFontScale < 0.8) currentFontScale = 0.8;
   if (currentFontScale > 1.6) currentFontScale = 1.6;
 
   document.documentElement.style.setProperty('--font-scale', currentFontScale);
-  
   const display = document.getElementById('fontSizeDisplay');
-  if (display) {
-    display.innerText = Math.round(currentFontScale * 100) + '%';
-  }
+  if (display) display.innerText = Math.round(currentFontScale * 100) + '%';
 }
 
 function toggleBodyClass(className, enable) {
-  if (enable) {
-    document.body.classList.add(className);
-  } else {
-    document.body.classList.remove(className);
-  }
+  if (enable) document.body.classList.add(className);
+  else document.body.classList.remove(className);
 }
 
 // --- FUNGSI YOUTUBE EMBED ---
 function parseYoutubeEmbedUrl(url) {
   if (!url) return '';
   let videoId = '';
-  
   if (url.includes('youtu.be/')) {
     videoId = url.split('youtu.be/')[1].split('?')[0];
-  } else if (url.includes('youtube.com/watch')) {
+  } else if (url.includes('[youtube.com/watch](https://youtube.com/watch)')) {
     const urlParams = new URLSearchParams(url.split('?')[1]);
     videoId = urlParams.get('v');
-  } else if (url.includes('youtube.com/embed/')) {
-    videoId = url.split('youtube.com/embed/')[1].split('?')[0];
+  } else if (url.includes('[youtube.com/embed/](https://youtube.com/embed/)')) {
+    videoId = url.split('[youtube.com/embed/](https://youtube.com/embed/)')[1].split('?')[0];
   }
-
-  return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+  return videoId ? `[https://www.youtube.com/embed/$](https://www.youtube.com/embed/$){videoId}` : url;
 }
 
 // --- KELOLA MENU TAUTAN EKSTERNAL ---
 const defaultTautanList = [
-  { nama: 'Portal Kab. Buol', url: 'https://buolkab.go.id' },
-  { nama: 'Kementerian Desa PDT', url: 'https://kemendesa.go.id' },
-  { nama: 'KEMENDAGRI', url: 'https://kemendagri.go.id' },
-  { nama: 'Layanan Dukcapil', url: 'https://dukcapil.kemendagri.go.id' }
+  { nama: 'Portal Kab. Buol', url: '[https://buolkab.go.id](https://buolkab.go.id)' },
+  { nama: 'Kementerian Desa PDT', url: '[https://kemendesa.go.id](https://kemendesa.go.id)' },
+  { nama: 'KEMENDAGRI', url: '[https://kemendagri.go.id](https://kemendagri.go.id)' },
+  { nama: 'Layanan Dukcapil', url: '[https://dukcapil.kemendagri.go.id](https://dukcapil.kemendagri.go.id)' }
 ];
 
 function getTautanList() {
@@ -78,7 +72,6 @@ function getTautanList() {
 function tambahTautanItem() {
   const namaEl = document.getElementById('input-tautan-nama');
   const urlEl = document.getElementById('input-tautan-url');
-
   if (!namaEl || !urlEl) return;
   const nama = namaEl.value.trim();
   const url = urlEl.value.trim();
@@ -91,7 +84,6 @@ function tambahTautanItem() {
   let list = getTautanList();
   list.push({ nama, url });
   localStorage.setItem('desapaleleh_content_tautan_list', JSON.stringify(list));
-
   namaEl.value = '';
   urlEl.value = '';
   renderTautanList();
@@ -108,7 +100,6 @@ function hapusTautanItem(index) {
 
 function renderTautanList() {
   const list = getTautanList();
-  
   const adminEl = document.getElementById('admin-tautan-list');
   if (adminEl) {
     adminEl.innerHTML = list.length === 0 ? '<p style="font-size: 0.85rem; color: var(--text-muted);">Belum ada tautan.</p>' : list.map((item, idx) => `
@@ -127,14 +118,14 @@ function renderTautanList() {
   }
 }
 
-// --- 2. FITUR DINAMIS DATA PENDUDUK ---
+// --- 2. DATA PENDUDUK ---
 const defaultStudentData = {
-  '7a': { l: 210, p: 195, wali: 'Kepala Dusun I', foto: 'https://via.placeholder.com/150' },
-  '7b': { l: 185, p: 190, wali: 'Kepala Dusun II', foto: 'https://via.placeholder.com/150' },
-  '8a': { l: 220, p: 215, wali: 'Kepala Dusun III', foto: 'https://via.placeholder.com/150' },
-  '8b': { l: 175, p: 180, wali: 'Kepala Dusun IV', foto: 'https://via.placeholder.com/150' },
-  '9a': { l: 160, p: 155, wali: 'Kepala Dusun V', foto: 'https://via.placeholder.com/150' },
-  '9b': { l: 140, p: 145, wali: 'Kepala Dusun VI', foto: 'https://via.placeholder.com/150' }
+  '7a': { l: 210, p: 195, wali: 'Kepala Dusun I', foto: '[https://via.placeholder.com/150](https://via.placeholder.com/150)' },
+  '7b': { l: 185, p: 190, wali: 'Kepala Dusun II', foto: '[https://via.placeholder.com/150](https://via.placeholder.com/150)' },
+  '8a': { l: 220, p: 215, wali: 'Kepala Dusun III', foto: '[https://via.placeholder.com/150](https://via.placeholder.com/150)' },
+  '8b': { l: 175, p: 180, wali: 'Kepala Dusun IV', foto: '[https://via.placeholder.com/150](https://via.placeholder.com/150)' },
+  '9a': { l: 160, p: 155, wali: 'Kepala Dusun V', foto: '[https://via.placeholder.com/150](https://via.placeholder.com/150)' },
+  '9b': { l: 140, p: 145, wali: 'Kepala Dusun VI', foto: '[https://via.placeholder.com/150](https://via.placeholder.com/150)' }
 };
 
 function getStudentData() {
@@ -158,7 +149,7 @@ function renderStudentData() {
     if (elP) elP.innerText = clsduta.p;
     if (elTot) elTot.innerText = Number(clsduta.l) + Number(clsduta.p);
     if (elWali) elWali.innerText = clsduta.wali;
-    if (elFoto) elFoto.src = clsduta.foto || 'https://via.placeholder.com/150';
+    if (elFoto) elFoto.src = clsduta.foto || '[https://via.placeholder.com/150](https://via.placeholder.com/150)';
 
     const inputL = document.getElementById(`input-${cls}-l`);
     const inputP = document.getElementById(`input-${cls}-p`);
@@ -195,22 +186,17 @@ function resetStudentData() {
   if (!confirm('Apakah Anda yakin ingin mengosongkan/menghapus seluruh data kependudukan?')) return;
   const classes = ['7a', '7b', '8a', '8b', '9a', '9b'];
   let clearedData = {};
-  classes.forEach(cls => {
-    clearedData[cls] = { l: 0, p: 0, wali: '-', foto: '' };
-  });
+  classes.forEach(cls => { clearedData[cls] = { l: 0, p: 0, wali: '-', foto: '' }; });
   localStorage.setItem('desapaleleh_data_penduduk', JSON.stringify(clearedData));
   renderStudentData();
   alert('Data kependudukan berhasil dikosongkan!');
 }
 
-// --- 3. LOGIN & KONTROL ADMIN DESA ---
+// --- 3. LOGIN & KONTROL ADMIN ---
 function checkLoginAndOpenMenu() {
   const isAuth = localStorage.getItem('desapaleleh_admin_logged_in');
-  if (isAuth === 'true') {
-    showPage('view-panel-petugas');
-  } else {
-    showPage('view-login-petugas');
-  }
+  if (isAuth === 'true') showPage('view-panel-petugas');
+  else showPage('view-login-petugas');
 }
 
 function handleLogin(event) {
@@ -235,11 +221,9 @@ function handleLogout() {
   showPage('view-beranda');
 }
 
-// --- 4. TAB SWITCHING ---
 function switchTab(tabId) {
   const tabs = document.querySelectorAll('.admin-tab-content');
   tabs.forEach(tab => tab.style.display = 'none');
-
   const activeTab = document.getElementById(tabId);
   if (activeTab) activeTab.style.display = 'block';
 
@@ -256,7 +240,7 @@ function switchTab(tabId) {
   }
 }
 
-// --- 5. KELOLA VISI & MISI DINAMIS ---
+// --- 4. VISI & MISI ---
 const defaultVisi = "Mewujudkan Desa Paleleh yang Maju, Mandiri, Sejahtera, Berkarakter Budaya, dan Transparan dalam Tata Kelola Pemerintahan";
 const defaultMisiList = [
   "Meningkatkan Transparansi dan Akuntabilitas Penyelenggaraan Government Desa Melalui Digitalisasi Layanan Publik",
@@ -266,10 +250,7 @@ const defaultMisiList = [
   "Memperkuat Nilai-Nilai Keagamaan, Gotong-Royong, dan Pelestarian Adat Istiadat Lokal"
 ];
 
-function getVisi() {
-  return localStorage.getItem('desapaleleh_content_visi') ?? defaultVisi;
-}
-
+function getVisi() { return localStorage.getItem('desapaleleh_content_visi') ?? defaultVisi; }
 function getMisiList() {
   const data = localStorage.getItem('desapaleleh_content_misi_list');
   return data ? JSON.parse(data) : defaultMisiList;
@@ -294,7 +275,6 @@ function tambahMisiPoin() {
   if (!inputEl) return;
   const text = inputEl.value.trim();
   if (!text) return alert('Poin Misi tidak boleh kosong!');
-
   let list = getMisiList();
   list.push(text);
   localStorage.setItem('desapaleleh_content_misi_list', JSON.stringify(list));
@@ -314,10 +294,8 @@ function hapusMisiPoin(index) {
 function renderVisiMisi() {
   const visiText = getVisi();
   const misiList = getMisiList();
-
   const visiEl = document.getElementById('display-visi');
   if (visiEl) visiEl.innerText = visiText || 'Teks visi belum diisi.';
-
   const inputVisi = document.getElementById('input-content-visi');
   if (inputVisi) inputVisi.value = visiText;
 
@@ -342,7 +320,7 @@ function renderVisiMisi() {
   }
 }
 
-// --- 6. KELOLA TUPOKSI DINAMIS ---
+// --- 5. TUPOKSI ---
 const defaultTupoksiList = [
   { judul: 'Kepala Desa', deskripsi: 'Memimpin penyelenggaraan pemerintahan desa, melaksanakan pembangunan, membina kemasyarakatan, dan memberdayakan masyarakat desa.' },
   { judul: 'Sekretaris Desa', deskripsi: 'Memimpin sekretariat desa dan mengoordinasikan bidang administrasi umum, keuangan, perencanaan, serta pelaporan kinerja desa.' },
@@ -359,20 +337,14 @@ function getTupoksiList() {
 function tambahTupoksiItem() {
   const judulEl = document.getElementById('input-tupoksi-judul');
   const deskripsiEl = document.getElementById('input-tupoksi-deskripsi');
-
   if (!judulEl || !deskripsiEl) return;
   const judul = judulEl.value.trim();
   const deskripsi = deskripsiEl.value.trim();
-
-  if (!judul || !deskripsi) {
-    alert('Judul Jabatan dan Rincian Tugas Pokok wajib diisi!');
-    return;
-  }
+  if (!judul || !deskripsi) return alert('Judul Jabatan dan Rincian Tugas Pokok wajib diisi!');
 
   let list = getTupoksiList();
   list.push({ judul, deskripsi });
   localStorage.setItem('desapaleleh_content_tupoksi_list', JSON.stringify(list));
-
   judulEl.value = '';
   deskripsiEl.value = '';
   renderTupoksiList();
@@ -413,13 +385,11 @@ function renderTupoksiList() {
   }
 }
 
-// --- 7. KELOLA KONTEN HALAMAN SEJARAH, STRUKTUR, KONTAK ---
+// --- 6. SEJARAH, STRUKTUR, KONTAK ---
 function savePageContent(event, pageKey) {
   event.preventDefault();
   let contentdata = {};
-  if (pageKey === 'sejarah') {
-    contentdata.text = document.getElementById('input-content-sejarah').value;
-  }
+  if (pageKey === 'sejarah') contentdata.text = document.getElementById('input-content-sejarah').value;
   localStorage.setItem('desapaleleh_content_' + pageKey, JSON.stringify(contentdata));
   alert(`Data ${pageKey} berhasil diperbarui!`);
   renderPageContent();
@@ -486,7 +456,7 @@ function renderPageContent() {
     if (imgEl) imgEl.src = strukturImg;
     if (inputStruktur) inputStruktur.value = strukturImg;
   } else {
-    if (imgEl) imgEl.src = 'https://via.placeholder.com/900x500?text=Struktur+Organisasi+Pemerintah+Desa+Paleleh';
+    if (imgEl) imgEl.src = '[https://via.placeholder.com/900x500?text=Struktur+Organisasi+Pemerintah+Desa+Paleleh](https://via.placeholder.com/900x500?text=Struktur+Organisasi+Pemerintah+Desa+Paleleh)';
     if (inputStruktur) inputStruktur.value = '';
   }
 
@@ -501,22 +471,14 @@ function renderPageContent() {
     if (document.getElementById('input-kontak-telp')) document.getElementById('input-kontak-telp').value = kontakData.telp;
     if (document.getElementById('input-kontak-email')) document.getElementById('input-kontak-email').value = kontakData.email;
     if (document.getElementById('input-kontak-maps')) document.getElementById('input-kontak-maps').value = kontakData.maps;
-  } else {
-    if (document.getElementById('display-kontak-alamat')) document.getElementById('display-kontak-alamat').innerText = '-';
-    if (document.getElementById('display-kontak-telp')) document.getElementById('display-kontak-telp').innerText = '-';
-    if (document.getElementById('display-kontak-email')) document.getElementById('display-kontak-email').innerText = '-';
-    if (document.getElementById('input-kontak-alamat')) document.getElementById('input-kontak-alamat').value = '';
-    if (document.getElementById('input-kontak-telp')) document.getElementById('input-kontak-telp').value = '';
-    if (document.getElementById('input-kontak-email')) document.getElementById('input-kontak-email').value = '';
-    if (document.getElementById('input-kontak-maps')) document.getElementById('input-kontak-maps').value = '';
   }
 }
 
-// --- 8. KELOLA BERANDA ---
+// --- 7. BERANDA ---
 const defaultBerandaData = {
   sambutan: "Assalamu'alaikum Warahmatullahi Wabarakatuh. Puji dan syukur kita panjatkan ke hadirat Allah SWT, atas limpahan rahmat-Nya portal resmi Pemerintah Desa Paleleh dapat hadir sebagai sarana pelayanan publik dan transparansi informasi bagi seluruh masyarakat...",
   banner: "images/WhatsApp Video 2026-10-13 at 12.31.10.mp4",
-  kepsek: "https://i.postimg.cc/sxPCtknH/Gemini-Generated-Image-tnppjqtnppjqtnpp.jpg"
+  kepsek: "[https://i.postimg.cc/sxPCtknH/Gemini-Generated-Image-tnppjqtnppjqtnpp.jpg](https://i.postimg.cc/sxPCtknH/Gemini-Generated-Image-tnppjqtnppjqtnpp.jpg)"
 };
 
 function saveBerandaData(event) {
@@ -526,7 +488,6 @@ function saveBerandaData(event) {
     banner: document.getElementById('input-beranda-banner').value,
     kepsek: document.getElementById('input-beranda-kepsek').value
   };
-
   localStorage.setItem('desapaleleh_content_beranda', JSON.stringify(berandaData));
   renderBerandaData();
   alert('Data Beranda berhasil diperbarui!');
@@ -537,25 +498,20 @@ function renderBerandaData() {
   const data = localData ? JSON.parse(localData) : defaultBerandaData;
 
   if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan').innerText = data.sambutan;
-  
   const videoBg = document.getElementById('display-beranda-video-bg');
   const videoSrc = document.getElementById('display-beranda-video-src');
-  if (videoBg && videoSrc) {
-    if (videoSrc.getAttribute('src') !== data.banner) {
-      videoSrc.setAttribute('src', data.banner);
-      videoBg.load();
-      videoBg.play().catch(() => {});
-    }
+  if (videoBg && videoSrc && videoSrc.getAttribute('src') !== data.banner) {
+    videoSrc.setAttribute('src', data.banner);
+    videoBg.load();
+    videoBg.play().catch(() => {});
   }
-
   if (document.getElementById('display-beranda-kepsek')) document.getElementById('display-beranda-kepsek').src = data.kepsek;
-
   if (document.getElementById('input-beranda-sambutan')) document.getElementById('input-beranda-sambutan').value = data.sambutan;
   if (document.getElementById('input-beranda-banner')) document.getElementById('input-beranda-banner').value = data.banner;
   if (document.getElementById('input-beranda-kepsek')) document.getElementById('input-beranda-kepsek').value = data.kepsek;
 }
 
-// --- 9. KELOLA ANGGARAN (ADD & DDS) ---
+// --- 8. ANGGARAN (ADD & DDS) ---
 function getAnggaranList() {
   const data = localStorage.getItem('desapaleleh_content_anggaran_list');
   return data ? JSON.parse(data) : [];
@@ -565,21 +521,16 @@ function tambahAnggaranItem() {
   const namaEl = document.getElementById('input-anggaran-nama');
   const sumberEl = document.getElementById('input-anggaran-sumber');
   const jumlahEl = document.getElementById('input-anggaran-jumlah');
-
   if (!namaEl || !jumlahEl) return;
   const nama = namaEl.value.trim();
   const sumber = sumberEl.value;
   const jumlah = parseFloat(jumlahEl.value);
 
-  if (!nama || isNaN(jumlah) || jumlah <= 0) {
-    alert('Nama Kegiatan dan Jumlah Anggaran valid wajib diisi!');
-    return;
-  }
+  if (!nama || isNaN(jumlah) || jumlah <= 0) return alert('Nama Kegiatan dan Jumlah Anggaran valid wajib diisi!');
 
   let list = getAnggaranList();
   list.push({ nama, sumber, jumlah });
   localStorage.setItem('desapaleleh_content_anggaran_list', JSON.stringify(list));
-
   namaEl.value = '';
   jumlahEl.value = '';
   renderAnggaranData();
@@ -596,20 +547,14 @@ function hapusAnggaranItem(index) {
 
 function renderAnggaranData() {
   const list = getAnggaranList();
-  let totalADD = 0;
-  let totalDDS = 0;
-
+  let totalADD = 0, totalDDS = 0;
   list.forEach(item => {
     if (item.sumber === 'ADD') totalADD += item.jumlah;
     if (item.sumber === 'DDS') totalDDS += item.jumlah;
   });
 
-  if (document.getElementById('display-total-add')) {
-    document.getElementById('display-total-add').innerText = 'Rp ' + totalADD.toLocaleString('id-ID');
-  }
-  if (document.getElementById('display-total-dds')) {
-    document.getElementById('display-total-dds').innerText = 'Rp ' + totalDDS.toLocaleString('id-ID');
-  }
+  if (document.getElementById('display-total-add')) document.getElementById('display-total-add').innerText = 'Rp ' + totalADD.toLocaleString('id-ID');
+  if (document.getElementById('display-total-dds')) document.getElementById('display-total-dds').innerText = 'Rp ' + totalDDS.toLocaleString('id-ID');
 
   const adminEl = document.getElementById('admin-anggaran-list');
   if (adminEl) {
@@ -626,7 +571,7 @@ function renderAnggaranData() {
 
   const publicEl = document.getElementById('display-anggaran-list');
   if (publicEl) {
-    publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada rincian kegiatan anggaran.</p>' : list.map((item, idx) => `
+    publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada rincian kegiatan anggaran.</p>' : list.map((item) => `
       <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
         <div>
           <span style="background: ${item.sumber === 'ADD' ? '#0284c7' : '#059669'}; color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px;">Sumber: ${item.sumber}</span>
@@ -640,7 +585,70 @@ function renderAnggaranData() {
   }
 }
 
-// --- 10. KELOLA PEMANGKU JABATAN BPD & LPM ---
+// --- 9. LAYANAN PENGADUAN MASYARAKAT ---
+function getPengaduanList() {
+  const data = localStorage.getItem('desapaleleh_pengaduan_list');
+  return data ? JSON.parse(data) : [];
+}
+
+function kirimPengaduan(event) {
+  event.preventDefault();
+  const nama = document.getElementById('pengadu-nama').value.trim();
+  const kontak = document.getElementById('pengadu-kontak').value.trim();
+  const subjek = document.getElementById('pengadu-subjek').value.trim();
+  const pesan = document.getElementById('pengadu-pesan').value.trim();
+
+  if (!nama || !pesan) return alert('Nama dan isi pengaduan wajib diisi!');
+
+  let list = getPengaduanList();
+  list.unshift({ nama, kontak, subjek, pesan, tanggal: new Date().toLocaleDateString('id-ID') });
+  localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(list));
+
+  alert('Terima kasih! Pengaduan atau aspirasi Anda telah berhasil dikirimkan kepada Pemerintah Desa Paleleh.');
+  document.getElementById('pengadu-nama').value = '';
+  document.getElementById('pengadu-kontak').value = '';
+  document.getElementById('pengadu-subjek').value = '';
+  document.getElementById('pengadu-pesan').value = '';
+  renderPengaduanAdmin();
+}
+
+function hapusPengaduanItem(index) {
+  if (!confirm('Apakah Anda yakin ingin menghapus laporan pengaduan ini?')) return;
+  let list = getPengaduanList();
+  list.splice(index, 1);
+  localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(list));
+  renderPengaduanAdmin();
+}
+
+function hapusSemuaPengaduan() {
+  if (!confirm('Apakah Anda yakin ingin membersihkan SELURUH daftar pengaduan?')) return;
+  localStorage.removeItem('desapaleleh_pengaduan_list');
+  renderPengaduanAdmin();
+}
+
+function renderPengaduanAdmin() {
+  const list = getPengaduanList();
+  const adminEl = document.getElementById('admin-pengaduan-list');
+  if (adminEl) {
+    adminEl.innerHTML = list.length === 0 ? '<p style="font-size: 0.85rem; color: var(--text-muted);">Belum ada pengaduan dari warga.</p>' : list.map((item, idx) => `
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+          <div>
+            <span style="font-size: 0.75rem; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px;">${item.tanggal}</span>
+            <h4 style="color: var(--primary-color); margin-top: 4px;">${item.subjek}</h4>
+          </div>
+          <button type="button" onclick="hapusPengaduanItem(${idx})" style="background: #dc2626; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-trash-alt"></i> Hapus</button>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-dark); margin-bottom: 8px; line-height: 1.5;">${item.pesan}</p>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">
+          <strong>Pengirim:</strong> ${item.nama} | <strong>Kontak:</strong> ${item.kontak}
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+// --- 10. PEMANGKU JABATAN BPD & LPM ---
 function getPengurusBpdLpmList() {
   const data = localStorage.getItem('desapaleleh_content_pengurus_bpd_lpm');
   return data ? JSON.parse(data) : [];
@@ -651,22 +659,17 @@ function tambahPengurusBpdLpm() {
   const lembagaEl = document.getElementById('input-pengurus-lembaga');
   const jabatanEl = document.getElementById('input-pengurus-jabatan');
   const fotoEl = document.getElementById('input-pengurus-foto');
-
   if (!namaEl || !jabatanEl) return;
   const nama = namaEl.value.trim();
   const lembaga = lembagaEl.value;
   const jabatan = jabatanEl.value.trim();
-  const foto = fotoEl.value.trim() || 'https://via.placeholder.com/150';
+  const foto = fotoEl.value.trim() || '[https://via.placeholder.com/150](https://via.placeholder.com/150)';
 
-  if (!nama || !jabatan) {
-    alert('Nama dan Jabatan Pengurus wajib diisi!');
-    return;
-  }
+  if (!nama || !jabatan) return alert('Nama dan Jabatan Pengurus wajib diisi!');
 
   let list = getPengurusBpdLpmList();
   list.push({ nama, lembaga, jabatan, foto });
   localStorage.setItem('desapaleleh_content_pengurus_bpd_lpm', JSON.stringify(list));
-
   namaEl.value = '';
   jabatanEl.value = '';
   fotoEl.value = '';
@@ -684,7 +687,6 @@ function hapusPengurusBpdLpm(index) {
 
 function renderPengurusBpdLpmList() {
   const list = getPengurusBpdLpmList();
-
   const adminEl = document.getElementById('admin-pengurus-bpd-lpm-list');
   if (adminEl) {
     adminEl.innerHTML = list.length === 0 ? '<p style="font-size: 0.85rem; color: var(--text-muted);">Belum ada data pengurus BPD / LPM.</p>' : list.map((item, idx) => `
@@ -708,12 +710,12 @@ function renderPengurusBpdLpmList() {
   }
 }
 
-// --- 11. KELOLA KEGIATAN DESA ---
+// --- 11. KEGIATAN & BERITA ---
 const defaultKegiatanList = [
   {
     judul: "Musyawarah Perencanaan Pembangunan Desa (Musrenbangdes) Paleleh",
     tanggal: "2026-10-15",
-    foto: "https://i.postimg.cc/KjT84p0M/Whats-App-Image-2026-10-10-at-13-30-26.jpg",
+    foto: "[https://i.postimg.cc/KjT84p0M/Whats-App-Image-2026-10-10-at-13-30-26.jpg](https://i.postimg.cc/KjT84p0M/Whats-App-Image-2026-10-10-at-13-30-26.jpg)",
     deskripsi: "Pemerintah Desa Paleleh menggelar Musrenbangdes RKPDesa guna menyerap aspirasi pembangunan dari seluruh dusun..."
   }
 ];
@@ -728,22 +730,17 @@ function tambahKegiatan() {
   const tanggalEl = document.getElementById('input-kegiatan-tanggal');
   const fotoEl = document.getElementById('input-kegiatan-foto');
   const deskripsiEl = document.getElementById('input-kegiatan-deskripsi');
-
   if (!judulEl || !deskripsiEl) return;
   const judul = judulEl.value.trim();
   const tanggal = tanggalEl.value.trim();
   const foto = fotoEl ? fotoEl.value.trim() : '';
   const deskripsi = deskripsiEl.value.trim();
 
-  if (!judul || !deskripsi) {
-    alert('Judul dan Deskripsi wajib diisi!');
-    return;
-  }
+  if (!judul || !deskripsi) return alert('Judul dan Deskripsi wajib diisi!');
 
   let list = getKegiatanList();
   list.push({ judul, tanggal, foto, deskripsi });
   localStorage.setItem('desapaleleh_content_kegiatan_list', JSON.stringify(list));
-
   judulEl.value = '';
   tanggalEl.value = '';
   if (fotoEl) fotoEl.value = '';
@@ -790,47 +787,30 @@ function renderKegiatanList() {
   }
 }
 
-// --- 12. KELOLA VIDEO ---
-function getVideoList() {
-  const data = localStorage.getItem('desapaleleh_content_video_list');
-  return data ? JSON.parse(data) : [];
-}
-
+// --- 12. VIDEO, SARANA, PERANGKAT, PRAMUKA/BPD, SILAT/PKK ---
+function getVideoList() { const data = localStorage.getItem('desapaleleh_content_video_list'); return data ? JSON.parse(data) : []; }
 function tambahVideo() {
   const judulEl = document.getElementById('input-video-judul');
   const urlEl = document.getElementById('input-video-url');
   const ketEl = document.getElementById('input-video-ket');
-
   if (!judulEl || !urlEl || !ketEl) return;
   const judul = judulEl.value.trim();
   const rawUrl = urlEl.value.trim();
   const ket = ketEl.value.trim();
-
-  if (!judul || !rawUrl) {
-    alert('Judul dan URL Video wajib diisi!');
-    return;
-  }
-
+  if (!judul || !rawUrl) return alert('Judul dan URL Video wajib diisi!');
   const url = parseYoutubeEmbedUrl(rawUrl);
   let list = getVideoList();
   list.push({ judul, url, ket });
   localStorage.setItem('desapaleleh_content_video_list', JSON.stringify(list));
-
-  judulEl.value = '';
-  urlEl.value = '';
-  ketEl.value = '';
-  renderVideoList();
-  alert('Video berhasil ditambahkan!');
+  judulEl.value = ''; urlEl.value = ''; ketEl.value = '';
+  renderVideoList(); alert('Video berhasil ditambahkan!');
 }
-
 function hapusVideo(index) {
   if (!confirm('Apakah Anda yakin ingin menghapus video ini?')) return;
-  let list = getVideoList();
-  list.splice(index, 1);
+  let list = getVideoList(); list.splice(index, 1);
   localStorage.setItem('desapaleleh_content_video_list', JSON.stringify(list));
   renderVideoList();
 }
-
 function renderVideoList() {
   const list = getVideoList();
   const adminEl = document.getElementById('admin-video-list');
@@ -842,69 +822,40 @@ function renderVideoList() {
       </div>
     `).join('');
   }
-
   const publicEl = document.getElementById('display-beranda-video-list');
   if (publicEl) {
     publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada video publikasi.</p>' : list.map(item => {
       const embedUrl = parseYoutubeEmbedUrl(item.url);
       const isYoutube = embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be');
-      let playerHtml = isYoutube ? 
-        `<iframe src="${embedUrl}" title="${item.judul}" width="100%" height="100%" style="border:0;" allowfullscreen></iframe>` : 
-        `<video src="${embedUrl}" controls preload="metadata" style="width:100%; height:100%; object-fit:contain; background:#000;"></video>`;
-
+      let playerHtml = isYoutube ? `<iframe src="${embedUrl}" title="${item.judul}" width="100%" height="100%" style="border:0;" allowfullscreen></iframe>` : `<video src="${embedUrl}" controls preload="metadata" style="width:100%; height:100%; object-fit:contain; background:#000;"></video>`;
       return `
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
           <div style="width: 100%; height: 315px; background: #000; display: flex; align-items: center; justify-content: center;">${playerHtml}</div>
-          <div style="padding: 20px;">
-            <h4 style="color: var(--primary-color); margin-bottom: 6px; font-size: 1.05rem;">${item.judul}</h4>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p>
-          </div>
+          <div style="padding: 20px;"><h4 style="color: var(--primary-color); margin-bottom: 6px; font-size: 1.05rem;">${item.judul}</h4><p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p></div>
         </div>
       `;
     }).join('');
   }
 }
 
-// --- 13. KELOLA SARANA DESA ---
-function getSaranaList() {
-  const data = localStorage.getItem('desapaleleh_content_sarana_list');
-  return data ? JSON.parse(data) : [];
-}
-
+// Sarana
+function getSaranaList() { const data = localStorage.getItem('desapaleleh_content_sarana_list'); return data ? JSON.parse(data) : []; }
 function tambahSarana() {
-  const namaEl = document.getElementById('input-sarana-nama');
-  const fotoEl = document.getElementById('input-sarana-foto');
-  const ketEl = document.getElementById('input-sarana-ket');
-
+  const namaEl = document.getElementById('input-sarana-nama'); const fotoEl = document.getElementById('input-sarana-foto'); const ketEl = document.getElementById('input-sarana-ket');
   if (!namaEl || !ketEl) return;
-  const nama = namaEl.value.trim();
-  const foto = fotoEl.value.trim() || 'https://via.placeholder.com/300x200';
-  const ket = ketEl.value.trim();
-
-  if (!nama || !ket) {
-    alert('Nama Fasilitas dan Keterangan wajib diisi!');
-    return;
-  }
-
-  let list = getSaranaList();
-  list.push({ nama, foto, ket });
+  const nama = namaEl.value.trim(); const foto = fotoEl.value.trim() || '[https://via.placeholder.com/300x200](https://via.placeholder.com/300x200)'; const ket = ketEl.value.trim();
+  if (!nama || !ket) return alert('Nama Fasilitas dan Keterangan wajib diisi!');
+  let list = getSaranaList(); list.push({ nama, foto, ket });
   localStorage.setItem('desapaleleh_content_sarana_list', JSON.stringify(list));
-
-  namaEl.value = '';
-  fotoEl.value = '';
-  ketEl.value = '';
-  renderSaranaList();
-  alert('Fasilitas desa berhasil ditambahkan!');
+  namaEl.value = ''; fotoEl.value = ''; ketEl.value = '';
+  renderSaranaList(); alert('Fasilitas desa berhasil ditambahkan!');
 }
-
 function hapusSarana(index) {
-  if (!confirm('Apakah Anda yakin ingin menghapus sarana/fasilitas ini?')) return;
-  let list = getSaranaList();
-  list.splice(index, 1);
+  if (!confirm('Apakah Anda yakin ingin menghapus sarana ini?')) return;
+  let list = getSaranaList(); list.splice(index, 1);
   localStorage.setItem('desapaleleh_content_sarana_list', JSON.stringify(list));
   renderSaranaList();
 }
-
 function renderSaranaList() {
   const list = getSaranaList();
   const adminEl = document.getElementById('admin-sarana-list');
@@ -916,61 +867,35 @@ function renderSaranaList() {
       </div>
     `).join('');
   }
-
   const publicEl = document.getElementById('display-sarana-list');
   if (publicEl) {
     publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada data fasilitas dan sarana desa.</p>' : list.map(item => `
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
         <div style="width: 100%; height: 200px; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center;"><img src="${item.foto}" alt="${item.nama}" style="width: 100%; height: 100%; object-fit: contain;"></div>
-        <div style="padding: 20px;">
-          <h4 style="color: var(--primary-color); margin-bottom: 8px;">${item.nama}</h4>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p>
-        </div>
+        <div style="padding: 20px;"><h4 style="color: var(--primary-color); margin-bottom: 8px;">${item.nama}</h4><p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p></div>
       </div>
     `).join('');
   }
 }
 
-// --- 14. KELOLA PERANGKAT DESA ---
-function getGuruList() {
-  const data = localStorage.getItem('desapaleleh_content_guru_list');
-  return data ? JSON.parse(data) : [];
-}
-
+// Perangkat Desa
+function getGuruList() { const data = localStorage.getItem('desapaleleh_content_guru_list'); return data ? JSON.parse(data) : []; }
 function tambahGuru() {
-  const namaEl = document.getElementById('input-guru-nama');
-  const mapelEl = document.getElementById('input-guru-mapel');
-  const fotoEl = document.getElementById('input-guru-foto');
-
+  const namaEl = document.getElementById('input-guru-nama'); const mapelEl = document.getElementById('input-guru-mapel'); const fotoEl = document.getElementById('input-guru-foto');
   if (!namaEl || !mapelEl) return;
-  const nama = namaEl.value.trim();
-  const mapel = mapelEl.value.trim();
-  const foto = fotoEl.value.trim() || 'https://via.placeholder.com/150';
-
-  if (!nama || !mapel) {
-    alert('Nama dan Jabatan wajib diisi!');
-    return;
-  }
-
-  let list = getGuruList();
-  list.push({ nama, mapel, foto });
+  const nama = namaEl.value.trim(); const mapel = mapelEl.value.trim(); const foto = fotoEl.value.trim() || '[https://via.placeholder.com/150](https://via.placeholder.com/150)';
+  if (!nama || !mapel) return alert('Nama dan Jabatan wajib diisi!');
+  let list = getGuruList(); list.push({ nama, mapel, foto });
   localStorage.setItem('desapaleleh_content_guru_list', JSON.stringify(list));
-
-  namaEl.value = '';
-  mapelEl.value = '';
-  fotoEl.value = '';
-  renderGuruList();
-  alert('Perangkat desa berhasil ditambahkan!');
+  namaEl.value = ''; mapelEl.value = ''; fotoEl.value = '';
+  renderGuruList(); alert('Perangkat desa berhasil ditambahkan!');
 }
-
 function hapusGuru(index) {
-  if (!confirm('Apakah Anda yakin ingin menghapus data perangkat desa ini?')) return;
-  let list = getGuruList();
-  list.splice(index, 1);
+  if (!confirm('Apakah Anda yakin ingin menghapus perangkat desa ini?')) return;
+  let list = getGuruList(); list.splice(index, 1);
   localStorage.setItem('desapaleleh_content_guru_list', JSON.stringify(list));
   renderGuruList();
 }
-
 function renderGuruList() {
   const list = getGuruList();
   const adminEl = document.getElementById('admin-guru-list');
@@ -982,7 +907,6 @@ function renderGuruList() {
       </div>
     `).join('');
   }
-
   const publicEl = document.getElementById('display-guru-list');
   if (publicEl) {
     publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada daftar perangkat desa.</p>' : list.map(item => `
@@ -995,46 +919,24 @@ function renderGuruList() {
   }
 }
 
-// --- 15. KELOLA KEGIATAN BPD & LPM ---
-function getPramukaList() {
-  const data = localStorage.getItem('desapaleleh_content_pramuka_list');
-  return data ? JSON.parse(data) : [];
-}
-
+// BPD & LPM Kegiatan
+function getPramukaList() { const data = localStorage.getItem('desapaleleh_content_pramuka_list'); return data ? JSON.parse(data) : []; }
 function tambahPramuka() {
-  const judulEl = document.getElementById('input-pramuka-judul');
-  const fotoEl = document.getElementById('input-pramuka-foto');
-  const ketEl = document.getElementById('input-pramuka-ket');
-
+  const judulEl = document.getElementById('input-pramuka-judul'); const fotoEl = document.getElementById('input-pramuka-foto'); const ketEl = document.getElementById('input-pramuka-ket');
   if (!judulEl || !ketEl) return;
-  const judul = judulEl.value.trim();
-  const foto = fotoEl.value.trim() || 'https://via.placeholder.com/300x200';
-  const ket = ketEl.value.trim();
-
-  if (!judul || !ket) {
-    alert('Judul dan Keterangan wajib diisi!');
-    return;
-  }
-
-  let list = getPramukaList();
-  list.push({ judul, foto, ket });
+  const judul = judulEl.value.trim(); const foto = fotoEl.value.trim() || '[https://via.placeholder.com/300x200](https://via.placeholder.com/300x200)'; const ket = ketEl.value.trim();
+  if (!judul || !ket) return alert('Judul dan Keterangan wajib diisi!');
+  let list = getPramukaList(); list.push({ judul, foto, ket });
   localStorage.setItem('desapaleleh_content_pramuka_list', JSON.stringify(list));
-
-  judulEl.value = '';
-  fotoEl.value = '';
-  ketEl.value = '';
-  renderPramukaList();
-  alert('Kegiatan BPD/LPM berhasil ditambahkan!');
+  judulEl.value = ''; fotoEl.value = ''; ketEl.value = '';
+  renderPramukaList(); alert('Kegiatan BPD/LPM berhasil ditambahkan!');
 }
-
 function hapusPramuka(index) {
   if (!confirm('Apakah Anda yakin ingin menghapus dokumentasi kegiatan ini?')) return;
-  let list = getPramukaList();
-  list.splice(index, 1);
+  let list = getPramukaList(); list.splice(index, 1);
   localStorage.setItem('desapaleleh_content_pramuka_list', JSON.stringify(list));
   renderPramukaList();
 }
-
 function renderPramukaList() {
   const list = getPramukaList();
   const adminEl = document.getElementById('admin-pramuka-list');
@@ -1046,61 +948,35 @@ function renderPramukaList() {
       </div>
     `).join('');
   }
-
   const publicEl = document.getElementById('display-pramuka-list');
   if (publicEl) {
     publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada dokumentasi BPD & LPM.</p>' : list.map(item => `
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
         <div style="width: 100%; height: 200px; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center;"><img src="${item.foto}" alt="${item.judul}" style="width: 100%; height: 100%; object-fit: contain;"></div>
-        <div style="padding: 20px;">
-          <h4 style="color: var(--primary-color); margin-bottom: 8px;">${item.judul}</h4>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p>
-        </div>
+        <div style="padding: 20px;"><h4 style="color: var(--primary-color); margin-bottom: 8px;">${item.judul}</h4><p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p></div>
       </div>
     `).join('');
   }
 }
 
-// --- 16. KELOLA KARANG TARUNA / PKK ---
-function getSilatList() {
-  const data = localStorage.getItem('desapaleleh_content_silat_list');
-  return data ? JSON.parse(data) : [];
-}
-
+// Karang Taruna / PKK
+function getSilatList() { const data = localStorage.getItem('desapaleleh_content_silat_list'); return data ? JSON.parse(data) : []; }
 function tambahSilat() {
-  const judulEl = document.getElementById('input-silat-judul');
-  const fotoEl = document.getElementById('input-silat-foto');
-  const ketEl = document.getElementById('input-silat-ket');
-
+  const judulEl = document.getElementById('input-silat-judul'); const fotoEl = document.getElementById('input-silat-foto'); const ketEl = document.getElementById('input-silat-ket');
   if (!judulEl || !ketEl) return;
-  const judul = judulEl.value.trim();
-  const foto = fotoEl.value.trim() || 'https://via.placeholder.com/300x200';
-  const ket = ketEl.value.trim();
-
-  if (!judul || !ket) {
-    alert('Judul dan Keterangan wajib diisi!');
-    return;
-  }
-
-  let list = getSilatList();
-  list.push({ judul, foto, ket });
+  const judul = judulEl.value.trim(); const foto = fotoEl.value.trim() || '[https://via.placeholder.com/300x200](https://via.placeholder.com/300x200)'; const ket = ketEl.value.trim();
+  if (!judul || !ket) return alert('Judul dan Keterangan wajib diisi!');
+  let list = getSilatList(); list.push({ judul, foto, ket });
   localStorage.setItem('desapaleleh_content_silat_list', JSON.stringify(list));
-
-  judulEl.value = '';
-  fotoEl.value = '';
-  ketEl.value = '';
-  renderSilatList();
-  alert('Kegiatan Karang Taruna / PKK berhasil ditambahkan!');
+  judulEl.value = ''; fotoEl.value = ''; ketEl.value = '';
+  renderSilatList(); alert('Kegiatan Karang Taruna / PKK berhasil ditambahkan!');
 }
-
 function hapusSilat(index) {
   if (!confirm('Apakah Anda yakin ingin menghapus kegiatan ini?')) return;
-  let list = getSilatList();
-  list.splice(index, 1);
+  let list = getSilatList(); list.splice(index, 1);
   localStorage.setItem('desapaleleh_content_silat_list', JSON.stringify(list));
   renderSilatList();
 }
-
 function renderSilatList() {
   const list = getSilatList();
   const adminEl = document.getElementById('admin-silat-list');
@@ -1112,22 +988,18 @@ function renderSilatList() {
       </div>
     `).join('');
   }
-
   const publicEl = document.getElementById('display-pencaksilat-list');
   if (publicEl) {
     publicEl.innerHTML = list.length === 0 ? '<p style="color: var(--text-muted);">Belum ada dokumentasi Karang Taruna / PKK.</p>' : list.map(item => `
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
         <div style="width: 100%; height: 200px; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center;"><img src="${item.foto}" alt="${item.judul}" style="width: 100%; height: 100%; object-fit: contain;"></div>
-        <div style="padding: 20px;">
-          <h4 style="color: var(--primary-color); margin-bottom: 8px;">${item.judul}</h4>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p>
-        </div>
+        <div style="padding: 20px;"><h4 style="color: var(--primary-color); margin-bottom: 8px;">${item.judul}</h4><p style="color: var(--text-muted); font-size: 0.9rem;">${item.ket}</p></div>
       </div>
     `).join('');
   }
 }
 
-// --- 17. INITIAL LOAD ---
+// --- INITIAL LOAD ---
 window.addEventListener('DOMContentLoaded', () => {
   renderStudentData();
   renderPageContent();
@@ -1143,4 +1015,5 @@ window.addEventListener('DOMContentLoaded', () => {
   renderTautanList();
   renderAnggaranData();
   renderPengurusBpdLpmList();
+  renderPengaduanAdmin();
 });
