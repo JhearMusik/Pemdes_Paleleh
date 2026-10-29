@@ -38,6 +38,60 @@ function validateFileSize(input) {
   }
 }
 
+// LOGO & BERANDA
+function getBerandaData() {
+  const defaultData = {
+    logo: 'https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg',
+    banner: 'images/WhatsApp Video 2026-10-13 at 12.31.10.mp4',
+    sambutan: "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi Pemerintah Desa Paleleh...",
+    kades: 'https://i.postimg.cc/sxPCtknH/Gemini-Generated-Image-tnppjqtnppjqtnpp.jpg'
+  };
+  const data = localStorage.getItem('desapaleleh_beranda_data');
+  return data ? JSON.parse(data) : defaultData;
+}
+function renderBerandaData() {
+  const d = getBerandaData();
+  if (document.getElementById('display-navbar-logo')) document.getElementById('display-navbar-logo').src = d.logo;
+  if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan').innerText = d.sambutan;
+  if (document.getElementById('display-beranda-kepala-desa')) document.getElementById('display-beranda-kepala-desa').src = d.kades;
+  if (document.getElementById('input-beranda-logo')) document.getElementById('input-beranda-logo').value = d.logo;
+  if (document.getElementById('input-beranda-banner')) document.getElementById('input-beranda-banner').value = d.banner;
+  if (document.getElementById('input-beranda-sambutan')) document.getElementById('input-beranda-sambutan').value = d.sambutan;
+  if (document.getElementById('input-beranda-kepala-desa')) document.getElementById('input-beranda-kepala-desa').value = d.kades;
+}
+function saveBerandaData(event) {
+  event.preventDefault();
+  const logo = document.getElementById('input-beranda-logo').value.trim();
+  const banner = document.getElementById('input-beranda-banner').value.trim();
+  const sambutan = document.getElementById('input-beranda-sambutan').value.trim();
+  const kades = document.getElementById('input-beranda-kepala-desa').value.trim();
+  localStorage.setItem('desapaleleh_beranda_data', JSON.stringify({ logo, banner, sambutan, kades }));
+  renderBerandaData();
+  alert('Beranda & Logo berhasil disimpan!');
+}
+
+// KEGIATAN BERANDA
+function getKegiatanList() { return JSON.parse(localStorage.getItem('desapaleleh_content_kegiatan_list') || '[]'); }
+function tambahKegiatanItem() {
+  const judul = document.getElementById('input-kegiatan-judul').value.trim();
+  const foto = document.getElementById('input-kegiatan-foto').value.trim() || 'https://via.placeholder.com/300x200';
+  const ket = document.getElementById('input-kegiatan-ket').value.trim();
+  if(!judul || !ket) return alert('Isi data lengkap!');
+  let l = getKegiatanList(); l.push({judul, foto, ket});
+  localStorage.setItem('desapaleleh_content_kegiatan_list', JSON.stringify(l));
+  renderKegiatanList(); alert('Kegiatan ditambahkan!');
+}
+function hapusKegiatanItem(i) { if(confirm('Hapus kegiatan ini?')) { let l = getKegiatanList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_kegiatan_list', JSON.stringify(l)); renderKegiatanList(); } }
+function renderKegiatanList() {
+  const l = getKegiatanList();
+  if(document.getElementById('admin-kegiatan-list')) {
+    document.getElementById('admin-kegiatan-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.judul}</span><button onclick="hapusKegiatanItem(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  }
+  if(document.getElementById('display-beranda-kegiatan-list')) {
+    document.getElementById('display-beranda-kegiatan-list').innerHTML = l.length === 0 ? '<p class="text-muted">Belum ada informasi kegiatan.</p>' : l.map(item => `<div class="media-card"><div class="media-card-img"><img src="${item.foto}"></div><div class="media-card-body"><h4>${item.judul}</h4><p>${item.ket}</p></div></div>`).join('');
+  }
+}
+
 // LAYANAN SURAT & PENGADUAN
 function getPermohonanList() { return JSON.parse(localStorage.getItem('desapaleleh_permohonan_surat') || '[]'); }
 function submitPermohonanSurat(event) {
@@ -163,7 +217,7 @@ function switchTab(tabId) {
   if (btn) btn.classList.add('active');
 }
 
-// KELOLA DATA & TOMBOL HAPUS
+// APARAT
 function getAparatList() { return JSON.parse(localStorage.getItem('desapaleleh_content_aparat_list') || '[]'); }
 function tambahAparat() {
   const nama = document.getElementById('input-aparat-nama').value.trim();
@@ -177,10 +231,11 @@ function tambahAparat() {
 function hapusAparat(i) { if(confirm('Hapus?')) { let l = getAparatList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_aparat_list', JSON.stringify(l)); renderAparatList(); } }
 function renderAparatList() {
   const l = getAparatList();
-  document.getElementById('admin-aparat-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama} (${item.jabatan})</span><button onclick="hapusAparat(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-aparat-list').innerHTML = l.map(item => `<div class="profile-card"><img src="${item.foto}"><h4>${item.nama}</h4><p>${item.jabatan}</p></div>`).join('');
+  if(document.getElementById('admin-aparat-list')) document.getElementById('admin-aparat-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama} (${item.jabatan})</span><button onclick="hapusAparat(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-aparat-list')) document.getElementById('display-aparat-list').innerHTML = l.map(item => `<div class="profile-card"><img src="${item.foto}"><h4>${item.nama}</h4><p>${item.jabatan}</p></div>`).join('');
 }
 
+// BPD & LPM
 function getPengurusBpdLpmList() { return JSON.parse(localStorage.getItem('desapaleleh_content_pengurus_bpd_lpm') || '[]'); }
 function tambahPengurusBpdLpm() {
   const nama = document.getElementById('input-pengurus-nama').value.trim();
@@ -195,10 +250,11 @@ function tambahPengurusBpdLpm() {
 function hapusPengurusBpdLpm(i) { if(confirm('Hapus?')) { let l = getPengurusBpdLpmList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_pengurus_bpd_lpm', JSON.stringify(l)); renderPengurusBpdLpmList(); } }
 function renderPengurusBpdLpmList() {
   const l = getPengurusBpdLpmList();
-  document.getElementById('admin-pengurus-bpd-lpm-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>[${item.lembaga}] ${item.nama}</span><button onclick="hapusPengurusBpdLpm(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-pengurus-bpd-lpm-list').innerHTML = l.map(item => `<div class="profile-card"><img src="${item.foto}"><span class="badge-lembaga ${item.lembaga==='BPD'?'badge-bpd':'badge-lpm'}">${item.lembaga}</span><h4>${item.nama}</h4><p>${item.jabatan}</p></div>`).join('');
+  if(document.getElementById('admin-pengurus-bpd-lpm-list')) document.getElementById('admin-pengurus-bpd-lpm-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>[${item.lembaga}] ${item.nama}</span><button onclick="hapusPengurusBpdLpm(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-pengurus-bpd-lpm-list')) document.getElementById('display-pengurus-bpd-lpm-list').innerHTML = l.map(item => `<div class="profile-card"><img src="${item.foto}"><span class="badge-lembaga ${item.lembaga==='BPD'?'badge-bpd':'badge-lpm'}">${item.lembaga}</span><h4>${item.nama}</h4><p>${item.jabatan}</p></div>`).join('');
 }
 
+// SARANA
 function getSaranaList() { return JSON.parse(localStorage.getItem('desapaleleh_content_sarana_list') || '[]'); }
 function tambahSarana() {
   const nama = document.getElementById('input-sarana-nama').value.trim();
@@ -212,10 +268,11 @@ function tambahSarana() {
 function hapusSarana(i) { if(confirm('Hapus?')) { let l = getSaranaList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_sarana_list', JSON.stringify(l)); renderSaranaList(); } }
 function renderSaranaList() {
   const l = getSaranaList();
-  document.getElementById('admin-sarana-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama}</span><button onclick="hapusSarana(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-sarana-list').innerHTML = l.map(item => `<div class="media-card"><div class="media-card-img"><img src="${item.foto}"></div><div class="media-card-body"><h4>${item.nama}</h4><p>${item.ket}</p></div></div>`).join('');
+  if(document.getElementById('admin-sarana-list')) document.getElementById('admin-sarana-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama}</span><button onclick="hapusSarana(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-sarana-list')) document.getElementById('display-sarana-list').innerHTML = l.map(item => `<div class="media-card"><div class="media-card-img"><img src="${item.foto}"></div><div class="media-card-body"><h4>${item.nama}</h4><p>${item.ket}</p></div></div>`).join('');
 }
 
+// ANGGARAN
 function getAnggaranList() { return JSON.parse(localStorage.getItem('desapaleleh_content_anggaran_list') || '[]'); }
 function tambahAnggaranItem() {
   const nama = document.getElementById('input-anggaran-nama').value.trim();
@@ -231,12 +288,13 @@ function renderAnggaranData() {
   const l = getAnggaranList();
   let totADD = 0, totDDS = 0;
   l.forEach(i => { if(i.sumber==='ADD') totADD+=i.jumlah; if(i.sumber==='DDS') totDDS+=i.jumlah; });
-  document.getElementById('display-total-add').innerText = 'Rp ' + totADD.toLocaleString('id-ID');
-  document.getElementById('display-total-dds').innerText = 'Rp ' + totDDS.toLocaleString('id-ID');
-  document.getElementById('admin-anggaran-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama} (${item.sumber})</span><button onclick="hapusAnggaranItem(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-anggaran-list').innerHTML = l.map(item => `<div class="anggaran-item-card"><div><span>${item.sumber}</span><h4>${item.nama}</h4></div><div>Rp ${item.jumlah.toLocaleString('id-ID')}</div></div>`).join('');
+  if(document.getElementById('display-total-add')) document.getElementById('display-total-add').innerText = 'Rp ' + totADD.toLocaleString('id-ID');
+  if(document.getElementById('display-total-dds')) document.getElementById('display-total-dds').innerText = 'Rp ' + totDDS.toLocaleString('id-ID');
+  if(document.getElementById('admin-anggaran-list')) document.getElementById('admin-anggaran-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama} (${item.sumber})</span><button onclick="hapusAnggaranItem(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-anggaran-list')) document.getElementById('display-anggaran-list').innerHTML = l.map(item => `<div class="anggaran-item-card"><div><span>${item.sumber}</span><h4>${item.nama}</h4></div><div>Rp ${item.jumlah.toLocaleString('id-ID')}</div></div>`).join('');
 }
 
+// VIDEO
 function getVideoList() { return JSON.parse(localStorage.getItem('desapaleleh_content_video_list') || '[]'); }
 function tambahVideo() {
   const judul = document.getElementById('input-video-judul').value.trim();
@@ -250,8 +308,8 @@ function tambahVideo() {
 function hapusVideo(i) { if(confirm('Hapus?')) { let l = getVideoList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_video_list', JSON.stringify(l)); renderVideoList(); } }
 function renderVideoList() {
   const l = getVideoList();
-  document.getElementById('admin-video-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.judul}</span><button onclick="hapusVideo(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-beranda-video-list').innerHTML = l.map(item => `<div class="media-card"><div class="media-card-player"><iframe src="${item.url}" width="100%" height="100%" style="border:0;" allowfullscreen></iframe></div><div class="media-card-body"><h4>${item.judul}</h4><p>${item.ket}</p></div></div>`).join('');
+  if(document.getElementById('admin-video-list')) document.getElementById('admin-video-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.judul}</span><button onclick="hapusVideo(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-beranda-video-list')) document.getElementById('display-beranda-video-list').innerHTML = l.map(item => `<div class="media-card"><div class="media-card-player"><iframe src="${item.url}" width="100%" height="100%" style="border:0;" allowfullscreen></iframe></div><div class="media-card-body"><h4>${item.judul}</h4><p>${item.ket}</p></div></div>`).join('');
 }
 
 // TAUTAN
@@ -260,44 +318,147 @@ function getTautanList() { return JSON.parse(localStorage.getItem('desapaleleh_c
 function tambahTautanItem() {
   const nama = document.getElementById('input-tautan-nama').value.trim();
   const url = document.getElementById('input-tautan-url').value.trim();
-  if(!nama || !url) return;
+  if(!nama || !url) return alert('Isi data!');
   let l = getTautanList(); l.push({nama, url});
   localStorage.setItem('desapaleleh_content_tautan_list', JSON.stringify(l));
-  renderTautanList();
+  renderTautanList(); alert('Tautan ditambahkan!');
 }
-function hapusTautanItem(i) { let l = getTautanList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_tautan_list', JSON.stringify(l)); renderTautanList(); }
+function hapusTautanItem(i) { if(confirm('Hapus tautan ini?')) { let l = getTautanList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_tautan_list', JSON.stringify(l)); renderTautanList(); } }
 function renderTautanList() {
   const l = getTautanList();
-  document.getElementById('admin-tautan-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama}</span><button onclick="hapusTautanItem(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-navbar-tautan').innerHTML = l.map(item => `<li><a href="${item.url}" target="_blank">${item.nama}</a></li>`).join('');
+  if(document.getElementById('admin-tautan-list')) document.getElementById('admin-tautan-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.nama}</span><button onclick="hapusTautanItem(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-navbar-tautan')) document.getElementById('display-navbar-tautan').innerHTML = l.map(item => `<li><a href="${item.url}" target="_blank">${item.nama}</a></li>`).join('');
 }
 
-// MISI
-function getMisiList() { return JSON.parse(localStorage.getItem('desapaleleh_content_misi_list') || '[]'); }
-function renderVisiMisi() {
-  document.getElementById('display-visi').innerText = localStorage.getItem('desapaleleh_content_visi') || 'Visi belum diatur';
-  const m = getMisiList();
-  document.getElementById('display-misi-list').innerHTML = m.map((item, idx) => `<div class="misi-item-card"><strong>${idx+1}</strong> ${item}</div>`).join('');
+// SEJARAH
+function renderSejarah() {
+  const text = localStorage.getItem('desapaleleh_content_sejarah') || 'Sejarah Desa Paleleh belum diatur.';
+  if(document.getElementById('display-sejarah')) document.getElementById('display-sejarah').innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
+  if(document.getElementById('input-content-sejarah')) document.getElementById('input-content-sejarah').value = text;
 }
-function saveVisiOnly() { localStorage.setItem('desapaleleh_content_visi', document.getElementById('input-content-visi').value); renderVisiMisi(); alert('Visi disimpan!'); }
+function savePageContent(e, type) {
+  e.preventDefault();
+  if(type === 'sejarah') {
+    const val = document.getElementById('input-content-sejarah').value;
+    localStorage.setItem('desapaleleh_content_sejarah', val);
+    renderSejarah();
+    alert('Sejarah disimpan!');
+  }
+}
+
+// VISI & MISI (DENGAN TAMBAH & HAPUS MISI)
+function getMisiList() { return JSON.parse(localStorage.getItem('desapaleleh_content_misi_list') || '["Meningkatkan tata kelola pemerintahan desa yang transparan.", "Mengoptimalkan pelayanan publik berbasis digital."] '); }
+function tambahMisiItem() {
+  const val = document.getElementById('input-content-misi').value.trim();
+  if(!val) return alert('Isi misi!');
+  let l = getMisiList(); l.push(val);
+  localStorage.setItem('desapaleleh_content_misi_list', JSON.stringify(l));
+  document.getElementById('input-content-misi').value = '';
+  renderVisiMisi(); alert('Misi ditambahkan!');
+}
+function hapusMisiItem(i) { if(confirm('Hapus misi ini?')) { let l = getMisiList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_misi_list', JSON.stringify(l)); renderVisiMisi(); } }
+function renderVisiMisi() {
+  const visi = localStorage.getItem('desapaleleh_content_visi') || 'Terwujudnya Desa Paleleh yang Maju, Mandiri, dan Sejahtera.';
+  if(document.getElementById('display-visi')) document.getElementById('display-visi').innerText = visi;
+  if(document.getElementById('input-content-visi')) document.getElementById('input-content-visi').value = visi;
+  
+  const m = getMisiList();
+  if(document.getElementById('display-misi-list')) document.getElementById('display-misi-list').innerHTML = m.map((item, idx) => `<div class="misi-item-card"><strong>${idx+1}.</strong> ${item}</div>`).join('');
+  if(document.getElementById('admin-misi-list')) document.getElementById('admin-misi-list').innerHTML = m.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${idx+1}. ${item}</span><button onclick="hapusMisiItem(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+}
+function saveVisiOnly() {
+  localStorage.setItem('desapaleleh_content_visi', document.getElementById('input-content-visi').value);
+  renderVisiMisi();
+  alert('Visi disimpan!');
+}
 
 // TUPOKSI
 function getTupoksiList() { return JSON.parse(localStorage.getItem('desapaleleh_content_tupoksi_list') || '[]'); }
 function tambahTupoksiItem() {
-  const judul = document.getElementById('input-tupoksi-judul').value;
-  const deskripsi = document.getElementById('input-tupoksi-deskripsi').value;
+  const judul = document.getElementById('input-tupoksi-judul').value.trim();
+  const deskripsi = document.getElementById('input-tupoksi-deskripsi').value.trim();
+  if(!judul || !deskripsi) return alert('Isi data!');
   let l = getTupoksiList(); l.push({judul, deskripsi});
   localStorage.setItem('desapaleleh_content_tupoksi_list', JSON.stringify(l));
-  renderTupoksiList();
+  renderTupoksiList(); alert('Tupoksi ditambahkan!');
 }
+function hapusTupoksi(i) { if(confirm('Hapus tupoksi ini?')) { let l = getTupoksiList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_tupoksi_list', JSON.stringify(l)); renderTupoksiList(); } }
 function renderTupoksiList() {
   const l = getTupoksiList();
-  document.getElementById('admin-tupoksi-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.judul}</span><button onclick="hapusTupoksi(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
-  document.getElementById('display-tupoksi-list').innerHTML = l.map((item, idx) => `<div class="tupoksi-card"><div><strong>${idx+1}</strong></div><div><h4>${item.judul}</h4><p>${item.deskripsi}</p></div></div>`).join('');
+  if(document.getElementById('admin-tupoksi-list')) document.getElementById('admin-tupoksi-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.judul}</span><button onclick="hapusTupoksi(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-tupoksi-list')) document.getElementById('display-tupoksi-list').innerHTML = l.map((item, idx) => `<div class="tupoksi-card"><div><strong>${idx+1}</strong></div><div><h4>${item.judul}</h4><p>${item.deskripsi}</p></div></div>`).join('');
 }
-function hapusTupoksi(i) { let l = getTupoksiList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_tupoksi_list', JSON.stringify(l)); renderTupoksiList(); }
 
+// STRUKTUR
+function renderStruktur() {
+  const img = localStorage.getItem('desapaleleh_content_struktur_img') || 'https://via.placeholder.com/900x500?text=Struktur+Organisasi';
+  if(document.getElementById('display-struktur-img')) document.getElementById('display-struktur-img').src = img;
+  if(document.getElementById('input-struktur-img')) document.getElementById('input-struktur-img').value = img;
+}
+function saveStrukturGambar(e) {
+  e.preventDefault();
+  const val = document.getElementById('input-struktur-img').value.trim();
+  localStorage.setItem('desapaleleh_content_struktur_img', val);
+  renderStruktur();
+  alert('Struktur disimpan!');
+}
+
+// PKK & KARANG TARUNA
+function getKtPkkList() { return JSON.parse(localStorage.getItem('desapaleleh_content_ktpkk_list') || '[]'); }
+function tambahKegiatanKtPkk() {
+  const judul = document.getElementById('input-ktpkk-judul').value.trim();
+  const foto = document.getElementById('input-ktpkk-foto').value.trim() || 'https://via.placeholder.com/300x200';
+  const ket = document.getElementById('input-ktpkk-ket').value.trim();
+  if(!judul || !ket) return alert('Isi data lengkap!');
+  let l = getKtPkkList(); l.push({judul, foto, ket});
+  localStorage.setItem('desapaleleh_content_ktpkk_list', JSON.stringify(l));
+  renderKtPkkList(); alert('Kegiatan ditambahkan!');
+}
+function hapusKtPkk(i) { if(confirm('Hapus kegiatan ini?')) { let l = getKtPkkList(); l.splice(i,1); localStorage.setItem('desapaleleh_content_ktpkk_list', JSON.stringify(l)); renderKtPkkList(); } }
+function renderKtPkkList() {
+  const l = getKtPkkList();
+  if(document.getElementById('admin-ktpkk-list')) document.getElementById('admin-ktpkk-list').innerHTML = l.map((item, idx) => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><span>${item.judul}</span><button onclick="hapusKtPkk(${idx})" class="btn-danger-sm">Hapus</button></div>`).join('');
+  if(document.getElementById('display-karangtaruna-pkk-list')) document.getElementById('display-karangtaruna-pkk-list').innerHTML = l.length === 0 ? '<p class="text-muted">Belum ada kegiatan.</p>' : l.map(item => `<div class="media-card"><div class="media-card-img"><img src="${item.foto}"></div><div class="media-card-body"><h4>${item.judul}</h4><p>${item.ket}</p></div></div>`).join('');
+}
+
+// KONTAK LENGKAP
+function getKontakData() {
+  const def = {
+    alamat: 'Jln. Trans Sulawesi, Desa Paleleh, Kabupaten Buol',
+    telp: '+62 822-0000-0000',
+    email: 'desapaleleh@buolkab.go.id',
+    maps: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.814!2d121.3!3d0.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDgnNDguMCJOIDEyMcKwMTgnMDAuMCJF!5e0!3m2!1sid!2sid!4v1600000000000!5m2!1sid!2sid'
+  };
+  const data = localStorage.getItem('desapaleleh_kontak_data');
+  return data ? JSON.parse(data) : def;
+}
+function renderKontakData() {
+  const k = getKontakData();
+  if(document.getElementById('display-kontak-alamat')) document.getElementById('display-kontak-alamat').innerText = k.alamat;
+  if(document.getElementById('display-kontak-telp')) document.getElementById('display-kontak-telp').innerText = k.telp;
+  if(document.getElementById('display-kontak-email')) document.getElementById('display-kontak-email').innerText = k.email;
+  if(document.getElementById('display-kontak-maps')) document.getElementById('display-kontak-maps').src = k.maps;
+
+  if(document.getElementById('input-kontak-alamat')) document.getElementById('input-kontak-alamat').value = k.alamat;
+  if(document.getElementById('input-kontak-telp')) document.getElementById('input-kontak-telp').value = k.telp;
+  if(document.getElementById('input-kontak-email')) document.getElementById('input-kontak-email').value = k.email;
+  if(document.getElementById('input-kontak-maps')) document.getElementById('input-kontak-maps').value = k.maps;
+}
+function saveKontakData(e) {
+  e.preventDefault();
+  const alamat = document.getElementById('input-kontak-alamat').value.trim();
+  const telp = document.getElementById('input-kontak-telp').value.trim();
+  const email = document.getElementById('input-kontak-email').value.trim();
+  const maps = document.getElementById('input-kontak-maps').value.trim();
+  localStorage.setItem('desapaleleh_kontak_data', JSON.stringify({alamat, telp, email, maps}));
+  renderKontakData();
+  alert('Kontak dan lokasi berhasil disimpan!');
+}
+
+// Inisialisasi Saat Halaman Dimuat
 window.addEventListener('DOMContentLoaded', () => {
+  renderBerandaData();
+  renderKegiatanList();
   renderPendudukData();
   renderAparatList();
   renderPengurusBpdLpmList();
@@ -305,7 +466,11 @@ window.addEventListener('DOMContentLoaded', () => {
   renderAnggaranData();
   renderVideoList();
   renderTautanList();
+  renderSejarah();
   renderVisiMisi();
   renderTupoksiList();
+  renderStruktur();
+  renderKtPkkList();
+  renderKontakData();
   renderAdminNotifikasi();
 });
