@@ -1,4 +1,3 @@
-// --- 1. NAVIGASI HALAMAN & RENDER DINAMIS ---
 function showPage(pageId) {
   const views = document.querySelectorAll('.page-view');
   views.forEach(v => {
@@ -14,7 +13,6 @@ function showPage(pageId) {
   }
 }
 
-// --- KELOLA DINAMIS MENU & DROPDOWN NAVIGASI ---
 const defaultNavStructure = [
   { nama: 'Beranda', tipe: 'single', target: 'view-beranda', icon: 'fas fa-home' },
   { 
@@ -102,17 +100,16 @@ function tambahMenuItem() {
   const target = document.getElementById('input-menu-target').value.trim();
 
   if (!nama) return alert('Nama Menu wajib diisi!');
-
   let list = getNavStructure();
 
   if (tipe === 'single') {
-    if (!target) return alert('Target Halaman wajib diisi untuk menu tunggal!');
+    if (!target) return alert('Target Halaman wajib diisi!');
     list.push({ nama, tipe: 'single', target, icon: 'fas fa-link' });
   } else if (tipe === 'dropdown') {
     list.push({ nama, tipe: 'dropdown', icon: 'fas fa-folder', submenu: [] });
   } else if (tipe === 'submenu') {
     const parentIdx = document.getElementById('input-menu-parent').value;
-    if (!target) return alert('Target Halaman wajib diisi untuk sub-menu!');
+    if (!target) return alert('Target Halaman wajib diisi!');
     if (list[parentIdx]) {
       if (!list[parentIdx].submenu) list[parentIdx].submenu = [];
       list[parentIdx].submenu.push({ nama, target });
@@ -127,7 +124,7 @@ function tambahMenuItem() {
 }
 
 function hapusMenuUtama(index) {
-  if (!confirm('Apakah Anda yakin ingin menghapus menu ini beserta sub-menu di dalamnya?')) return;
+  if (!confirm('Hapus menu ini beserta sub-menu di dalamnya?')) return;
   let list = getNavStructure();
   list.splice(index, 1);
   localStorage.setItem('desapaleleh_nav_structure', JSON.stringify(list));
@@ -135,7 +132,7 @@ function hapusMenuUtama(index) {
 }
 
 function hapusSubMenu(parentIdx, subIdx) {
-  if (!confirm('Apakah Anda yakin ingin menghapus sub-menu ini?')) return;
+  if (!confirm('Hapus sub-menu ini?')) return;
   let list = getNavStructure();
   if (list[parentIdx] && list[parentIdx].submenu) {
     list[parentIdx].submenu.splice(subIdx, 1);
@@ -145,10 +142,10 @@ function hapusSubMenu(parentIdx, subIdx) {
 }
 
 function resetDefaultMenu() {
-  if (!confirm('Kembalikan susunan menu ke pengaturan default?')) return;
+  if (!confirm('Reset menu ke default?')) return;
   localStorage.removeItem('desapaleleh_nav_structure');
   renderNavbar();
-  alert('Menu berhasil direset ke default!');
+  alert('Menu berhasil direset!');
 }
 
 function renderAdminMenuList() {
@@ -179,7 +176,6 @@ function renderAdminMenuList() {
   }).join('');
 }
 
-// --- AKSESIBILITAS & FONT ---
 function toggleAccessibilityModal() {
   const modal = document.getElementById('accessibilityModal');
   if (modal) modal.classList.toggle('active');
@@ -200,7 +196,6 @@ function toggleBodyClass(className, enable) {
   else document.body.classList.remove(className);
 }
 
-// --- LOGIN ADMIN & TAB ---
 function checkLoginAndOpenMenu() {
   const isAuth = localStorage.getItem('desapaleleh_admin_logged_in');
   if (isAuth === 'true') showPage('view-panel-petugas');
@@ -244,10 +239,8 @@ function switchTab(tabId) {
   }
 }
 
-// --- BERANDA & LOGO DESA ---
 const defaultBerandaData = {
   sambutan: "Assalamu'alaikum Warahmatullahi Wabarakatuh. Puji dan syukur kita panjatkan ke hadirat Allah SWT...",
-  banner: "",
   logo: "https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg"
 };
 
@@ -266,14 +259,12 @@ function renderBerandaData() {
   const localData = localStorage.getItem('desapaleleh_content_beranda');
   const data = localData ? JSON.parse(localData) : defaultBerandaData;
 
-  if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan').innerText = data.sambutan;
+  if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan മറ്റൊരു text atau innerText').innerText = data.sambutan;
   if (document.getElementById('display-desa-logo')) document.getElementById('display-desa-logo').src = data.logo || defaultBerandaData.logo;
-
   if (document.getElementById('input-beranda-sambutan')) document.getElementById('input-beranda-sambutan').value = data.sambutan;
   if (document.getElementById('input-desa-logo')) document.getElementById('input-desa-logo').value = data.logo || defaultBerandaData.logo;
 }
 
-// --- INITIAL LOAD ---
 window.addEventListener('DOMContentLoaded', () => {
   renderNavbar();
   renderBerandaData();
