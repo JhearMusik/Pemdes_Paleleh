@@ -259,7 +259,7 @@ function renderBerandaData() {
   const localData = localStorage.getItem('desapaleleh_content_beranda');
   const data = localData ? JSON.parse(localData) : defaultBerandaData;
 
-  if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan മറ്റൊരു text atau innerText').innerText = data.sambutan;
+  if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan').innerText = data.sambutan;
   if (document.getElementById('display-desa-logo')) document.getElementById('display-desa-logo').src = data.logo || defaultBerandaData.logo;
   if (document.getElementById('input-beranda-sambutan')) document.getElementById('input-beranda-sambutan').value = data.sambutan;
   if (document.getElementById('input-desa-logo')) document.getElementById('input-desa-logo').value = data.logo || defaultBerandaData.logo;
