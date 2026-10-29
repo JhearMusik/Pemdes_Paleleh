@@ -35,7 +35,7 @@
                 <li class="dropdown">
                     <a class="nav-link">Lembaga Desa <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a onclick="showPage('view-pramuka')">BPD & LKM</a></li>
+                        <li><a onclick="showPage('view-pramuka')">BPD & LPM</a></li>
                         <li><a onclick="showPage('view-pencaksilat')">Karang Taruna & PKK</a></li>
                     </ul>
                 </li>
@@ -45,7 +45,14 @@
                         <li><a onclick="showPage('view-peserta-didik')">Data Penduduk per Dusun</a></li>
                     </ul>
                 </li>
-                <!-- Dropdown Link Tautan Terkait / Eksternal -->
+                <!-- MENU ANGGARAN (ADD & DDS) -->
+                <li class="dropdown">
+                    <a class="nav-link">Anggaran Desa <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="showPage('view-anggaran')">Transparansi ADD & DDS</a></li>
+                    </ul>
+                </li>
+                <!-- Dropdown Link Tautan Terkait -->
                 <li class="dropdown">
                     <a class="nav-link">Tautan <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu" id="display-navbar-tautan">
@@ -64,7 +71,7 @@
         <i class="fas fa-universal-access"></i>
     </button>
 
-    <!-- MODAL AKSESIBILITAS PANEL SIDEBAR KIRI -->
+    <!-- MODAL AKSESIBILITAS SIDEBAR -->
     <div id="accessibilityModal" class="accessibility-modal">
         <div class="accessibility-content">
             <div class="accessibility-header">
@@ -271,7 +278,7 @@
         <!-- 5. HALAMAN TUPOKSI -->
         <section id="view-tupoksi" class="page-view" style="display: none;">
             <div class="card-content">
-                <h2 style="color: var(--primary-color); margin-bottom: 25px;"><i class="fas fa-tasks"></i> Tupoksi (Tugas Pokok & Fungsi) Perangkat Desa</h2>
+                <h2 style="color: var(--primary-color); margin-bottom: 25px;"><i class="fas fa-tasks"></i> Tupoksi Perangkat Desa</h2>
                 <div id="display-tupoksi-list" style="display: flex; flex-direction: column; gap: 15px;">
                     <p style="color: var(--text-muted);">Memuat informasi tupoksi...</p>
                 </div>
@@ -308,12 +315,19 @@
             </div>
         </section>
 
-        <!-- 9. HALAMAN BPD & LKM -->
+        <!-- 9. HALAMAN BPD & LPM (DENGAN PEMANGKU JABATAN) -->
         <section id="view-pramuka" class="page-view" style="display: none;">
             <div class="card-content">
-                <h2 style="color: var(--primary-color); margin-bottom: 20px;"><i class="fas fa-landmark"></i> Badan Permusyawaratan Desa (BPD) & LKM</h2>
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;"><i class="fas fa-landmark"></i> BPD & LPM Desa Paleleh</h2>
+                
+                <h3 style="color: var(--primary-color); margin: 15px 0 10px 0;"><i class="fas fa-user-shield"></i> Pemangku Jabatan / Pengurus BPD & LPM</h3>
+                <div id="display-pengurus-bpd-lpm-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 35px;">
+                    <p style="color: var(--text-muted);">Belum ada data pemangku jabatan BPD / LPM.</p>
+                </div>
+
+                <h3 style="color: var(--primary-color); margin: 25px 0 15px 0;"><i class="fas fa-images"></i> Dokumentasi Kegiatan BPD & LPM</h3>
                 <div id="display-pramuka-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                    <p style="color: var(--text-muted);">Belum ada dokumentasi kegiatan BPD.</p>
+                    <p style="color: var(--text-muted);">Belum ada dokumentasi kegiatan BPD / LPM.</p>
                 </div>
             </div>
         </section>
@@ -379,7 +393,31 @@
             </div>
         </section>
 
-        <!-- 12. HALAMAN KONTAK -->
+        <!-- 12. HALAMAN DANA & ANGGARAN DESA (ADD & DDS) -->
+        <section id="view-anggaran" class="page-view" style="display: none;">
+            <div class="card-content">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;"><i class="fas fa-coins"></i> Transparansi Anggaran Desa (ADD & DDS)</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; padding: 20px; border-radius: 12px; box-shadow: var(--shadow-3d);">
+                        <h4 style="font-size: 1.1rem; margin-bottom: 5px;"><i class="fas fa-wallet"></i> Total Alokasi Dana Desa (ADD)</h4>
+                        <h2 id="display-total-add" style="color: white; font-size: 1.8rem; margin: 10px 0;">Rp 0</h2>
+                        <p style="font-size: 0.85rem; opacity: 0.9;">Bersumber dari APBD Kabupaten Buol</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; padding: 20px; border-radius: 12px; box-shadow: var(--shadow-3d);">
+                        <h4 style="font-size: 1.1rem; margin-bottom: 5px;"><i class="fas fa-building-columns"></i> Total Dana Desa (DDS)</h4>
+                        <h2 id="display-total-dds" style="color: white; font-size: 1.8rem; margin: 10px 0;">Rp 0</h2>
+                        <p style="font-size: 0.85rem; opacity: 0.9;">Bersumber dari APBN</p>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--primary-color); margin-bottom: 15px;"><i class="fas fa-list-alt"></i> Daftar Kegiatan & Penggunaan Anggaran</h3>
+                <div id="display-anggaran-list" style="display: flex; flex-direction: column; gap: 15px;">
+                    <p style="color: var(--text-muted);">Belum ada rincian kegiatan anggaran.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 13. HALAMAN KONTAK -->
         <section id="view-kontak" class="page-view" style="display: none;">
             <div class="card-content">
                 <h2 style="color: var(--primary-color); margin-bottom: 20px;"><i class="fas fa-address-book"></i> Kontak & Kantor Desa</h2>
@@ -399,7 +437,7 @@
             </div>
         </section>
 
-        <!-- 13. HALAMAN LOGIN ADMIN DESA -->
+        <!-- 14. HALAMAN LOGIN ADMIN DESA -->
         <section id="view-login-petugas" class="page-view" style="display: none;">
             <div style="max-width: 400px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 20px;"><i class="fas fa-lock"></i> Login Admin Desa Paleleh</h3>
@@ -417,7 +455,7 @@
             </div>
         </section>
 
-        <!-- 14. HALAMAN PANEL ADMIN DESA -->
+        <!-- 15. HALAMAN PANEL ADMIN DESA -->
         <section id="view-panel-petugas" class="page-view" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
                 <h2 style="color: var(--primary-color);"><i class="fas fa-cogs"></i> Panel Pengelola / Admin Desa</h2>
@@ -428,6 +466,7 @@
             <div style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
                 <button id="btn-tab-siswa" onclick="switchTab('tab-siswa')" style="padding: 10px 18px; border: none; border-radius: 8px; background: var(--primary-color); color: white; cursor: pointer; font-weight: 600;">Data Penduduk</button>
                 <button id="btn-tab-beranda" onclick="switchTab('tab-beranda')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Kelola Beranda</button>
+                <button id="btn-tab-anggaran" onclick="switchTab('tab-anggaran')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Anggaran ADD/DDS</button>
                 <button id="btn-tab-tautan" onclick="switchTab('tab-tautan')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Kelola Tautan</button>
                 <button id="btn-tab-video" onclick="switchTab('tab-video')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Video</button>
                 <button id="btn-tab-sarana" onclick="switchTab('tab-sarana')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Fasilitas Desa</button>
@@ -436,14 +475,17 @@
                 <button id="btn-tab-tupoksi" onclick="switchTab('tab-tupoksi')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Tupoksi</button>
                 <button id="btn-tab-struktur" onclick="switchTab('tab-struktur')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Struktur</button>
                 <button id="btn-tab-guru" onclick="switchTab('tab-guru')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Perangkat Desa</button>
-                <button id="btn-tab-pramuka" onclick="switchTab('tab-pramuka')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">BPD & LKM</button>
+                <button id="btn-tab-pramuka" onclick="switchTab('tab-pramuka')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">BPD & LPM</button>
                 <button id="btn-tab-pencaksilat" onclick="switchTab('tab-pencaksilat')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Karang Taruna / PKK</button>
                 <button id="btn-tab-kontak" onclick="switchTab('tab-kontak')" style="padding: 10px 18px; border: none; border-radius: 8px; background: #cbd5e1; color: var(--text-dark); cursor: pointer; font-weight: 600;">Kontak</button>
             </div>
 
-            <!-- TAB 1: DATA PENDUDUK -->
+            <!-- TAB 1: DATA PENDUDUK (DENGAN TOMBOL HAPUS DATA) -->
             <div id="tab-siswa" class="admin-tab-content" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Edit Data Penduduk per Dusun</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <h3 style="color: var(--primary-color);">Edit Data Penduduk per Dusun</h3>
+                    <button type="button" onclick="resetStudentData()" style="background: #dc2626; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-trash-alt"></i> Hapus Semua Data Penduduk</button>
+                </div>
                 <form onsubmit="saveStudentData(event)">
                     <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
                         <h4 style="color: var(--primary-color); margin-bottom: 10px;">Dusun I</h4>
@@ -536,10 +578,26 @@
                 </form>
             </div>
 
+            <!-- TAB 3: KELOLA ANGGARAN (ADD & DDS) -->
+            <div id="tab-anggaran" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;"><i class="fas fa-coins"></i> Kelola Transparansi Anggaran Desa (ADD & DDS)</h3>
+                
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 15px; margin-bottom: 12px;">
+                    <input type="text" id="input-anggaran-nama" placeholder="Nama Kegiatan / Penggunaan Dana" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
+                    <select id="input-anggaran-sumber" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
+                        <option value="ADD">ADD (Alokasi Dana Desa)</option>
+                        <option value="DDS">DDS (Dana Desa)</option>
+                    </select>
+                    <input type="number" id="input-anggaran-jumlah" placeholder="Jumlah Anggaran (Rp)" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
+                </div>
+                <button type="button" onclick="tambahAnggaranItem()" style="background-color: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-plus"></i> Tambah Kegiatan Anggaran</button>
+
+                <div id="admin-anggaran-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
+            </div>
+
             <!-- TAB KELOLA TAUTAN EKSTERNAL -->
             <div id="tab-tautan" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
                 <h3 style="color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;"><i class="fas fa-link"></i> Kelola Menu Tautan Eksternal</h3>
-                <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Tambahkan atau ubah alamat URL tautan lembaga pemerintah agar menu di atas tetap aktif dan mengarah ke laman resmi yang valid.</p>
                 <div style="display: grid; grid-template-columns: 2fr 3fr; gap: 15px; margin-bottom: 12px;">
                     <input type="text" id="input-tautan-nama" placeholder="Nama Tautan (Cth: Pemkab Buol)" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
                     <input type="text" id="input-tautan-url" placeholder="URL Website (Cth: https://...)" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
@@ -548,7 +606,7 @@
                 <div id="admin-tautan-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 3: VIDEO -->
+            <!-- TAB 4: VIDEO -->
             <div id="tab-video" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
                 <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Galeri Video & Edukasi</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr; gap: 15px; margin-bottom: 12px;">
@@ -560,7 +618,7 @@
                 <div id="admin-video-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 4: SARANA -->
+            <!-- TAB 5: SARANA -->
             <div id="tab-sarana" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
                 <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Fasilitas & Sarana Desa</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr; gap: 15px; margin-bottom: 12px;">
@@ -572,9 +630,12 @@
                 <div id="admin-sarana-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 5: SEJARAH -->
+            <!-- TAB 6: SEJARAH (DENGAN TOMBOL HAPUS DATA) -->
             <div id="tab-sejarah" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Sejarah Desa</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <h3 style="color: var(--primary-color);">Kelola Sejarah Desa</h3>
+                    <button type="button" onclick="hapusPageContent('sejarah')" style="background: #dc2626; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-trash-alt"></i> Hapus Sejarah Desa</button>
+                </div>
                 <form onsubmit="savePageContent(event, 'sejarah')">
                     <div style="margin-bottom: 20px;">
                         <textarea id="input-content-sejarah" rows="6" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px;" required></textarea>
@@ -583,9 +644,12 @@
                 </form>
             </div>
 
-            <!-- TAB 6: VISI & MISI -->
+            <!-- TAB 7: VISI & MISI (DENGAN TOMBOL HAPUS DATA) -->
             <div id="tab-visimisi" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Visi & Misi Desa</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <h3 style="color: var(--primary-color);">Kelola Visi & Misi Desa</h3>
+                    <button type="button" onclick="hapusVisiOnly()" style="background: #dc2626; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-trash-alt"></i> Hapus Teks Visi</button>
+                </div>
                 <div style="margin-bottom: 20px;">
                     <label style="font-weight: 600; display: block; margin-bottom: 5px;">Teks Visi Desa:</label>
                     <input type="text" id="input-content-visi" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" required>
@@ -599,7 +663,7 @@
                 </div>
             </div>
 
-            <!-- TAB 7: TUPOKSI -->
+            <!-- TAB 8: TUPOKSI -->
             <div id="tab-tupoksi" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
                 <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Tupoksi Perangkat Desa</h3>
                 <div style="display: grid; grid-template-columns: 2fr 3fr; gap: 15px; margin-bottom: 12px;">
@@ -610,9 +674,12 @@
                 <div id="admin-tupoksi-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 8: STRUKTUR -->
+            <!-- TAB 9: STRUKTUR (DENGAN TOMBOL HAPUS DATA) -->
             <div id="tab-struktur" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Struktur Organisasi</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <h3 style="color: var(--primary-color);">Kelola Struktur Organisasi</h3>
+                    <button type="button" onclick="hapusStrukturGambar()" style="background: #dc2626; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-trash-alt"></i> Hapus Gambar Struktur</button>
+                </div>
                 <form onsubmit="saveStrukturGambar(event)">
                     <div style="margin-bottom: 20px;">
                         <input type="text" id="input-struktur-img" placeholder="URL Gambar Struktur Organisasi Desa" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" required>
@@ -621,7 +688,7 @@
                 </form>
             </div>
 
-            <!-- TAB 9: PERANGKAT DESA -->
+            <!-- TAB 10: PERANGKAT DESA -->
             <div id="tab-guru" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
                 <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Perangkat & Staf Desa</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr 2fr; gap: 10px; margin-bottom: 12px;">
@@ -633,19 +700,38 @@
                 <div id="admin-guru-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 10: BPD & LKM -->
+            <!-- TAB 11: BPD & LPM (PEMANGKU JABATAN + KEGIATAN) -->
             <div id="tab-pramuka" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Kegiatan BPD & LKM</h3>
+                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola BPD & LPM</h3>
+                
+                <!-- Kelola Pemangku Jabatan BPD/LPM -->
+                <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;"><i class="fas fa-user-plus"></i> Tambah Pemangku Jabatan BPD / LPM</h4>
+                    <div style="display: grid; grid-template-columns: 2fr 1.5fr 1.5fr 2fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="input-pengurus-nama" placeholder="Nama & Gelar" style="padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+                        <select id="input-pengurus-lembaga" style="padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            <option value="BPD">BPD</option>
+                            <option value="LPM">LPM</option>
+                        </select>
+                        <input type="text" id="input-pengurus-jabatan" placeholder="Jabatan (Ketua, Anggota, dll)" style="padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+                        <input type="text" id="input-pengurus-foto" placeholder="URL Foto Profil" style="padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+                    </div>
+                    <button type="button" onclick="tambahPengurusBpdLpm()" style="background-color: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">Simpan Pengurus</button>
+                    <div id="admin-pengurus-bpd-lpm-list" style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;"></div>
+                </div>
+
+                <!-- Kelola Kegiatan BPD/LPM -->
+                <h4 style="color: var(--primary-color); margin-bottom: 12px;"><i class="fas fa-images"></i> Tambah Dokumentasi Kegiatan BPD / LPM</h4>
                 <div style="display: grid; grid-template-columns: 2fr 2fr; gap: 15px; margin-bottom: 12px;">
                     <input type="text" id="input-pramuka-judul" placeholder="Judul Kegiatan / Program" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
                     <input type="text" id="input-pramuka-foto" placeholder="URL Gambar Dokumentasi" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
                 </div>
                 <textarea id="input-pramuka-ket" rows="3" placeholder="Keterangan Ringkas..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 12px;"></textarea>
-                <button type="button" onclick="tambahPramuka()" style="background-color: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Tambah Kegiatan BPD</button>
+                <button type="button" onclick="tambahPramuka()" style="background-color: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Tambah Dokumentasi Kegiatan</button>
                 <div id="admin-pramuka-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 11: KARANG TARUNA / PKK -->
+            <!-- TAB 12: KARANG TARUNA / PKK -->
             <div id="tab-pencaksilat" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
                 <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Karang Taruna & PKK</h3>
                 <div style="display: grid; grid-template-columns: 2fr 2fr; gap: 15px; margin-bottom: 12px;">
@@ -657,9 +743,12 @@
                 <div id="admin-silat-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
 
-            <!-- TAB 12: KONTAK -->
+            <!-- TAB 13: KONTAK (DENGAN TOMBOL HAPUS DATA) -->
             <div id="tab-kontak" class="admin-tab-content" style="display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-                <h3 style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Kelola Informasi Kontak & Lokasi Maps</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <h3 style="color: var(--primary-color);">Kelola Informasi Kontak & Lokasi Maps</h3>
+                    <button type="button" onclick="hapusKontakData()" style="background: #dc2626; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-trash-alt"></i> Hapus Informasi Kontak</button>
+                </div>
                 <form onsubmit="saveKontakData(event)">
                     <div style="margin-bottom: 15px;">
                         <textarea id="input-kontak-alamat" rows="2" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;" required></textarea>
