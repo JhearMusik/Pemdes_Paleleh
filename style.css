@@ -21,13 +21,15 @@ p, span, a, li, h1, h2, h3, h4, label, button, input, textarea, select { font-si
 .logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
 .logo-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .logo-subtitle { font-size: 1.15rem; font-weight: 800; color: var(--primary-color); }
+
 .nav-menu { list-style: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.nav-menu li { position: relative; } /* PENTING: Mencegah dropdown melayang ke kiri atas */
 .nav-link { text-decoration: none; color: var(--text-dark); font-weight: 600; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
 .nav-link:hover, .nav-link.active { color: var(--primary-color); background: #f0fdf4; }
 
-.dropdown-menu { position: absolute; top: 110%; left: 0; background: var(--card-bg); box-shadow: var(--shadow-3d); list-style: none; min-width: 220px; border-radius: 10px; display: none; padding: 8px 0; z-index: 1100; border: 1px solid var(--border-color); }
+.dropdown-menu { position: absolute; top: 100%; left: 0; background: var(--card-bg); box-shadow: var(--shadow-3d); list-style: none; min-width: 220px; border-radius: 10px; display: none; padding: 8px 0; z-index: 1100; border: 1px solid var(--border-color); }
 .dropdown:hover .dropdown-menu { display: block; }
-.dropdown-menu li a { display: block; padding: 10px 18px; color: var(--text-dark); text-decoration: none; font-size: 0.92rem; cursor: pointer; }
+.dropdown-menu li a { display: block; padding: 10px 18px; color: var(--text-dark); text-decoration: none; font-size: 0.92rem; cursor: pointer; white-space: nowrap; }
 .dropdown-menu li a:hover { background: #f1f5f9; color: var(--primary-color); }
 
 .hero-full-width { position: relative; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; height: 75vh; min-height: 480px; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; margin-bottom: 35px; }
@@ -61,12 +63,13 @@ p, span, a, li, h1, h2, h3, h4, label, button, input, textarea, select { font-si
 
 .visi-box { background: #f0fdf4; border-left: 4px solid var(--primary-color); padding: 20px; border-radius: 8px; margin-bottom: 25px; }
 .misi-list-container { display: flex; flex-direction: column; gap: 12px; }
-.tupoksi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; gap: 15px; }
+.misi-item-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 15px; }
+.tupoksi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; gap: 15px; margin-bottom: 10px; }
 
 .grid-anggaran-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
 .card-anggaran-add { background: #0284c7; color: white; padding: 20px; border-radius: 12px; }
 .card-anggaran-dds { background: #059669; color: white; padding: 20px; border-radius: 12px; }
-.anggaran-item-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+.anggaran-item-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
 .grid-kontak { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 .info-kontak-item { margin-bottom: 15px; }
