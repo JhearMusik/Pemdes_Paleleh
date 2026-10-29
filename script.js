@@ -38,36 +38,58 @@ function validateFileSize(input) {
   }
 }
 
-// LOGO & BERANDA
+// LOGO & BERANDA (DIPERBARUI AGAR VIDEO DINAMIS)
 function getBerandaData() {
   const defaultData = {
     logo: 'https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg',
-    banner: 'images/WhatsApp Video 2026-10-13 at 12.31.10.mp4',
+    banner: 'https://raw.githubusercontent.com/JhearMusik/Pemdes_Paleleh/main/Paleleh-Village-SnapYT.App.mp4',
     sambutan: "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi Pemerintah Desa Paleleh...",
     kades: 'https://i.postimg.cc/sxPCtknH/Gemini-Generated-Image-tnppjqtnppjqtnpp.jpg'
   };
   const data = localStorage.getItem('desapaleleh_beranda_data');
   return data ? JSON.parse(data) : defaultData;
 }
+
 function renderBerandaData() {
   const d = getBerandaData();
-  if (document.getElementById('display-navbar-logo')) document.getElementById('display-navbar-logo').src = d.logo;
+  
+  // Update Logo Navbar
+  if (document.getElementById('display-navbar-logo')) {
+    document.getElementById('display-navbar-logo').src = d.logo;
+  }
+
+  // Update Video Banner Beranda Secara Dinamis
+  const videoBg = document.getElementById('display-beranda-video-bg');
+  const videoSrc = document.getElementById('display-beranda-video-src');
+  if (videoSrc && d.banner) {
+    videoSrc.src = d.banner;
+    if (videoBg) {
+      videoBg.load(); // Memuat ulang video agar browser merender file mp4 baru
+      videoBg.play().catch(e => console.log("Autoplay dicegah browser:", e));
+    }
+  }
+
+  // Update Sambutan & Foto Kades
   if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan').innerText = d.sambutan;
   if (document.getElementById('display-beranda-kepala-desa')) document.getElementById('display-beranda-kepala-desa').src = d.kades;
+  
+  // Update Form di Panel Admin
   if (document.getElementById('input-beranda-logo')) document.getElementById('input-beranda-logo').value = d.logo;
   if (document.getElementById('input-beranda-banner')) document.getElementById('input-beranda-banner').value = d.banner;
   if (document.getElementById('input-beranda-sambutan')) document.getElementById('input-beranda-sambutan').value = d.sambutan;
   if (document.getElementById('input-beranda-kepala-desa')) document.getElementById('input-beranda-kepala-desa').value = d.kades;
 }
+
 function saveBerandaData(event) {
   event.preventDefault();
   const logo = document.getElementById('input-beranda-logo').value.trim();
   const banner = document.getElementById('input-beranda-banner').value.trim();
   const sambutan = document.getElementById('input-beranda-sambutan').value.trim();
   const kades = document.getElementById('input-beranda-kepala-desa').value.trim();
+  
   localStorage.setItem('desapaleleh_beranda_data', JSON.stringify({ logo, banner, sambutan, kades }));
   renderBerandaData();
-  alert('Beranda & Logo berhasil disimpan!');
+  alert('Beranda, Logo, dan Video Banner berhasil disimpan!');
 }
 
 // KEGIATAN BERANDA
