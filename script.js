@@ -270,21 +270,38 @@ function hapusPetugas(idx) {
 }
 
 // STATISTIK KEPENDUDUKAN
-const defaultPenduduk = { l: 640, p: 610, kk: 385, akta: 1150, kia: 290, bansos: 145 };
+const defaultPenduduk = { 
+  l: 640, 
+  p: 610, 
+  kkL: 320, 
+  kkP: 65, 
+  wajibKtp: 890, 
+  milikKtp: 875, 
+  akta: 1150, 
+  kia: 290, 
+  bansos: 145 
+};
+
 function getPendudukData() { return JSON.parse(localStorage.getItem('desapaleleh_jumlah_penduduk') || JSON.stringify(defaultPenduduk)); }
 function renderPendudukData() {
   const dta = getPendudukData();
   if (document.getElementById('display-penduduk-total')) document.getElementById('display-penduduk-total').innerText = Number(dta.l) + Number(dta.p);
   if (document.getElementById('display-penduduk-l')) document.getElementById('display-penduduk-l').innerText = dta.l;
   if (document.getElementById('display-penduduk-p')) document.getElementById('display-penduduk-p').innerText = dta.p;
-  if (document.getElementById('display-penduduk-kk')) document.getElementById('display-penduduk-kk').innerText = dta.kk;
+  if (document.getElementById('display-penduduk-kk-l')) document.getElementById('display-penduduk-kk-l').innerText = dta.kkL;
+  if (document.getElementById('display-penduduk-kk-p')) document.getElementById('display-penduduk-kk-p').innerText = dta.kkP;
+  if (document.getElementById('display-penduduk-wajib-ktp')) document.getElementById('display-penduduk-wajib-ktp').innerText = dta.wajibKtp;
+  if (document.getElementById('display-penduduk-milik-ktp')) document.getElementById('display-penduduk-milik-ktp').innerText = dta.milikKtp;
   if (document.getElementById('display-penduduk-akta')) document.getElementById('display-penduduk-akta').innerText = dta.akta;
   if (document.getElementById('display-penduduk-kia')) document.getElementById('display-penduduk-kia').innerText = dta.kia;
   if (document.getElementById('display-penduduk-bansos')) document.getElementById('display-penduduk-bansos').innerText = dta.bansos;
 
   if (document.getElementById('input-penduduk-l')) document.getElementById('input-penduduk-l').value = dta.l;
   if (document.getElementById('input-penduduk-p')) document.getElementById('input-penduduk-p').value = dta.p;
-  if (document.getElementById('input-penduduk-kk')) document.getElementById('input-penduduk-kk').value = dta.kk;
+  if (document.getElementById('input-penduduk-kk-l')) document.getElementById('input-penduduk-kk-l').value = dta.kkL;
+  if (document.getElementById('input-penduduk-kk-p')) document.getElementById('input-penduduk-kk-p').value = dta.kkP;
+  if (document.getElementById('input-penduduk-wajib-ktp')) document.getElementById('input-penduduk-wajib-ktp').value = dta.wajibKtp;
+  if (document.getElementById('input-penduduk-milik-ktp')) document.getElementById('input-penduduk-milik-ktp').value = dta.milikKtp;
   if (document.getElementById('input-penduduk-akta')) document.getElementById('input-penduduk-akta').value = dta.akta;
   if (document.getElementById('input-penduduk-kia')) document.getElementById('input-penduduk-kia').value = dta.kia;
   if (document.getElementById('input-penduduk-bansos')) document.getElementById('input-penduduk-bansos').value = dta.bansos;
@@ -293,12 +310,15 @@ function saveTotalPenduduk(event) {
   event.preventDefault();
   const l = document.getElementById('input-penduduk-l').value;
   const p = document.getElementById('input-penduduk-p').value;
-  const kk = document.getElementById('input-penduduk-kk').value;
+  const kkL = document.getElementById('input-penduduk-kk-l').value;
+  const kkP = document.getElementById('input-penduduk-kk-p').value;
+  const wajibKtp = document.getElementById('input-penduduk-wajib-ktp').value;
+  const milikKtp = document.getElementById('input-penduduk-milik-ktp').value;
   const akta = document.getElementById('input-penduduk-akta').value;
   const kia = document.getElementById('input-penduduk-kia').value;
   const bansos = document.getElementById('input-penduduk-bansos').value;
 
-  localStorage.setItem('desapaleleh_jumlah_penduduk', JSON.stringify({ l, p, kk, akta, kia, bansos }));
+  localStorage.setItem('desapaleleh_jumlah_penduduk', JSON.stringify({ l, p, kkL, kkP, wajibKtp, milikKtp, akta, kia, bansos }));
   renderPendudukData();
   alert('Data statistik kependudukan berhasil disimpan!');
 }
