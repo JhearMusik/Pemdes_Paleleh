@@ -38,7 +38,7 @@ function validateFileSize(input) {
   }
 }
 
-// LOGO & BERANDA (DIPERBARUI AGAR VIDEO DINAMIS)
+// LOGO & BERANDA
 function getBerandaData() {
   const defaultData = {
     logo: 'https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg',
@@ -49,47 +49,33 @@ function getBerandaData() {
   const data = localStorage.getItem('desapaleleh_beranda_data');
   return data ? JSON.parse(data) : defaultData;
 }
-
 function renderBerandaData() {
   const d = getBerandaData();
-  
-  // Update Logo Navbar
-  if (document.getElementById('display-navbar-logo')) {
-    document.getElementById('display-navbar-logo').src = d.logo;
-  }
+  if (document.getElementById('display-navbar-logo')) document.getElementById('display-navbar-logo').src = d.logo;
 
-  // Update Video Banner Beranda Secara Dinamis
   const videoBg = document.getElementById('display-beranda-video-bg');
   const videoSrc = document.getElementById('display-beranda-video-src');
   if (videoSrc && d.banner) {
     videoSrc.src = d.banner;
-    if (videoBg) {
-      videoBg.load(); // Memuat ulang video agar browser merender file mp4 baru
-      videoBg.play().catch(e => console.log("Autoplay dicegah browser:", e));
-    }
+    if (videoBg) { videoBg.load(); videoBg.play().catch(e => console.log(e)); }
   }
 
-  // Update Sambutan & Foto Kades
   if (document.getElementById('display-beranda-sambutan')) document.getElementById('display-beranda-sambutan').innerText = d.sambutan;
   if (document.getElementById('display-beranda-kepala-desa')) document.getElementById('display-beranda-kepala-desa').src = d.kades;
-  
-  // Update Form di Panel Admin
   if (document.getElementById('input-beranda-logo')) document.getElementById('input-beranda-logo').value = d.logo;
   if (document.getElementById('input-beranda-banner')) document.getElementById('input-beranda-banner').value = d.banner;
   if (document.getElementById('input-beranda-sambutan')) document.getElementById('input-beranda-sambutan').value = d.sambutan;
   if (document.getElementById('input-beranda-kepala-desa')) document.getElementById('input-beranda-kepala-desa').value = d.kades;
 }
-
 function saveBerandaData(event) {
   event.preventDefault();
   const logo = document.getElementById('input-beranda-logo').value.trim();
   const banner = document.getElementById('input-beranda-banner').value.trim();
   const sambutan = document.getElementById('input-beranda-sambutan').value.trim();
   const kades = document.getElementById('input-beranda-kepala-desa').value.trim();
-  
   localStorage.setItem('desapaleleh_beranda_data', JSON.stringify({ logo, banner, sambutan, kades }));
   renderBerandaData();
-  alert('Beranda, Logo, dan Video Banner berhasil disimpan!');
+  alert('Beranda & Logo berhasil disimpan!');
 }
 
 // KEGIATAN BERANDA
@@ -114,7 +100,7 @@ function renderKegiatanList() {
   }
 }
 
-// LAYANAN SURAT & PENGADUAN
+// LAYANAN SURAT & PENGADUAN (DENGAN PENYIMPANAN BERKAS & CEK NIK)
 function getPermohonanList() { return JSON.parse(localStorage.getItem('desapaleleh_permohonan_surat') || '[]'); }
 function submitPermohonanSurat(event) {
   event.preventDefault();
@@ -122,23 +108,59 @@ function submitPermohonanSurat(event) {
   const nik = document.getElementById('surat-nik').value.trim();
   const jenis = document.getElementById('surat-jenis').value;
   const keperluan = document.getElementById('surat-keperluan').value.trim();
+  const berkasInput = document.getElementById('surat-berkas');
 
+  let namaBerkas = 'Tidak ada berkas';
+  let dataUrlBerkas = '#';
+  if (berkasInput.files && berkasInput.files[0]) {
+    namaBerkas = berkasInput.files[0].name;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      dataUrlBerkas = e.target.result;
+      simpanDataPermohonan(nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas);
+    };
+    reader.readAsDataURL(berkasInput.files[0]);
+    return;
+  }
+  simpanDataPermohonan(nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas);
+}
+
+function simpanDataPermohonan(nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas) {
   let list = getPermohonanList();
   const newId = 'SRT-' + Math.floor(100000 + Math.random() * 900000);
-  list.push({ id: newId, nama, nik, jenis, keperluan, status: 'Menunggu Verifikasi Admin' });
+  list.push({ id: newId, nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas, status: 'Menunggu Verifikasi Admin' });
   localStorage.setItem('desapaleleh_permohonan_surat', JSON.stringify(list));
-  alert(`Permohonan berhasil dikirim! Kode ID: ${newId}`);
-  event.target.reset();
+  alert(`Permohonan berhasil dikirim! Kode / ID Surat Anda: ${newId}\n(Simpan NIK atau ID ini untuk cek status).`);
+  document.getElementById('surat-nama').value = '';
+  document.getElementById('surat-nik').value = '';
+  document.getElementById('surat-keperluan').value = '';
+  document.getElementById('surat-berkas').value = '';
   renderAdminNotifikasi();
 }
 
 function cekStatusSurat() {
-  const nik = document.getElementById('cek-nik-surat').value.trim();
+  const keyword = document.getElementById('cek-nik-surat').value.trim().toLowerCase();
   const list = getPermohonanList();
-  const found = list.filter(item => item.nik === nik);
+  const found = list.filter(item => item.nik.toLowerCase() === keyword || item.id.toLowerCase() === keyword);
   const hasilEl = document.getElementById('hasil-cek-surat');
-  if (found.length === 0) { hasilEl.innerHTML = '<p class="text-muted">Tidak ada permohonan.</p>'; return; }
-  hasilEl.innerHTML = found.map(item => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;"><strong>ID: ${item.id}</strong> | ${item.jenis}<br>Status: <span style="color:var(--accent-color);font-weight:700;">${item.status}</span></div>`).join('');
+
+  if (keyword === '') {
+    hasilEl.innerHTML = '<p class="text-muted">Masukkan NIK atau No ID Surat terlebih dahulu.</p>';
+    return;
+  }
+
+  if (found.length === 0) {
+    hasilEl.innerHTML = '<p class="text-muted">Tidak ada permohonan dengan NIK atau ID tersebut.</p>';
+    return;
+  }
+
+  hasilEl.innerHTML = found.map(item => `
+    <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:10px;">
+      <strong>ID: ${item.id}</strong> | ${item.jenis} (${item.nama})<br>
+      <p style="margin: 5px 0;">Keperluan: ${item.keperluan}</p>
+      Status: <span style="color: var(--accent-color); font-weight: 700;">${item.status}</span>
+    </div>
+  `).join('');
 }
 
 function getPengaduanList() { return JSON.parse(localStorage.getItem('desapaleleh_pengaduan_list') || '[]'); }
@@ -152,7 +174,7 @@ function submitPengaduan(event) {
   const newId = 'ADU-' + Math.floor(100000 + Math.random() * 900000);
   list.push({ id: newId, nama, telp, pesan, status: 'Menunggu Ditindaklanjuti' });
   localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(list));
-  alert(`Pengaduan berhasil dikirim! ID: ${newId}`);
+  alert(`Pengaduan berhasil dikirim! ID Pengaduan: ${newId}`);
   event.target.reset();
   renderAdminNotifikasi();
 }
@@ -186,7 +208,7 @@ function saveTotalPenduduk(event) {
   alert('Data penduduk disimpan!');
 }
 
-// ADMIN NOTIFIKASI
+// ADMIN NOTIFIKASI (DENGAN LIHAT BERKAS & UBAH STATUS / BERKAS KURANG)
 function renderAdminNotifikasi() {
   const suratList = getPermohonanList();
   const aduanList = getPengaduanList();
@@ -195,9 +217,20 @@ function renderAdminNotifikasi() {
   const suratEl = document.getElementById('admin-list-permohonan-surat');
   if (suratEl) {
     suratEl.innerHTML = suratList.length === 0 ? '<p class="text-muted">Tidak ada surat masuk.</p>' : suratList.map((item, idx) => `
-      <div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
-        <div><strong>${item.id} - ${item.nama}</strong> (${item.jenis})<br><small>Status: ${item.status}</small></div>
-        <button onclick="ubahStatusSurat(${idx})" class="btn-accent" style="padding:4px 10px;font-size:0.8rem;">Selesai</button>
+      <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+          <div>
+            <strong>${item.id} - ${item.nama}</strong> (NIK: ${item.nik})<br>
+            <span style="color:var(--primary-color); font-weight:600;">${item.jenis}</span><br>
+            <small>Keperluan: ${item.keperluan}</small><br>
+            <small>Berkas: ${item.dataUrlBerkas && item.dataUrlBerkas !== '#' ? `<a href="${item.dataUrlBerkas}" target="_blank" download="${item.namaBerkas}" style="color:var(--accent-color); font-weight:700;"><i class="fas fa-download"></i> Download / Lihat (${item.namaBerkas})</a>` : 'Tidak ada berkas'}</small><br>
+            <small>Status Saat Ini: <strong style="color:#0284c7;">${item.status}</strong></small>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px; min-width:200px;">
+            <button onclick="ubahStatusSuratCustom(${idx}, 'Selesai / Siap Diambil')" class="btn-accent" style="padding:6px 12px; font-size:0.8rem;"><i class="fas fa-check"></i> Selesai / Siap</button>
+            <button onclick="ubahStatusSuratCustom(${idx}, 'Berkas Tidak Lengkap / Kurang Syarat')" style="background:#dc2626; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:0.8rem; cursor:pointer; font-weight:600;"><i class="fas fa-exclamation-triangle"></i> Berkas Kurang</button>
+          </div>
+        </div>
       </div>
     `).join('');
   }
@@ -205,15 +238,28 @@ function renderAdminNotifikasi() {
   const aduanEl = document.getElementById('admin-list-pengaduan');
   if (aduanEl) {
     aduanEl.innerHTML = aduanList.length === 0 ? '<p class="text-muted">Tidak ada pengaduan masuk.</p>' : aduanList.map((item, idx) => `
-      <div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
-        <div><strong>${item.id} - ${item.nama}</strong><br><small>"${item.pesan}" | Status: ${item.status}</small></div>
-        <button onclick="ubahStatusAduan(${idx})" class="btn-accent" style="padding:4px 10px;font-size:0.8rem;">Tindak Lanjuti</button>
+      <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+        <div><strong>${item.id} - ${item.nama}</strong> (${item.telp})<br><small>"${item.pesan}" | Status: ${item.status}</small></div>
+        <button onclick="ubahStatusAduan(${idx})" class="btn-accent" style="padding:6px 12px;font-size:0.8rem;">Tindak Lanjuti</button>
       </div>
     `).join('');
   }
 }
 
-function ubahStatusSurat(i) { let l = getPermohonanList(); l[i].status = 'Selesai / Siap Diambil'; localStorage.setItem('desapaleleh_permohonan_surat', JSON.stringify(l)); renderAdminNotifikasi(); }
+function ubahStatusSuratCustom(i, statusTujuan) {
+  let l = getPermohonanList();
+  if (statusTujuan.includes('Kurang')) {
+    const catatan = prompt('Masukkan catatan kekurangan berkas untuk pemohon:', 'KTP / KK kurang jelas atau belum dilampirkan.');
+    if (catatan === null) return;
+    l[i].status = `Ditolak / Berkas Kurang: ${catatan}`;
+  } else {
+    l[i].status = statusTujuan;
+  }
+  localStorage.setItem('desapaleleh_permohonan_surat', JSON.stringify(l));
+  renderAdminNotifikasi();
+  alert('Status permohonan berhasil diperbarui!');
+}
+
 function ubahStatusAduan(i) { let l = getPengaduanList(); l[i].status = 'Telah Ditindaklanjuti'; localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(l)); renderAdminNotifikasi(); }
 
 // LOGIN / LOGOUT
@@ -368,7 +414,7 @@ function savePageContent(e, type) {
   }
 }
 
-// VISI & MISI (DENGAN TAMBAH & HAPUS MISI)
+// VISI & MISI
 function getMisiList() { return JSON.parse(localStorage.getItem('desapaleleh_content_misi_list') || '["Meningkatkan tata kelola pemerintahan desa yang transparan.", "Mengoptimalkan pelayanan publik berbasis digital."] '); }
 function tambahMisiItem() {
   const val = document.getElementById('input-content-misi').value.trim();
