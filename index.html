@@ -140,6 +140,7 @@
                 <form onsubmit="submitPermohonanSurat(event)" style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
                     <div><label>Nama Lengkap Pemohon:</label><input type="text" id="surat-nama" class="form-control" required></div>
                     <div><label>NIK Pemohon:</label><input type="text" id="surat-nik" class="form-control" required></div>
+                    <div><label>Nomor WhatsApp Aktif:</label><input type="text" id="surat-whatsapp" class="form-control" placeholder="Contoh: 081234567890" required></div>
                     <div>
                         <label>Jenis Surat:</label>
                         <select id="surat-jenis" class="form-control" required>
@@ -169,7 +170,7 @@
                 <h2><i class="fas fa-bullhorn"></i> Pengaduan Masyarakat</h2>
                 <form onsubmit="submitPengaduan(event)" style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
                     <div><label>Nama Pelapor:</label><input type="text" id="aduan-nama" class="form-control" required></div>
-                    <div><label>No WhatsApp / HP:</label><input type="text" id="aduan-telp" class="form-control" required></div>
+                    <div><label>Nomor WhatsApp / HP Aktif:</label><input type="text" id="aduan-telp" class="form-control" placeholder="Contoh: 081234567890" required></div>
                     <div><label>Isi Pengaduan:</label><textarea id="aduan-pesan" class="form-control" rows="4" required></textarea></div>
                     <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Kirim Pengaduan</button>
                 </form>
@@ -286,7 +287,7 @@
             <!-- TAB NOTIFIKASI -->
             <div id="tab-notifikasi" class="admin-tab-content admin-card-box">
                 <h3 class="admin-section-title">Permohonan Surat & Pengaduan Masuk</h3>
-                <div style="margin-bottom:25px;"><h4>Surat Masuk (Dilengkapi Cek Berkas & Status)</h4><div id="admin-list-permohonan-surat"></div></div>
+                <div style="margin-bottom:25px;"><h4>Surat Masuk (Dilengkapi Tombol WhatsApp & Cek Berkas)</h4><div id="admin-list-permohonan-surat"></div></div>
                 <div><h4>Pengaduan Masuk</h4><div id="admin-list-pengaduan"></div></div>
             </div>
 
