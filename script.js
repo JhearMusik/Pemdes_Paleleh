@@ -100,7 +100,7 @@ function renderKegiatanList() {
   }
 }
 
-// LAYANAN SURAT & PENGADUAN (DENGAN WHATSAPP)
+// LAYANAN SURAT
 function getPermohonanList() { return JSON.parse(localStorage.getItem('desapaleleh_permohonan_surat') || '[]'); }
 function submitPermohonanSurat(event) {
   event.preventDefault();
@@ -165,29 +165,66 @@ function cekStatusSurat() {
   `).join('');
 }
 
+// PENGADUAN DENGAN BUKTI DUKUNG & WHATSAPP
 function getPengaduanList() { return JSON.parse(localStorage.getItem('desapaleleh_pengaduan_list') || '[]'); }
 function submitPengaduan(event) {
   event.preventDefault();
   const nama = document.getElementById('aduan-nama').value.trim();
   const telp = document.getElementById('aduan-telp').value.trim();
   const pesan = document.getElementById('aduan-pesan').value.trim();
+  const berkasInput = document.getElementById('aduan-berkas');
 
+  let namaBerkas = 'Tidak ada bukti';
+  let dataUrlBerkas = '#';
+  if (berkasInput.files && berkasInput.files[0]) {
+    namaBerkas = berkasInput.files[0].name;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      dataUrlBerkas = e.target.result;
+      simpanDataPengaduan(nama, telp, pesan, namaBerkas, dataUrlBerkas);
+    };
+    reader.readAsDataURL(berkasInput.files[0]);
+    return;
+  }
+  simpanDataPengaduan(nama, telp, pesan, namaBerkas, dataUrlBerkas);
+}
+
+function simpanDataPengaduan(nama, telp, pesan, namaBerkas, dataUrlBerkas) {
   let list = getPengaduanList();
   const newId = 'ADU-' + Math.floor(100000 + Math.random() * 900000);
-  list.push({ id: newId, nama, telp, pesan, status: 'Menunggu Ditindaklanjuti' });
+  list.push({ id: newId, nama, telp, pesan, namaBerkas, dataUrlBerkas, status: 'Menunggu Ditindaklanjuti' });
   localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(list));
-  alert(`Pengaduan berhasil dikirim! ID Pengaduan: ${newId}`);
-  event.target.reset();
+  alert(`Pengaduan berhasil dikirim! ID Pengaduan: ${newId}\n(Simpan ID ini untuk cek status).`);
+  document.getElementById('aduan-nama').value = '';
+  document.getElementById('aduan-telp').value = '';
+  document.getElementById('aduan-pesan').value = '';
+  document.getElementById('aduan-berkas').value = '';
   renderAdminNotifikasi();
 }
 
 function cekStatusAduan() {
-  const nama = document.getElementById('cek-nama-aduan').value.trim().toLowerCase();
+  const keyword = document.getElementById('cek-nama-aduan').value.trim().toLowerCase();
   const list = getPengaduanList();
-  const found = list.filter(item => item.nama.toLowerCase().includes(nama));
+  const found = list.filter(item => item.nama.toLowerCase().includes(keyword) || item.id.toLowerCase() === keyword);
   const hasilEl = document.getElementById('hasil-cek-aduan');
-  if (found.length === 0) { hasilEl.innerHTML = '<p class="text-muted">Tidak ditemukan.</p>'; return; }
-  hasilEl.innerHTML = found.map(item => `<div style="background:#f8fafc;padding:10px;border-radius:6px;margin-bottom:6px;"><strong>ID: ${item.id}</strong> - ${item.nama}<br>Status: <span style="color:#059669;font-weight:700;">${item.status}</span></div>`).join('');
+
+  if (keyword === '') {
+    hasilEl.innerHTML = '<p class="text-muted">Masukkan Nama Pelapor atau ID Aduan.</p>';
+    return;
+  }
+
+  if (found.length === 0) {
+    hasilEl.innerHTML = '<p class="text-muted">Tidak ditemukan pengaduan.</p>';
+    return;
+  }
+
+  hasilEl.innerHTML = found.map(item => `
+    <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:10px;">
+      <strong>ID: ${item.id}</strong> - ${item.nama}<br>
+      <p style="margin: 5px 0;">"${item.pesan}"</p>
+      Status: <span style="color:#059669; font-weight:700;">${item.status}</span>
+    </div>
+  `).join('');
 }
 
 // JUMLAH PENDUDUK
@@ -210,20 +247,18 @@ function saveTotalPenduduk(event) {
   alert('Data penduduk disimpan!');
 }
 
-// ADMIN NOTIFIKASI (DENGAN FITUR WHATSAPP OTOMATIS)
+// ADMIN NOTIFIKASI (SURAT & PENGADUAN DENGAN BUKTI & WHATSAPP)
 function renderAdminNotifikasi() {
   const suratList = getPermohonanList();
   const aduanList = getPengaduanList();
   if (document.getElementById('badge-notif-count')) document.getElementById('badge-notif-count').innerText = suratList.length + aduanList.length;
 
+  // Render Surat Masuk
   const suratEl = document.getElementById('admin-list-permohonan-surat');
   if (suratEl) {
     suratEl.innerHTML = suratList.length === 0 ? '<p class="text-muted">Tidak ada surat masuk.</p>' : suratList.map((item, idx) => {
       let waNumber = item.whatsapp || '';
-      // Format nomor HP agar diawali dengan 62 jika diawali angka 0
-      if (waNumber.startsWith('0')) {
-        waNumber = '62' + waNumber.slice(1);
-      }
+      if (waNumber.startsWith('0')) waNumber = '62' + waNumber.slice(1);
       const pesanSelesai = encodeURIComponent(`Halo ${item.nama}, permohonan ${item.jenis} Anda dengan ID ${item.id} telah SELESAI / SIAP. Silakan ambil atau unduh dokumen PDF dari Kantor Desa Paleleh. Terima kasih.`);
       const pesanKurang = encodeURIComponent(`Halo ${item.nama}, mohon maaf permohonan ${item.jenis} Anda dengan ID ${item.id} BELUM DAPAT DIPROSES karena berkas kurang / tidak lengkap. Mohon lengkapi persyaratan.`);
 
@@ -248,14 +283,31 @@ function renderAdminNotifikasi() {
     }).join('');
   }
 
+  // Render Pengaduan Masuk
   const aduanEl = document.getElementById('admin-list-pengaduan');
   if (aduanEl) {
-    aduanEl.innerHTML = aduanList.length === 0 ? '<p class="text-muted">Tidak ada pengaduan masuk.</p>' : aduanList.map((item, idx) => `
-      <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
-        <div><strong>${item.id} - ${item.nama}</strong> (WA: ${item.telp})<br><small>"${item.pesan}" | Status: ${item.status}</small></div>
-        <button onclick="ubahStatusAduan(${idx})" class="btn-accent" style="padding:6px 12px;font-size:0.8rem;">Tindak Lanjuti</button>
-      </div>
-    `).join('');
+    aduanEl.innerHTML = aduanList.length === 0 ? '<p class="text-muted">Tidak ada pengaduan masuk.</p>' : aduanList.map((item, idx) => {
+      let waNumber = item.telp || '';
+      if (waNumber.startsWith('0')) waNumber = '62' + waNumber.slice(1);
+      const pesanAduan = encodeURIComponent(`Halo ${item.nama}, pengaduan Anda dengan ID ${item.id} telah ditindaklanjuti oleh Pemerintah Desa Paleleh. Terima kasih atas laporan Anda.`);
+
+      return `
+        <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+            <div>
+              <strong>${item.id} - ${item.nama}</strong> | <i class="fab fa-whatsapp" style="color:#22c55e;"></i> <strong>${item.telp}</strong><br>
+              <p style="margin:5px 0;">"${item.pesan}"</p>
+              <small>Bukti Dukung: ${item.dataUrlBerkas && item.dataUrlBerkas !== '#' ? `<a href="${item.dataUrlBerkas}" target="_blank" download="${item.namaBerkas}" style="color:var(--accent-color); font-weight:700;"><i class="fas fa-download"></i> Download / Lihat (${item.namaBerkas})</a>` : 'Tidak ada bukti'}</small><br>
+              <small>Status: <strong style="color:#059669;">${item.status}</strong></small>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px; min-width:210px;">
+              <button onclick="ubahStatusAduanCustom(${idx})" class="btn-accent" style="padding:6px 12px; font-size:0.8rem;"><i class="fas fa-check"></i> Tindak Lanjuti</button>
+              ${waNumber ? `<a href="https://wa.me/${waNumber}?text=${pesanAduan}" target="_blank" style="background:#22c55e; color:white; text-decoration:none; padding:6px 12px; border-radius:6px; font-size:0.8rem; text-align:center; font-weight:600;"><i class="fab fa-whatsapp"></i> Balas via WA</a>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 }
 
@@ -273,7 +325,15 @@ function ubahStatusSuratCustom(i, statusTujuan) {
   alert('Status permohonan berhasil diperbarui!');
 }
 
-function ubahStatusAduan(i) { let l = getPengaduanList(); l[i].status = 'Telah Ditindaklanjuti'; localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(l)); renderAdminNotifikasi(); }
+function ubahStatusAduanCustom(i) {
+  let l = getPengaduanList();
+  const tanggapan = prompt('Masukkan catatan/tindak lanjut untuk pengadu:', 'Laporan telah diterima dan segera diturunkan tim terkait.');
+  if (tanggapan === null) return;
+  l[i].status = `Telah Ditindaklanjuti: ${tanggapan}`;
+  localStorage.setItem('desapaleleh_pengaduan_list', JSON.stringify(l));
+  renderAdminNotifikasi();
+  alert('Status pengaduan berhasil diperbarui!');
+}
 
 // LOGIN / LOGOUT
 function checkLoginAndOpenMenu() {
