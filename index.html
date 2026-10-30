@@ -172,11 +172,12 @@
                     <div><label>Nama Pelapor:</label><input type="text" id="aduan-nama" class="form-control" required></div>
                     <div><label>Nomor WhatsApp / HP Aktif:</label><input type="text" id="aduan-telp" class="form-control" placeholder="Contoh: 081234567890" required></div>
                     <div><label>Isi Pengaduan:</label><textarea id="aduan-pesan" class="form-control" rows="4" required></textarea></div>
+                    <div><label>Upload Berkas / Bukti Dukung (Max 5MB):</label><input type="file" id="aduan-berkas" class="form-control" accept=".pdf,.jpg,.jpeg,.png" onchange="validateFileSize(this)"></div>
                     <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Kirim Pengaduan</button>
                 </form>
                 <div style="margin-top: 40px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
                     <h4>Cek Status Pengaduan</h4>
-                    <div style="display: flex; gap: 10px; margin-top: 10px;"><input type="text" id="cek-nama-aduan" placeholder="Masukkan Nama Pelapor..." class="form-control"><button type="button" onclick="cekStatusAduan()" class="btn-accent">Cek</button></div>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;"><input type="text" id="cek-nama-aduan" placeholder="Masukkan Nama Pelapor atau ID Aduan..." class="form-control"><button type="button" onclick="cekStatusAduan()" class="btn-accent">Cek</button></div>
                     <div id="hasil-cek-aduan" style="margin-top: 15px;"></div>
                 </div>
             </div>
@@ -287,8 +288,8 @@
             <!-- TAB NOTIFIKASI -->
             <div id="tab-notifikasi" class="admin-tab-content admin-card-box">
                 <h3 class="admin-section-title">Permohonan Surat & Pengaduan Masuk</h3>
-                <div style="margin-bottom:25px;"><h4>Surat Masuk (Dilengkapi Tombol WhatsApp & Cek Berkas)</h4><div id="admin-list-permohonan-surat"></div></div>
-                <div><h4>Pengaduan Masuk</h4><div id="admin-list-pengaduan"></div></div>
+                <div style="margin-bottom:25px;"><h4>Surat Masuk</h4><div id="admin-list-permohonan-surat"></div></div>
+                <div><h4>Pengaduan Masuk (Dilengkapi Bukti & Tombol WA)</h4><div id="admin-list-pengaduan"></div></div>
             </div>
 
             <!-- TAB PENDUDUK -->
