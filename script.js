@@ -100,12 +100,13 @@ function renderKegiatanList() {
   }
 }
 
-// LAYANAN SURAT & PENGADUAN (DENGAN PENYIMPANAN BERKAS & CEK NIK)
+// LAYANAN SURAT & PENGADUAN (DENGAN WHATSAPP)
 function getPermohonanList() { return JSON.parse(localStorage.getItem('desapaleleh_permohonan_surat') || '[]'); }
 function submitPermohonanSurat(event) {
   event.preventDefault();
   const nama = document.getElementById('surat-nama').value.trim();
   const nik = document.getElementById('surat-nik').value.trim();
+  const whatsapp = document.getElementById('surat-whatsapp').value.trim();
   const jenis = document.getElementById('surat-jenis').value;
   const keperluan = document.getElementById('surat-keperluan').value.trim();
   const berkasInput = document.getElementById('surat-berkas');
@@ -117,22 +118,23 @@ function submitPermohonanSurat(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
       dataUrlBerkas = e.target.result;
-      simpanDataPermohonan(nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas);
+      simpanDataPermohonan(nama, nik, whatsapp, jenis, keperluan, namaBerkas, dataUrlBerkas);
     };
     reader.readAsDataURL(berkasInput.files[0]);
     return;
   }
-  simpanDataPermohonan(nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas);
+  simpanDataPermohonan(nama, nik, whatsapp, jenis, keperluan, namaBerkas, dataUrlBerkas);
 }
 
-function simpanDataPermohonan(nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas) {
+function simpanDataPermohonan(nama, nik, whatsapp, jenis, keperluan, namaBerkas, dataUrlBerkas) {
   let list = getPermohonanList();
   const newId = 'SRT-' + Math.floor(100000 + Math.random() * 900000);
-  list.push({ id: newId, nama, nik, jenis, keperluan, namaBerkas, dataUrlBerkas, status: 'Menunggu Verifikasi Admin' });
+  list.push({ id: newId, nama, nik, whatsapp, jenis, keperluan, namaBerkas, dataUrlBerkas, status: 'Menunggu Verifikasi Admin' });
   localStorage.setItem('desapaleleh_permohonan_surat', JSON.stringify(list));
   alert(`Permohonan berhasil dikirim! Kode / ID Surat Anda: ${newId}\n(Simpan NIK atau ID ini untuk cek status).`);
   document.getElementById('surat-nama').value = '';
   document.getElementById('surat-nik').value = '';
+  document.getElementById('surat-whatsapp').value = '';
   document.getElementById('surat-keperluan').value = '';
   document.getElementById('surat-berkas').value = '';
   renderAdminNotifikasi();
@@ -208,7 +210,7 @@ function saveTotalPenduduk(event) {
   alert('Data penduduk disimpan!');
 }
 
-// ADMIN NOTIFIKASI (DENGAN LIHAT BERKAS & UBAH STATUS / BERKAS KURANG)
+// ADMIN NOTIFIKASI (DENGAN FITUR WHATSAPP OTOMATIS)
 function renderAdminNotifikasi() {
   const suratList = getPermohonanList();
   const aduanList = getPengaduanList();
@@ -216,30 +218,41 @@ function renderAdminNotifikasi() {
 
   const suratEl = document.getElementById('admin-list-permohonan-surat');
   if (suratEl) {
-    suratEl.innerHTML = suratList.length === 0 ? '<p class="text-muted">Tidak ada surat masuk.</p>' : suratList.map((item, idx) => `
-      <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
-          <div>
-            <strong>${item.id} - ${item.nama}</strong> (NIK: ${item.nik})<br>
-            <span style="color:var(--primary-color); font-weight:600;">${item.jenis}</span><br>
-            <small>Keperluan: ${item.keperluan}</small><br>
-            <small>Berkas: ${item.dataUrlBerkas && item.dataUrlBerkas !== '#' ? `<a href="${item.dataUrlBerkas}" target="_blank" download="${item.namaBerkas}" style="color:var(--accent-color); font-weight:700;"><i class="fas fa-download"></i> Download / Lihat (${item.namaBerkas})</a>` : 'Tidak ada berkas'}</small><br>
-            <small>Status Saat Ini: <strong style="color:#0284c7;">${item.status}</strong></small>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px; min-width:200px;">
-            <button onclick="ubahStatusSuratCustom(${idx}, 'Selesai / Siap Diambil')" class="btn-accent" style="padding:6px 12px; font-size:0.8rem;"><i class="fas fa-check"></i> Selesai / Siap</button>
-            <button onclick="ubahStatusSuratCustom(${idx}, 'Berkas Tidak Lengkap / Kurang Syarat')" style="background:#dc2626; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:0.8rem; cursor:pointer; font-weight:600;"><i class="fas fa-exclamation-triangle"></i> Berkas Kurang</button>
+    suratEl.innerHTML = suratList.length === 0 ? '<p class="text-muted">Tidak ada surat masuk.</p>' : suratList.map((item, idx) => {
+      let waNumber = item.whatsapp || '';
+      // Format nomor HP agar diawali dengan 62 jika diawali angka 0
+      if (waNumber.startsWith('0')) {
+        waNumber = '62' + waNumber.slice(1);
+      }
+      const pesanSelesai = encodeURIComponent(`Halo ${item.nama}, permohonan ${item.jenis} Anda dengan ID ${item.id} telah SELESAI / SIAP. Silakan ambil atau unduh dokumen PDF dari Kantor Desa Paleleh. Terima kasih.`);
+      const pesanKurang = encodeURIComponent(`Halo ${item.nama}, mohon maaf permohonan ${item.jenis} Anda dengan ID ${item.id} BELUM DAPAT DIPROSES karena berkas kurang / tidak lengkap. Mohon lengkapi persyaratan.`);
+
+      return `
+        <div style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+            <div>
+              <strong>${item.id} - ${item.nama}</strong> (NIK: ${item.nik})<br>
+              <span style="color:var(--primary-color); font-weight:600;">${item.jenis}</span> | <i class="fab fa-whatsapp" style="color:#22c55e;"></i> <strong>${item.whatsapp || 'Tidak ada'}</strong><br>
+              <small>Keperluan: ${item.keperluan}</small><br>
+              <small>Berkas: ${item.dataUrlBerkas && item.dataUrlBerkas !== '#' ? `<a href="${item.dataUrlBerkas}" target="_blank" download="${item.namaBerkas}" style="color:var(--accent-color); font-weight:700;"><i class="fas fa-download"></i> Download / Lihat (${item.namaBerkas})</a>` : 'Tidak ada berkas'}</small><br>
+              <small>Status Saat Ini: <strong style="color:#0284c7;">${item.status}</strong></small>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px; min-width:210px;">
+              <button onclick="ubahStatusSuratCustom(${idx}, 'Selesai / Siap Diambil')" class="btn-accent" style="padding:6px 12px; font-size:0.8rem;"><i class="fas fa-check"></i> Selesai / Siap</button>
+              <button onclick="ubahStatusSuratCustom(${idx}, 'Berkas Tidak Lengkap / Kurang Syarat')" style="background:#dc2626; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:0.8rem; cursor:pointer; font-weight:600;"><i class="fas fa-exclamation-triangle"></i> Berkas Kurang</button>
+              ${waNumber ? `<a href="https://wa.me/${waNumber}?text=${item.status.includes('Selesai') ? pesanSelesai : pesanKurang}" target="_blank" style="background:#22c55e; color:white; text-decoration:none; padding:6px 12px; border-radius:6px; font-size:0.8rem; text-align:center; font-weight:600;"><i class="fab fa-whatsapp"></i> Kirim Info WA</a>` : ''}
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   const aduanEl = document.getElementById('admin-list-pengaduan');
   if (aduanEl) {
     aduanEl.innerHTML = aduanList.length === 0 ? '<p class="text-muted">Tidak ada pengaduan masuk.</p>' : aduanList.map((item, idx) => `
       <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
-        <div><strong>${item.id} - ${item.nama}</strong> (${item.telp})<br><small>"${item.pesan}" | Status: ${item.status}</small></div>
+        <div><strong>${item.id} - ${item.nama}</strong> (WA: ${item.telp})<br><small>"${item.pesan}" | Status: ${item.status}</small></div>
         <button onclick="ubahStatusAduan(${idx})" class="btn-accent" style="padding:6px 12px;font-size:0.8rem;">Tindak Lanjuti</button>
       </div>
     `).join('');
