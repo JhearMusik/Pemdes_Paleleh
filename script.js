@@ -165,7 +165,7 @@ function cekStatusSurat() {
   `).join('');
 }
 
-// PENGADUAN DENGAN BUKTI DUKUNG & WHATSAPP
+// PENGADUAN
 function getPengaduanList() { return JSON.parse(localStorage.getItem('desapaleleh_pengaduan_list') || '[]'); }
 function submitPengaduan(event) {
   event.preventDefault();
@@ -227,33 +227,88 @@ function cekStatusAduan() {
   `).join('');
 }
 
-// JUMLAH PENDUDUK
-const defaultPenduduk = { l: 640, p: 610 };
+// MANAJEMEN PETUGAS / ADMIN TAMBAHAN
+function getPetugasList() {
+  const defaultPetugas = [{ user: 'admin', pass: 'paleleh2026' }];
+  return JSON.parse(localStorage.getItem('desapaleleh_petugas_list') || JSON.stringify(defaultPetugas));
+}
+function renderPetugasList() {
+  const list = getPetugasList();
+  const el = document.getElementById('admin-list-petugas');
+  if (el) {
+    el.innerHTML = list.map((p, idx) => `
+      <div style="background:#f8fafc; padding:10px; border-radius:6px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+        <span><strong>Username:</strong> ${p.user} ${idx === 0 ? '(Admin Utama)' : ''}</span>
+        ${idx !== 0 ? `<button onclick="hapusPetugas(${idx})" class="btn-danger-sm">Hapus</button>` : '<span class="text-muted" style="font-size:0.8rem;">Utama</span>'}
+      </div>
+    `).join('');
+  }
+}
+function tambahPetugasBaru(event) {
+  event.preventDefault();
+  const user = document.getElementById('input-petugas-user').value.trim();
+  const pass = document.getElementById('input-petugas-pass').value.trim();
+  if (!user || !pass) return alert('Isi username dan password!');
+  
+  let list = getPetugasList();
+  if (list.some(p => p.user === user)) return alert('Username sudah digunakan!');
+  
+  list.push({ user, pass });
+  localStorage.setItem('desapaleleh_petugas_list', JSON.stringify(list));
+  document.getElementById('input-petugas-user').value = '';
+  document.getElementById('input-petugas-pass').value = '';
+  renderPetugasList();
+  alert('Petugas baru berhasil ditambahkan!');
+}
+function hapusPetugas(idx) {
+  if (confirm('Hapus akses petugas ini?')) {
+    let list = getPetugasList();
+    list.splice(idx, 1);
+    localStorage.setItem('desapaleleh_petugas_list', JSON.stringify(list));
+    renderPetugasList();
+  }
+}
+
+// STATISTIK KEPENDUDUKAN
+const defaultPenduduk = { l: 640, p: 610, kk: 385, akta: 1150, kia: 290, bansos: 145 };
 function getPendudukData() { return JSON.parse(localStorage.getItem('desapaleleh_jumlah_penduduk') || JSON.stringify(defaultPenduduk)); }
 function renderPendudukData() {
   const dta = getPendudukData();
   if (document.getElementById('display-penduduk-total')) document.getElementById('display-penduduk-total').innerText = Number(dta.l) + Number(dta.p);
   if (document.getElementById('display-penduduk-l')) document.getElementById('display-penduduk-l').innerText = dta.l;
   if (document.getElementById('display-penduduk-p')) document.getElementById('display-penduduk-p').innerText = dta.p;
+  if (document.getElementById('display-penduduk-kk')) document.getElementById('display-penduduk-kk').innerText = dta.kk;
+  if (document.getElementById('display-penduduk-akta')) document.getElementById('display-penduduk-akta').innerText = dta.akta;
+  if (document.getElementById('display-penduduk-kia')) document.getElementById('display-penduduk-kia').innerText = dta.kia;
+  if (document.getElementById('display-penduduk-bansos')) document.getElementById('display-penduduk-bansos').innerText = dta.bansos;
+
   if (document.getElementById('input-penduduk-l')) document.getElementById('input-penduduk-l').value = dta.l;
   if (document.getElementById('input-penduduk-p')) document.getElementById('input-penduduk-p').value = dta.p;
+  if (document.getElementById('input-penduduk-kk')) document.getElementById('input-penduduk-kk').value = dta.kk;
+  if (document.getElementById('input-penduduk-akta')) document.getElementById('input-penduduk-akta').value = dta.akta;
+  if (document.getElementById('input-penduduk-kia')) document.getElementById('input-penduduk-kia').value = dta.kia;
+  if (document.getElementById('input-penduduk-bansos')) document.getElementById('input-penduduk-bansos').value = dta.bansos;
 }
 function saveTotalPenduduk(event) {
   event.preventDefault();
   const l = document.getElementById('input-penduduk-l').value;
   const p = document.getElementById('input-penduduk-p').value;
-  localStorage.setItem('desapaleleh_jumlah_penduduk', JSON.stringify({ l, p }));
+  const kk = document.getElementById('input-penduduk-kk').value;
+  const akta = document.getElementById('input-penduduk-akta').value;
+  const kia = document.getElementById('input-penduduk-kia').value;
+  const bansos = document.getElementById('input-penduduk-bansos').value;
+
+  localStorage.setItem('desapaleleh_jumlah_penduduk', JSON.stringify({ l, p, kk, akta, kia, bansos }));
   renderPendudukData();
-  alert('Data penduduk disimpan!');
+  alert('Data statistik kependudukan berhasil disimpan!');
 }
 
-// ADMIN NOTIFIKASI (SURAT & PENGADUAN DENGAN BUKTI & WHATSAPP)
+// ADMIN NOTIFIKASI
 function renderAdminNotifikasi() {
   const suratList = getPermohonanList();
   const aduanList = getPengaduanList();
   if (document.getElementById('badge-notif-count')) document.getElementById('badge-notif-count').innerText = suratList.length + aduanList.length;
 
-  // Render Surat Masuk
   const suratEl = document.getElementById('admin-list-permohonan-surat');
   if (suratEl) {
     suratEl.innerHTML = suratList.length === 0 ? '<p class="text-muted">Tidak ada surat masuk.</p>' : suratList.map((item, idx) => {
@@ -283,7 +338,6 @@ function renderAdminNotifikasi() {
     }).join('');
   }
 
-  // Render Pengaduan Masuk
   const aduanEl = document.getElementById('admin-list-pengaduan');
   if (aduanEl) {
     aduanEl.innerHTML = aduanList.length === 0 ? '<p class="text-muted">Tidak ada pengaduan masuk.</p>' : aduanList.map((item, idx) => {
@@ -335,18 +389,26 @@ function ubahStatusAduanCustom(i) {
   alert('Status pengaduan berhasil diperbarui!');
 }
 
-// LOGIN / LOGOUT
+// LOGIN / LOGOUT (MENDUKUNG MULTI PETUGAS)
 function checkLoginAndOpenMenu() {
-  if (localStorage.getItem('desapaleleh_admin_logged_in') === 'true') { showPage('view-panel-petugas'); renderAdminNotifikasi(); }
+  if (localStorage.getItem('desapaleleh_admin_logged_in') === 'true') { showPage('view-panel-petugas'); renderAdminNotifikasi(); renderPetugasList(); }
   else { showPage('view-login-petugas'); }
 }
 function handleLogin(event) {
   event.preventDefault();
-  if (document.getElementById('login-user').value === 'admin' && document.getElementById('login-pass').value === 'paleleh2026') {
+  const uInput = document.getElementById('login-user').value.trim();
+  const pInput = document.getElementById('login-pass').value.trim();
+  const listPetugas = getPetugasList();
+
+  const found = listPetugas.find(p => p.user === uInput && p.pass === pInput);
+  if (found) {
     localStorage.setItem('desapaleleh_admin_logged_in', 'true');
     showPage('view-panel-petugas');
     renderAdminNotifikasi();
-  } else { alert('Login Gagal!'); }
+    renderPetugasList();
+  } else {
+    alert('Username atau Password salah!');
+  }
 }
 function handleLogout() { localStorage.removeItem('desapaleleh_admin_logged_in'); showPage('view-beranda'); }
 function switchTab(tabId) {
@@ -614,4 +676,5 @@ window.addEventListener('DOMContentLoaded', () => {
   renderKtPkkList();
   renderKontakData();
   renderAdminNotifikasi();
+  renderPetugasList();
 });
