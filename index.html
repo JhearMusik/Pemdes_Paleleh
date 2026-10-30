@@ -216,19 +216,30 @@
         
         <!-- KEPENDUDUKAN -->
         <section id="view-kependudukan" class="page-view" style="display: none;">
-            <div class="card-content" style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <div class="card-content" style="max-width: 850px; margin: 0 auto; text-align: center;">
                 <h2>Statistik Kependudukan Desa</h2>
                 <p class="text-muted">Rekapitulasi data kependudukan dan kepemilikan dokumen resmi warga Desa Paleleh.</p>
+                
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
                     <div style="background: #e0f2fe; padding: 20px; border-radius: 10px;"><h4>Total Jiwa</h4><h1 id="display-penduduk-total">0</h1></div>
                     <div style="background: #f0fdf4; padding: 20px; border-radius: 10px;"><h4>Laki-laki</h4><h1 id="display-penduduk-l">0</h1></div>
                     <div style="background: #fdf2f8; padding: 20px; border-radius: 10px;"><h4>Perempuan</h4><h1 id="display-penduduk-p">0</h1></div>
                 </div>
+
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
-                    <div style="background: #fef3c7; padding: 20px; border-radius: 10px;"><h4>Kepala Keluarga (KK)</h4><h2 id="display-penduduk-kk">0</h2></div>
-                    <div style="background: #ccfbf1; padding: 20px; border-radius: 10px;"><h4>Memiliki Akta Lahir</h4><h2 id="display-penduduk-akta">0</h2></div>
-                    <div style="background: #fed7aa; padding: 20px; border-radius: 10px;"><h4>Memiliki KIA</h4><h2 id="display-penduduk-kia">0</h2></div>
-                    <div style="background: #e9d5ff; padding: 20px; border-radius: 10px;"><h4>Penerima Bansos</h4><h2 id="display-penduduk-bansos">0</h2></div>
+                    <div style="background: #fef3c7; padding: 20px; border-radius: 10px;"><h4>KK Laki-laki</h4><h2 id="display-penduduk-kk-l">0</h2></div>
+                    <div style="background: #fde68a; padding: 20px; border-radius: 10px;"><h4>KK Perempuan</h4><h2 id="display-penduduk-kk-p">0</h2></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
+                    <div style="background: #fed7aa; padding: 20px; border-radius: 10px;"><h4>Wajib KTP</h4><h2 id="display-penduduk-wajib-ktp">0</h2></div>
+                    <div style="background: #d9f99d; padding: 20px; border-radius: 10px;"><h4>Telah Memiliki KTP</h4><h2 id="display-penduduk-milik-ktp">0</h2></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+                    <div style="background: #ccfbf1; padding: 20px; border-radius: 10px;"><h4>Akta Lahir</h4><h3 id="display-penduduk-akta">0</h3></div>
+                    <div style="background: #e9d5ff; padding: 20px; border-radius: 10px;"><h4>KIA</h4><h3 id="display-penduduk-kia">0</h3></div>
+                    <div style="background: #ffedd5; padding: 20px; border-radius: 10px;"><h4>Penerima Bansos</h4><h3 id="display-penduduk-bansos">0</h3></div>
                 </div>
             </div>
         </section>
@@ -325,12 +336,17 @@
                         <div><label>Jumlah Perempuan:</label><input type="number" id="input-penduduk-p" class="form-control" required></div>
                     </div>
                     <div class="grid-2col" style="margin-bottom: 12px;">
-                        <div><label>Jumlah Kepala Keluarga (KK):</label><input type="number" id="input-penduduk-kk" class="form-control" required></div>
-                        <div><label>Jumlah Memiliki Akta Lahir:</label><input type="number" id="input-penduduk-akta" class="form-control" required></div>
+                        <div><label>Jumlah KK Laki-laki:</label><input type="number" id="input-penduduk-kk-l" class="form-control" required></div>
+                        <div><label>Jumlah KK Perempuan:</label><input type="number" id="input-penduduk-kk-p" class="form-control" required></div>
                     </div>
                     <div class="grid-2col" style="margin-bottom: 12px;">
-                        <div><label>Jumlah Memiliki KIA:</label><input type="number" id="input-penduduk-kia" class="form-control" required></div>
-                        <div><label>Jumlah Penerima Bansos:</label><input type="number" id="input-penduduk-bansos" class="form-control" required></div>
+                        <div><label>Jumlah Wajib KTP:</label><input type="number" id="input-penduduk-wajib-ktp" class="form-control" required></div>
+                        <div><label>Jumlah Telah Memiliki KTP:</label><input type="number" id="input-penduduk-milik-ktp" class="form-control" required></div>
+                    </div>
+                    <div class="grid-3col" style="margin-bottom: 12px;">
+                        <div><label>Jumlah Akta Lahir:</label><input type="number" id="input-penduduk-akta" class="form-control" required></div>
+                        <div><label>Jumlah KIA:</label><input type="number" id="input-penduduk-kia" class="form-control" required></div>
+                        <div><label>Penerima Bansos:</label><input type="number" id="input-penduduk-bansos" class="form-control" required></div>
                     </div>
                     <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Statistik Kependudukan</button>
                 </form>
