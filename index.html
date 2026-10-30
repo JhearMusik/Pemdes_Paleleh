@@ -216,12 +216,19 @@
         
         <!-- KEPENDUDUKAN -->
         <section id="view-kependudukan" class="page-view" style="display: none;">
-            <div class="card-content" style="max-width: 700px; margin: 0 auto; text-align: center;">
-                <h2>Jumlah Penduduk</h2>
+            <div class="card-content" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2>Statistik Kependudukan Desa</h2>
+                <p class="text-muted">Rekapitulasi data kependudukan dan kepemilikan dokumen resmi warga Desa Paleleh.</p>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
                     <div style="background: #e0f2fe; padding: 20px; border-radius: 10px;"><h4>Total Jiwa</h4><h1 id="display-penduduk-total">0</h1></div>
                     <div style="background: #f0fdf4; padding: 20px; border-radius: 10px;"><h4>Laki-laki</h4><h1 id="display-penduduk-l">0</h1></div>
                     <div style="background: #fdf2f8; padding: 20px; border-radius: 10px;"><h4>Perempuan</h4><h1 id="display-penduduk-p">0</h1></div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
+                    <div style="background: #fef3c7; padding: 20px; border-radius: 10px;"><h4>Kepala Keluarga (KK)</h4><h2 id="display-penduduk-kk">0</h2></div>
+                    <div style="background: #ccfbf1; padding: 20px; border-radius: 10px;"><h4>Memiliki Akta Lahir</h4><h2 id="display-penduduk-akta">0</h2></div>
+                    <div style="background: #fed7aa; padding: 20px; border-radius: 10px;"><h4>Memiliki KIA</h4><h2 id="display-penduduk-kia">0</h2></div>
+                    <div style="background: #e9d5ff; padding: 20px; border-radius: 10px;"><h4>Penerima Bansos</h4><h2 id="display-penduduk-bansos">0</h2></div>
                 </div>
             </div>
         </section>
@@ -251,7 +258,7 @@
         <!-- LOGIN ADMIN -->
         <section id="view-login-petugas" class="page-view" style="display: none;">
             <div class="login-card">
-                <h3>Login Admin</h3>
+                <h3>Login Admin / Petugas</h3>
                 <form onsubmit="handleLogin(event)">
                     <div class="form-group"><label>Username:</label><input type="text" id="login-user" class="form-control" required></div>
                     <div class="form-group"><label>Password:</label><input type="password" id="login-pass" class="form-control" required></div>
@@ -269,7 +276,8 @@
 
             <div class="admin-tab-nav">
                 <button id="btn-tab-notifikasi" onclick="switchTab('tab-notifikasi')" class="tab-btn active">Notifikasi (<span id="badge-notif-count">0</span>)</button>
-                <button id="btn-tab-kependudukan" onclick="switchTab('tab-kependudukan')" class="tab-btn">Jumlah Penduduk</button>
+                <button id="btn-tab-petugas" onclick="switchTab('tab-petugas')" class="tab-btn">Kelola Petugas</button>
+                <button id="btn-tab-kependudukan" onclick="switchTab('tab-kependudukan')" class="tab-btn">Statistik Kependudukan</button>
                 <button id="btn-tab-aparat" onclick="switchTab('tab-aparat')" class="tab-btn">Aparat Desa</button>
                 <button id="btn-tab-bpd-lpm" onclick="switchTab('tab-bpd-lpm')" class="tab-btn">BPD & LPM</button>
                 <button id="btn-tab-sarana" onclick="switchTab('tab-sarana')" class="tab-btn">Fasilitas Desa</button>
@@ -292,15 +300,39 @@
                 <div><h4>Pengaduan Masuk (Dilengkapi Bukti & Tombol WA)</h4><div id="admin-list-pengaduan"></div></div>
             </div>
 
-            <!-- TAB PENDUDUK -->
-            <div id="tab-kependudukan" class="admin-tab-content admin-card-box" style="display: none;">
-                <h3 class="admin-section-title">Kelola Jumlah Penduduk</h3>
-                <form onsubmit="saveTotalPenduduk(event)">
+            <!-- TAB KELOLA PETUGAS -->
+            <div id="tab-petugas" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Akun Petugas / Admin Website</h3>
+                <form onsubmit="tambahPetugasBaru(event)">
                     <div class="grid-2col">
-                        <div><label>Laki-laki:</label><input type="number" id="input-penduduk-l" class="form-control" required></div>
-                        <div><label>Perempuan:</label><input type="number" id="input-penduduk-p" class="form-control" required></div>
+                        <div><label>Username Petugas:</label><input type="text" id="input-petugas-user" class="form-control" required></div>
+                        <div><label>Password Petugas:</label><input type="password" id="input-petugas-pass" class="form-control" required></div>
                     </div>
-                    <button type="submit" class="btn-primary" style="margin-top:15px;">Simpan</button>
+                    <button type="submit" class="btn-primary" style="margin-top:15px;"><i class="fas fa-user-plus"></i> Tambah Petugas</button>
+                </form>
+                <div style="margin-top:25px;">
+                    <h4>Daftar Petugas / Admin Terdaftar</h4>
+                    <div id="admin-list-petugas"></div>
+                </div>
+            </div>
+
+            <!-- TAB KEPENDUDUKAN -->
+            <div id="tab-kependudukan" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Statistik Kependudukan</h3>
+                <form onsubmit="saveTotalPenduduk(event)">
+                    <div class="grid-2col" style="margin-bottom: 12px;">
+                        <div><label>Jumlah Laki-laki:</label><input type="number" id="input-penduduk-l" class="form-control" required></div>
+                        <div><label>Jumlah Perempuan:</label><input type="number" id="input-penduduk-p" class="form-control" required></div>
+                    </div>
+                    <div class="grid-2col" style="margin-bottom: 12px;">
+                        <div><label>Jumlah Kepala Keluarga (KK):</label><input type="number" id="input-penduduk-kk" class="form-control" required></div>
+                        <div><label>Jumlah Memiliki Akta Lahir:</label><input type="number" id="input-penduduk-akta" class="form-control" required></div>
+                    </div>
+                    <div class="grid-2col" style="margin-bottom: 12px;">
+                        <div><label>Jumlah Memiliki KIA:</label><input type="number" id="input-penduduk-kia" class="form-control" required></div>
+                        <div><label>Jumlah Penerima Bansos:</label><input type="number" id="input-penduduk-bansos" class="form-control" required></div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Statistik Kependudukan</button>
                 </form>
             </div>
 
