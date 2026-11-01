@@ -16,8 +16,6 @@ function changeFontSize(amount) {
   if (currentFontScale < 0.8) currentFontScale = 0.8;
   if (currentFontScale > 1.6) currentFontScale = 1.6;
   document.documentElement.style.setProperty('--font-scale', currentFontScale);
-  const display = document.getElementById('fontSizeDisplay');
-  if (display) display.innerText = Math.round(currentFontScale * 100) + '%';
 }
 
 function parseYoutubeEmbedUrl(url) {
@@ -727,27 +725,6 @@ function saveKontakData(e) {
   alert('Kontak dan lokasi berhasil disimpan!');
 }
 
-// Inisialisasi Saat Halaman Dimuat
-window.addEventListener('DOMContentLoaded', () => {
-  renderBerandaData();
-  renderKegiatanList();
-  renderPendudukData();
-  renderGeografisData();
-  renderAparatList();
-  renderPengurusBpdLpmList();
-  renderSaranaList();
-  renderAnggaranData();
-  renderVideoList();
-  renderTautanList();
-  renderSejarah();
-  renderVisiMisi();
-  renderTupoksiList();
-  renderStruktur();
-  renderKtPkkList();
-  renderKontakData();
-  renderAdminNotifikasi();
-  renderPetugasList();
-});
 // ==========================================
 // KAMUS BAHASA INDONESIA & ENGLISH
 // ==========================================
@@ -820,6 +797,9 @@ function changeLanguage(lang) {
   });
 }
 
+// ==========================================
+// FUNGSI UTuh FITUR AKSESIBILITAS & TOGGLE
+// ==========================================
 function toggleAccFeature(feature, isActive) {
   const b = document.body;
   if (feature === 'rabun') isActive ? b.classList.add('acc-rabun') : b.classList.remove('acc-rabun');
@@ -863,3 +843,31 @@ function resetAllAccessibility() {
   enableSpeechMode(false);
   alert('Pengaturan aksesibilitas berhasil direset!');
 }
+
+// Inisialisasi Saat Halaman Dimuat
+window.addEventListener('DOMContentLoaded', () => {
+  renderBerandaData();
+  renderKegiatanList();
+  renderPendudukData();
+  renderGeografisData();
+  renderAparatList();
+  renderPengurusBpdLpmList();
+  renderSaranaList();
+  renderAnggaranData();
+  renderVideoList();
+  renderTautanList();
+  renderSejarah();
+  renderVisiMisi();
+  renderTupoksiList();
+  renderStruktur();
+  renderKtPkkList();
+  renderKontakData();
+  renderAdminNotifikasi();
+  renderPetugasList();
+
+  // Load Bahasa Tersimpan
+  const savedLang = localStorage.getItem('desapaleleh_lang') || 'id';
+  const langSelect = document.getElementById('accLanguageSelector');
+  if (langSelect) langSelect.value = savedLang;
+  changeLanguage(savedLang);
+});
