@@ -10,246 +10,23 @@ function toggleAccessibilityModal() {
   if (modal) modal.classList.toggle('active');
 }
 
-// ==========================================
-// KAMUS MULTI-BAHASA (INDONESIA & ENGLISH)
-// Mudah ditambahkan untuk bahasa lain!
-// ==========================================
-const translations = {
-  id: {
-    nav_kab: "PEMERINTAH KABUPATEN BUOL",
-    nav_kec: "KECAMATAN PALELEH",
-    nav_des: "PEMERINTAH DESA PALELEH",
-    menu_beranda: "Beranda",
-    menu_profil: "Profil Desa",
-    sub_sejarah: "Sejarah Desa",
-    sub_geografis: "Kondisi Geografis",
-    sub_visimisi: "Visi & Misi",
-    sub_tupoksi: "Tupoksi Perangkat Desa",
-    sub_struktur: "Struktur Organisasi",
-    sub_aparat: "Aparat & Staf Desa",
-    menu_sarana: "Fasilitas Desa",
-    menu_lembaga: "Lembaga Desa",
-    menu_penduduk: "Kependudukan",
-    menu_anggaran: "Anggaran Desa",
-    menu_tautan: "Tautan",
-    menu_layanan: "Layanan Desa",
-    sub_permohonan: "Permohonan Surat",
-    sub_pengaduan: "Pengaduan Masyarakat",
-    menu_admin: "Panel Admin",
-    menu_kontak: "Kontak",
-    acc_title: "Fitur Aksesibilitas",
-    acc_lang_title: "Bahasa / Language",
-    acc_text_size: "UKURAN TEKS",
-    acc_larger_text: "Perbesar Teks",
-    acc_smaller_text: "Perkecil Teks",
-    acc_profile_title: "PROFIL AKSESIBILITAS",
-    acc_profile_blind: "Profil Rabun",
-    acc_profile_blind_desc: "Kontras tinggi & teks tebal",
-    acc_profile_heading: "Sorot Judul",
-    acc_profile_heading_desc: "Tandai heading di halaman",
-    acc_profile_font: "Ketebalan Font",
-    acc_profile_font_desc: "Menebalkan seluruh teks",
-    acc_profile_link: "Sorot Tautan",
-    acc_profile_link_desc: "Garis bawahi semua tautan",
-    acc_profile_spacing: "Jarak Huruf",
-    acc_profile_spacing_desc: "Perlebar jarak antar huruf",
-    acc_color_title: "PENYESUAIAN WARNA",
-    acc_color_high: "Kontras Tinggi",
-    acc_color_mono: "Monokrom (Hitam-Putih)",
-    acc_color_light: "Latar Belakang Cerah",
-    acc_tools_title: "ALAT BANTU VISUAL & NAVIGASI",
-    acc_tools_cursor: "Kursor Besar",
-    acc_tools_cursor_desc: "Perbesar penunjuk mouse",
-    acc_tools_audio: "Mode Suara (Text-to-Speech)",
-    acc_tools_audio_desc: "Bacakan teks saat kursor diarahkan ke teks",
-    acc_reset: "Reset Semua Pengaturan",
-    hero_title: "Selamat Datang di Portal Resmi Pemerintah Desa Paleleh",
-    hero_subtitle: "Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera",
-    hero_btn: "Ajukan Surat Keterangan Online",
-    banner_title: "Layanan Administrasi Desa Mandiri",
-    banner_desc: "Pengurusan Surat Keterangan dan Pengaduan Masyarakat kini dapat diajukan secara online.",
-    banner_btn: "Buka Portal Layanan",
-    kades_title: "Sambutan Kepala Desa",
-    kades_name: "Kepala Desa Paleleh",
-    news_title: "Berita & Kegiatan Desa Terbaru",
-    no_news: "Belum ada informasi kegiatan.",
-    video_title: "Galeri Video & Informasi Publik",
-    no_video: "Belum ada video.",
-    surat_header: "Permohonan Penerbitan Surat",
-    label_nama: "Nama Lengkap Pemohon:",
-    label_nik: "NIK Pemohon:",
-    label_wa: "Nomor WhatsApp Aktif:",
-    label_jenissurat: "Jenis Surat:",
-    label_keperluan: "Keperluan:",
-    label_berkas: "Upload Berkas Persyaratan (Max 5MB):",
-    btn_kirim: "Kirim Permohonan",
-    cek_surat_title: "Cek Status Permohonan Surat",
-    btn_cek: "Cek",
-    aduan_header: "Pengaduan Masyarakat",
-    aduan_nama: "Nama Pelapor:",
-    aduan_telp: "Nomor WhatsApp / HP Aktif:",
-    aduan_pesan: "Isi Pengaduan:",
-    aduan_berkas: "Upload Berkas / Bukti Dukung (Max 5MB):",
-    aduan_btn: "Kirim Pengaduan",
-    cek_aduan_title: "Cek Status Pengaduan"
-  },
-  en: {
-    nav_kab: "BUOL REGENCY GOVERNMENT",
-    nav_kec: "PALELEH SUB-DISTRICT",
-    nav_des: "PALELEH VILLAGE GOVERNMENT",
-    menu_beranda: "Home",
-    menu_profil: "Village Profile",
-    sub_sejarah: "Village History",
-    sub_geografis: "Geographical Condition",
-    sub_visimisi: "Vision & Mission",
-    sub_tupoksi: "Duty & Function",
-    sub_struktur: "Organizational Structure",
-    sub_aparat: "Village Apparatus & Staff",
-    menu_sarana: "Village Facilities",
-    menu_lembaga: "Village Institutions",
-    menu_penduduk: "Population",
-    menu_anggaran: "Village Budget",
-    menu_tautan: "Links",
-    menu_layanan: "Village Services",
-    sub_permohonan: "Letter Request",
-    sub_pengaduan: "Public Complaints",
-    menu_admin: "Admin Panel",
-    menu_kontak: "Contact",
-    acc_title: "Accessibility Features",
-    acc_lang_title: "Bahasa / Language",
-    acc_text_size: "TEXT SIZE",
-    acc_larger_text: "Larger Text",
-    acc_smaller_text: "Smaller Text",
-    acc_profile_title: "ACCESSIBILITY PROFILES",
-    acc_profile_blind: "Blind Profile",
-    acc_profile_blind_desc: "High contrast & bold text",
-    acc_profile_heading: "Highlight Headings",
-    acc_profile_heading_desc: "Highlight headings on page",
-    acc_profile_font: "Font Weight",
-    acc_profile_font_desc: "Thicken all text",
-    acc_profile_link: "Highlight Links",
-    acc_profile_link_desc: "Underline all links",
-    acc_profile_spacing: "Letter Spacing",
-    acc_profile_spacing_desc: "Widen spacing between letters",
-    acc_color_title: "COLOR ADJUSTMENTS",
-    acc_color_high: "High Contrast",
-    acc_color_mono: "Monochrome (Black-White)",
-    acc_color_light: "Light Background",
-    acc_tools_title: "VISUAL & NAVIGATION TOOLS",
-    acc_tools_cursor: "Big Cursor",
-    acc_tools_cursor_desc: "Enlarge mouse pointer",
-    acc_tools_audio: "Audio Mode (Text-to-Speech)",
-    acc_tools_audio_desc: "Read text aloud on hover",
-    acc_reset: "Reset All Settings",
-    hero_title: "Welcome to the Official Portal of Paleleh Village Government",
-    hero_subtitle: "Realizing Transparent, Accountable, and Prosperous Village Governance",
-    hero_btn: "Apply Online Letter",
-    banner_title: "Independent Village Administration Services",
-    banner_desc: "Letter requests and public complaints can now be submitted online.",
-    banner_btn: "Open Services Portal",
-    kades_title: "Head Village Welcome Message",
-    kades_name: "Head of Paleleh Village",
-    news_title: "Latest Village News & Activities",
-    no_news: "No activity information available.",
-    video_title: "Video Gallery & Public Info",
-    no_video: "No video available.",
-    surat_header: "Letter Issuance Request",
-    label_nama: "Applicant Full Name:",
-    label_nik: "Applicant NIK:",
-    label_wa: "Active WhatsApp Number:",
-    label_jenissurat: "Letter Type:",
-    label_keperluan: "Purpose:",
-    label_berkas: "Upload Requirement File (Max 5MB):",
-    btn_kirim: "Send Request",
-    cek_surat_title: "Check Letter Request Status",
-    btn_cek: "Check",
-    aduan_header: "Public Complaints",
-    aduan_nama: "Reporter Name:",
-    aduan_telp: "Active WhatsApp / Phone Number:",
-    aduan_pesan: "Complaint Message:",
-    aduan_berkas: "Upload Evidence File (Max 5MB):",
-    aduan_btn: "Send Complaint",
-    cek_aduan_title: "Check Complaint Status"
-  }
-};
-
-function changeLanguage(lang) {
-  localStorage.setItem('desapaleleh_lang', lang);
-  const elements = document.querySelectorAll('[data-i18n]');
-  elements.forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[lang] && translations[lang][key]) {
-      el.innerText = translations[lang][key];
-    }
-  });
+let currentFontScale = 1;
+function changeFontSize(amount) {
+  currentFontScale += amount / 100;
+  if (currentFontScale < 0.8) currentFontScale = 0.8;
+  if (currentFontScale > 1.6) currentFontScale = 1.6;
+  document.documentElement.style.setProperty('--font-scale', currentFontScale);
+  const display = document.getElementById('fontSizeDisplay');
+  if (display) display.innerText = Math.round(currentFontScale * 100) + '%';
 }
 
-// ==========================================
-// FITUR AKSESIBILITAS INTERAKTIF
-// ==========================================
-let currentFontSizeMultiplier = 1;
-
-function adjustFontSize(direction) {
-  currentFontSizeMultiplier += direction * 0.1;
-  if (currentFontSizeMultiplier < 0.9) currentFontSizeMultiplier = 0.9;
-  if (currentFontSizeMultiplier > 1.5) currentFontSizeMultiplier = 1.5;
-  document.documentElement.style.fontSize = (currentFontSizeMultiplier * 100) + '%';
-}
-
-function toggleProfile(profileKey, isActive) {
-  const body = document.body;
-  if (profileKey === 'blind') {
-    isActive ? body.classList.add('acc-profile-blind') : body.classList.remove('acc-profile-blind');
-  } else if (profileKey === 'heading') {
-    isActive ? body.classList.add('acc-profile-heading') : body.classList.remove('acc-profile-heading');
-  } else if (profileKey === 'font') {
-    isActive ? body.classList.add('acc-profile-font') : body.classList.remove('acc-profile-font');
-  } else if (profileKey === 'link') {
-    isActive ? body.classList.add('acc-profile-link') : body.classList.remove('acc-profile-link');
-  } else if (profileKey === 'spacing') {
-    isActive ? body.classList.add('acc-profile-spacing') : body.classList.remove('acc-profile-spacing');
-  } else if (profileKey === 'highcontrast') {
-    isActive ? body.classList.add('acc-color-high') : body.classList.remove('acc-color-high');
-  } else if (profileKey === 'mono') {
-    isActive ? body.classList.add('acc-color-mono') : body.classList.remove('acc-color-mono');
-  } else if (profileKey === 'lightbg') {
-    isActive ? body.classList.add('acc-color-light') : body.classList.remove('acc-color-light');
-  } else if (profileKey === 'bigcursor') {
-    isActive ? body.classList.add('acc-tools-cursor') : body.classList.remove('acc-tools-cursor');
-  } else if (profileKey === 'audio') {
-    isActive ? enableTextToSpeech(true) : enableTextToSpeech(false);
-  }
-}
-
-// Text to Speech (Mode Suara)
-function handleMouseOverSpeech(e) {
-  if (e.target && e.target.innerText && window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(e.target.innerText.substring(0, 100));
-    utterance.lang = localStorage.getItem('desapaleleh_lang') || 'id';
-    window.speechSynthesis.speak(utterance);
-  }
-}
-
-function enableTextToSpeech(enable) {
-  if (enable) {
-    document.addEventListener('mouseover', handleMouseOverSpeech);
-  } else {
-    document.removeEventListener('mouseover', handleMouseOverSpeech);
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-  }
-}
-
-function resetAccessibility() {
-  currentFontSizeMultiplier = 1;
-  document.documentElement.style.fontSize = '100%';
-  document.body.className = '';
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  
-  // Uncheck semua checkbox
-  document.querySelectorAll('.accessibility-modal input[type="checkbox"]').forEach(cb => cb.checked = false);
-  enableTextToSpeech(false);
-  alert('Semua pengaturan aksesibilitas telah direset!');
+function parseYoutubeEmbedUrl(url) {
+  if (!url) return '';
+  let videoId = '';
+  if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0];
+  else if (url.includes('youtube.com/watch')) videoId = new URLSearchParams(url.split('?')[1]).get('v');
+  else if (url.includes('youtube.com/embed/')) videoId = url.split('youtube.com/embed/')[1].split('?')[0];
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
 }
 
 function validateFileSize(input) {
@@ -950,22 +727,6 @@ function saveKontakData(e) {
   alert('Kontak dan lokasi berhasil disimpan!');
 }
 
-// CSS Tambahan untuk Profil Aksesibilitas di script.js (Inject otomatis)
-const accStyle = document.createElement('style');
-accStyle.innerHTML = `
-  body.acc-profile-blind { background: #000 !important; color: #ff0 !important; }
-  body.acc-profile-blind * { background: #000 !important; color: #ff0 !important; border-color: #ff0 !important; }
-  body.acc-profile-heading h1, body.acc-profile-heading h2, body.acc-profile-heading h3, body.acc-profile-heading h4 { background-color: #ffeb3b !important; color: #000 !important; padding: 2px 6px; }
-  body.acc-profile-font, body.acc-profile-font * { font-weight: bold !important; }
-  body.acc-profile-link a { text-decoration: underline !important; color: #dc2626 !important; font-weight: bold; }
-  body.acc-profile-spacing, body.acc-profile-spacing * { letter-spacing: 2px !important; }
-  body.acc-color-high { filter: contrast(150%); }
-  body.acc-color-mono { filter: grayscale(100%); }
-  body.acc-color-light { background: #fff !important; color: #000 !important; }
-  body.acc-tools-cursor, body.acc-tools-cursor * { cursor: url('https://maps.google.com/mapfiles/ms/icons/red-dot.png'), auto !important; }
-`;
-document.head.appendChild(accStyle);
-
 // Inisialisasi Saat Halaman Dimuat
 window.addEventListener('DOMContentLoaded', () => {
   renderBerandaData();
@@ -986,10 +747,119 @@ window.addEventListener('DOMContentLoaded', () => {
   renderKontakData();
   renderAdminNotifikasi();
   renderPetugasList();
-
-  // Load Bahasa Tersimpan
-  const savedLang = localStorage.getItem('desapaleleh_lang') || 'id';
-  const langSelect = document.getElementById('languageSelector');
-  if (langSelect) langSelect.value = savedLang;
-  changeLanguage(savedLang);
 });
+// ==========================================
+// KAMUS BAHASA INDONESIA & ENGLISH
+// ==========================================
+const translations = {
+  id: {
+    acc_title: "Fitur Aksesibilitas",
+    acc_lang: "Bahasa / Language",
+    acc_text_size: "UKURAN TEKS",
+    acc_zoom_in: "Perbesar Teks",
+    acc_zoom_out: "Perkecil Teks",
+    acc_profiles: "PROFIL AKSESIBILITAS",
+    acc_rabun: "Profil Rabun",
+    acc_rabun_sub: "Kontras tinggi & teks tebal",
+    acc_heading: "Sorot Judul",
+    acc_heading_sub: "Tandai heading di halaman",
+    acc_font: "Ketebalan Font",
+    acc_font_sub: "Menebalkan seluruh teks",
+    acc_link: "Sorot Tautan",
+    acc_link_sub: "Garis bawahi semua tautan",
+    acc_spacing: "Jarak Huruf",
+    acc_spacing_sub: "Perlebar jarak antar huruf",
+    acc_color: "PENYESUAIAN WARNA",
+    acc_high_contrast: "Kontras Tinggi",
+    acc_mono: "Monokrom (Hitam-Putih)",
+    acc_light_bg: "Latar Belakang Cerah",
+    acc_tools: "ALAT BANTU VISUAL & NAVIGASI",
+    acc_big_cursor: "Kursor Besar",
+    acc_big_cursor_sub: "Perbesar penunjuk mouse",
+    acc_tts: "Mode Suara",
+    acc_tts_sub: "Bacakan teks saat kursor diarahkan ke teksnya",
+    acc_reset: "Reset Semua Pengaturan"
+  },
+  en: {
+    acc_title: "Accessibility Features",
+    acc_lang: "Bahasa / Language",
+    acc_text_size: "TEXT SIZE",
+    acc_zoom_in: "Larger Text",
+    acc_zoom_out: "Smaller Text",
+    acc_profiles: "ACCESSIBILITY PROFILES",
+    acc_rabun: "Blind Profile",
+    acc_rabun_sub: "High contrast & bold text",
+    acc_heading: "Highlight Headings",
+    acc_heading_sub: "Highlight headings on page",
+    acc_font: "Font Weight",
+    acc_font_sub: "Thicken all text",
+    acc_link: "Highlight Links",
+    acc_link_sub: "Underline all links",
+    acc_spacing: "Letter Spacing",
+    acc_spacing_sub: "Widen spacing between letters",
+    acc_color: "COLOR ADJUSTMENTS",
+    acc_high_contrast: "High Contrast",
+    acc_mono: "Monochrome (Black-White)",
+    acc_light_bg: "Light Background",
+    acc_tools: "VISUAL & NAVIGATION TOOLS",
+    acc_big_cursor: "Big Cursor",
+    acc_big_cursor_sub: "Enlarge mouse pointer",
+    acc_tts: "Voice Mode",
+    acc_tts_sub: "Read text when mouse hovers over text",
+    acc_reset: "Reset All Settings"
+  }
+};
+
+function changeLanguage(lang) {
+  localStorage.setItem('desapaleleh_lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key]) {
+      el.innerText = translations[lang][key];
+    }
+  });
+}
+
+function toggleAccFeature(feature, isActive) {
+  const b = document.body;
+  if (feature === 'rabun') isActive ? b.classList.add('acc-rabun') : b.classList.remove('acc-rabun');
+  if (feature === 'heading') isActive ? b.classList.add('acc-heading') : b.classList.remove('acc-heading');
+  if (feature === 'font') isActive ? b.classList.add('acc-font') : b.classList.remove('acc-font');
+  if (feature === 'link') isActive ? b.classList.add('acc-link') : b.classList.remove('acc-link');
+  if (feature === 'spacing') isActive ? b.classList.add('acc-spacing') : b.classList.remove('acc-spacing');
+  if (feature === 'contrast') isActive ? b.classList.add('acc-contrast') : b.classList.remove('acc-contrast');
+  if (feature === 'mono') isActive ? b.classList.add('acc-mono') : b.classList.remove('acc-mono');
+  if (feature === 'lightbg') isActive ? b.classList.add('acc-lightbg') : b.classList.remove('acc-lightbg');
+  if (feature === 'cursor') isActive ? b.classList.add('acc-cursor') : b.classList.remove('acc-cursor');
+  if (feature === 'tts') enableSpeechMode(isActive);
+}
+
+function enableSpeechMode(enable) {
+  if (enable) {
+    document.addEventListener('mouseover', speakHoverText);
+  } else {
+    document.removeEventListener('mouseover', speakHoverText);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+}
+
+function speakHoverText(e) {
+  if (e.target && e.target.innerText && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    const txt = e.target.innerText.trim().substring(0, 120);
+    if (txt) {
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = localStorage.getItem('desapaleleh_lang') === 'en' ? 'en-US' : 'id-ID';
+      window.speechSynthesis.speak(u);
+    }
+  }
+}
+
+function resetAllAccessibility() {
+  currentFontScale = 1;
+  document.documentElement.style.setProperty('--font-scale', 1);
+  document.body.className = '';
+  document.querySelectorAll('.accessibility-modal input[type="checkbox"]').forEach(c => c.checked = false);
+  enableSpeechMode(false);
+  alert('Pengaturan aksesibilitas berhasil direset!');
+}
