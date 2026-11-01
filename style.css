@@ -559,3 +559,77 @@ footer { background: linear-gradient(135deg, var(--primary-color) 0%, #04382c 10
 body.acc-color-high { filter: contrast(150%); }
 body.acc-color-mono { filter: grayscale(100%); }
 body.acc-color-light { background: #fff !important; color: #000 !important; }
+/* ==========================================
+   EFEK UTUH FITUR AKSESIBILITAS WEBSITE
+   ========================================== */
+
+/* 1. Profil Rabun (Kontras Tinggi & Teks Kuning Terang) */
+body.acc-rabun { 
+    background-color: #000000 !important; 
+    color: #ffff00 !important; 
+}
+body.acc-rabun *, body.acc-rabun div, body.acc-rabun section, body.acc-rabun header, body.acc-rabun footer { 
+    background-color: #000000 !important; 
+    color: #ffff00 !important; 
+    border-color: #ffff00 !important; 
+}
+
+/* 2. Sorot Judul (Heading) */
+body.acc-heading h1, 
+body.acc-heading h2, 
+body.acc-heading h3, 
+body.acc-heading h4, 
+body.acc-heading h5, 
+body.acc-heading h6 { 
+    outline: 3px solid #0d6efd !important; 
+    background-color: #dbeafe !important; 
+    color: #1e3a8a !important;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* 3. Ketebalan Font */
+body.acc-font, 
+body.acc-font * { 
+    font-weight: 800 !important; 
+}
+
+/* 4. Sorot Tautan (Links) */
+body.acc-link a { 
+    text-decoration: underline !important; 
+    color: #e11d48 !important; 
+    background-color: #ffe4e6 !important;
+    font-weight: bold !important; 
+}
+
+/* 5. Jarak Huruf (Letter Spacing) */
+body.acc-spacing, 
+body.acc-spacing * { 
+    letter-spacing: 2px !important; 
+}
+
+/* 6. Kontras Tinggi */
+body.acc-contrast { 
+    filter: contrast(175%) !important; 
+}
+
+/* 7. Monokrom (Hitam Putih) */
+body.acc-mono { 
+    filter: grayscale(100%) !important; 
+}
+
+/* 8. Latar Belakang Cerah */
+body.acc-lightbg { 
+    background-color: #ffffff !important; 
+    color: #000000 !important; 
+}
+body.acc-lightbg *, body.acc-lightbg div, body.acc-lightbg section {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* 9. Kursor Besar */
+body.acc-cursor, 
+body.acc-cursor * { 
+    cursor: zoom-in !important; 
+}
