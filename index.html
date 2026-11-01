@@ -15,47 +15,47 @@
             <div class="logo-container" onclick="showPage('view-beranda')">
                 <img id="display-navbar-logo" src="https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg" alt="Logo Buol" style="width: 45px; height: 45px; object-fit: contain; border-radius: 50%;">
                 <div class="logo-text-stack">
-                    <span class="logo-line-1" data-i18n="nav_kab">PEMERINTAH KABUPATEN BUOL</span>
-                    <span class="logo-line-2" data-i18n="nav_kec">KECAMATAN PALELEH</span>
-                    <span class="logo-line-3" data-i18n="nav_des">PEMERINTAH DESA PALELEH</span>
+                    <span class="logo-line-1">PEMERINTAH KABUPATEN BUOL</span>
+                    <span class="logo-line-2">KECAMATAN PALELEH</span>
+                    <span class="logo-line-3">PEMERINTAH DESA PALELEH</span>
                 </div>
             </div>
             <ul class="nav-menu">
-                <li><a class="nav-link active" onclick="showPage('view-beranda')"><i class="fas fa-home"></i> <span data-i18n="menu_beranda">Beranda</span></a></li>
+                <li><a class="nav-link active" onclick="showPage('view-beranda')"><i class="fas fa-home"></i> Beranda</a></li>
                 <li class="dropdown">
-                    <a class="nav-link"><i class="fas fa-id-card"></i> <span data-i18n="menu_profil">Profil Desa</span> <i class="fas fa-chevron-down"></i></a>
+                    <a class="nav-link"><i class="fas fa-id-card"></i> Profil Desa <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a onclick="showPage('view-sejarah')"><i class="fas fa-history"></i> <span data-i18n="sub_sejarah">Sejarah Desa</span></a></li>
-                        <li><a onclick="showPage('view-geografis')"><i class="fas fa-map-marked-alt"></i> <span data-i18n="sub_geografis">Kondisi Geografis</span></a></li>
-                        <li><a onclick="showPage('view-visimisi')"><i class="fas fa-bullseye"></i> <span data-i18n="sub_visimisi">Visi & Misi</span></a></li>
-                        <li><a onclick="showPage('view-tupoksi')"><i class="fas fa-tasks"></i> <span data-i18n="sub_tupoksi">Tupoksi Perangkat Desa</span></a></li>
-                        <li><a onclick="showPage('view-struktur')"><i class="fas fa-sitemap"></i> <span data-i18n="sub_struktur">Struktur Organisasi</span></a></li>
-                        <li><a onclick="showPage('view-aparat')"><i class="fas fa-user-shield"></i> <span data-i18n="sub_aparat">Aparat & Staf Desa</span></a></li>
+                        <li><a onclick="showPage('view-sejarah')"><i class="fas fa-history"></i> Sejarah Desa</a></li>
+                        <li><a onclick="showPage('view-geografis')"><i class="fas fa-map-marked-alt"></i> Kondisi Geografis</a></li>
+                        <li><a onclick="showPage('view-visimisi')"><i class="fas fa-bullseye"></i> Visi & Misi</a></li>
+                        <li><a onclick="showPage('view-tupoksi')"><i class="fas fa-tasks"></i> Tupoksi Perangkat Desa</a></li>
+                        <li><a onclick="showPage('view-struktur')"><i class="fas fa-sitemap"></i> Struktur Organisasi Desa</a></li>
+                        <li><a onclick="showPage('view-aparat')"><i class="fas fa-user-shield"></i> Aparat & Staf Desa</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link" onclick="showPage('view-sarana')"><i class="fas fa-building"></i> <span data-i18n="menu_sarana">Fasilitas Desa</span></a></li>
+                <li><a class="nav-link" onclick="showPage('view-sarana')"><i class="fas fa-building"></i> Fasilitas & Sarana Desa</a></li>
                 <li class="dropdown">
-                    <a class="nav-link"><i class="fas fa-users-cog"></i> <span data-i18n="menu_lembaga">Lembaga Desa</span> <i class="fas fa-chevron-down"></i></a>
+                    <a class="nav-link"><i class="fas fa-users-cog"></i> Lembaga Desa <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a onclick="showPage('view-bpd-lpm')"><i class="fas fa-landmark"></i> BPD & LPM</a></li>
                         <li><a onclick="showPage('view-karangtaruna-pkk')"><i class="fas fa-hands-helping"></i> Karang Taruna & PKK</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link" onclick="showPage('view-kependudukan')"><i class="fas fa-users"></i> <span data-i18n="menu_penduduk">Kependudukan</span></a></li>
-                <li><a class="nav-link" onclick="showPage('view-anggaran')"><i class="fas fa-coins"></i> <span data-i18n="menu_anggaran">Anggaran Desa</span></a></li>
+                <li><a class="nav-link" onclick="showPage('view-kependudukan')"><i class="fas fa-users"></i> Kependudukan</a></li>
+                <li><a class="nav-link" onclick="showPage('view-anggaran')"><i class="fas fa-coins"></i> Anggaran Desa</a></li>
                 <li class="dropdown">
-                    <a class="nav-link"><i class="fas fa-link"></i> <span data-i18n="menu_tautan">Tautan</span> <i class="fas fa-chevron-down"></i></a>
+                    <a class="nav-link"><i class="fas fa-link"></i> Tautan <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu" id="display-navbar-tautan"></ul>
                 </li>
                 <li class="dropdown">
-                    <a class="nav-link btn-layanan-surat"><i class="fas fa-file-alt"></i> <span data-i18n="menu_layanan">Layanan Desa</span> <i class="fas fa-chevron-down"></i></a>
+                    <a class="nav-link btn-layanan-surat"><i class="fas fa-file-alt"></i> Layanan Desa <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a onclick="showPage('view-layanan-surat')"><i class="fas fa-file-signature"></i> <span data-i18n="sub_permohonan">Permohonan Surat</span></a></li>
-                        <li><a onclick="showPage('view-pengaduan')"><i class="fas fa-bullhorn"></i> <span data-i18n="sub_pengaduan">Pengaduan Masyarakat</span></a></li>
+                        <li><a onclick="showPage('view-layanan-surat')"><i class="fas fa-file-signature"></i> Permohonan Surat</a></li>
+                        <li><a onclick="showPage('view-pengaduan')"><i class="fas fa-bullhorn"></i> Pengaduan Masyarakat</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link" onclick="checkLoginAndOpenMenu()"><i class="fas fa-user-lock"></i> <span data-i18n="menu_admin">Panel Admin</span></a></li>
-                <li><a class="nav-link" onclick="showPage('view-kontak')"><i class="fas fa-map-marker-alt"></i> <span data-i18n="menu_kontak">Kontak</span></a></li>
+                <li><a class="nav-link" onclick="checkLoginAndOpenMenu()"><i class="fas fa-user-lock"></i> Panel Admin Desa</a></li>
+                <li><a class="nav-link" onclick="showPage('view-kontak')"><i class="fas fa-map-marker-alt"></i> Kontak</a></li>
             </ul>
         </nav>
     </header>
@@ -65,7 +65,7 @@
         <i class="fas fa-universal-access"></i>
     </button>
 
-    <!-- MODAL AKSESIBILITAS (SEPERTI GAMBAR REFERENSI) -->
+   <!-- MODAL AKSESIBILITAS SIDEBAR (PERSIS GAMBAR REFERENSI) -->
     <div id="accessibilityModal" class="accessibility-modal">
         <div class="accessibility-content">
             <div class="accessibility-header">
@@ -74,115 +74,120 @@
             </div>
             
             <div class="accessibility-body">
-                <!-- PEMILIH BAHASA -->
-                <div class="acc-section">
-                    <label class="acc-label"><i class="fas fa-globe"></i> <span data-i18n="acc_lang_title">Bahasa / Language</span></label>
-                    <select id="languageSelector" class="form-control" onchange="changeLanguage(this.value)">
-                        <option value="id">🇮🇩 Bahasa Indonesia</option>
-                        <option value="en">🇬🇧 English</option>
-                        <!-- Tambahkan bahasa lain di sini dengan mudah -->
+                <!-- PILIHAN BAHASA -->
+                <div class="acc-lang-box">
+                    <label class="acc-label"><i class="fas fa-globe"></i> <span data-i18n="acc_lang">Bahasa / Language</span></label>
+                    <select id="accLanguageSelector" class="acc-select" onchange="changeLanguage(this.value)">
+                        <option value="id">🇮🇩 ID Bahasa Indonesia</option>
+                        <option value="en">🇬🇧 EN English</option>
                     </select>
                 </div>
 
                 <!-- UKURAN TEKS -->
                 <div class="acc-section">
-                    <label class="acc-label" data-i18n="acc_text_size">UKURAN TEKS</label>
+                    <span class="acc-section-label" data-i18n="acc_text_size">UKURAN TEKS</span>
                     <div class="acc-btn-grid">
-                        <button onclick="adjustFontSize(1)" class="acc-action-btn"><i class="fas fa-search-plus"></i> <span data-i18n="acc_larger_text">Perbesar Teks</span></button>
-                        <button onclick="adjustFontSize(-1)" class="acc-action-btn"><i class="fas fa-search-minus"></i> <span data-i18n="acc_smaller_text">Perkecil Teks</span></button>
+                        <button onclick="changeFontSize(10)" class="acc-action-btn">
+                            <i class="fas fa-search-plus"></i>
+                            <span data-i18n="acc_zoom_in">Perbesar Teks</span>
+                        </button>
+                        <button onclick="changeFontSize(-10)" class="acc-action-btn">
+                            <i class="fas fa-search-minus"></i>
+                            <span data-i18n="acc_zoom_out">Perkecil Teks</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- PROFIL AKSESIBILITAS -->
                 <div class="acc-section">
-                    <label class="acc-label" data-i18n="acc_profile_title">PROFIL AKSESIBILITAS</label>
+                    <span class="acc-section-label" data-i18n="acc_profiles">PROFIL AKSESIBILITAS</span>
                     
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_profile_blind">Profil Rabun</strong>
-                            <small data-i18n="acc_profile_blind_desc">Kontras tinggi & teks tebal</small>
+                            <strong data-i18n="acc_rabun">Profil Rabun</strong>
+                            <small data-i18n="acc_rabun_sub">Kontras tinggi & teks tebal</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-blind" onchange="toggleProfile('blind', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-rabun" onchange="toggleAccFeature('rabun', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_profile_heading">Sorot Judul</strong>
-                            <small data-i18n="acc_profile_heading_desc">Tandai heading di halaman</small>
+                            <strong data-i18n="acc_heading">Sorot Judul</strong>
+                            <small data-i18n="acc_heading_sub">Tandai heading di halaman</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-heading" onchange="toggleProfile('heading', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-heading" onchange="toggleAccFeature('heading', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_profile_font">Ketebalan Font</strong>
-                            <small data-i18n="acc_profile_font_desc">Menebalkan seluruh teks</small>
+                            <strong data-i18n="acc_font">Ketebalan Font</strong>
+                            <small data-i18n="acc_font_sub">Menebalkan seluruh teks</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-font" onchange="toggleProfile('font', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-font" onchange="toggleAccFeature('font', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_profile_link">Sorot Tautan</strong>
-                            <small data-i18n="acc_profile_link_desc">Garis bawahi semua tautan</small>
+                            <strong data-i18n="acc_link">Sorot Tautan</strong>
+                            <small data-i18n="acc_link_sub">Garis bawahi semua tautan</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-link" onchange="toggleProfile('link', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-link" onchange="toggleAccFeature('link', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_profile_spacing">Jarak Huruf</strong>
-                            <small data-i18n="acc_profile_spacing_desc">Perlebar jarak antar huruf</small>
+                            <strong data-i18n="acc_spacing">Jarak Huruf</strong>
+                            <small data-i18n="acc_spacing_sub">Perlebar jarak antar huruf</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-spacing" onchange="toggleProfile('spacing', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-spacing" onchange="toggleAccFeature('spacing', this.checked)"><span class="slider-acc"></span></label>
                     </div>
                 </div>
 
                 <!-- PENYESUAIAN WARNA -->
                 <div class="acc-section">
-                    <label class="acc-label" data-i18n="acc_color_title">PENYESUAIAN WARNA</label>
+                    <span class="acc-section-label" data-i18n="acc_color">PENYESUAIAN WARNA</span>
 
-                    <div class="acc-toggle-item">
-                        <div><strong data-i18n="acc_color_high">Kontras Tinggi</strong></div>
-                        <label class="switch"><input type="checkbox" id="toggle-highcontrast" onchange="toggleProfile('highcontrast', this.checked)"><span class="slider-round"></span></label>
+                    <div class="acc-toggle-row">
+                        <div><strong data-i18n="acc_high_contrast">Kontras Tinggi</strong></div>
+                        <label class="switch-acc"><input type="checkbox" id="chk-contrast" onchange="toggleAccFeature('contrast', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
-                        <div><strong data-i18n="acc_color_mono">Monokrom (Hitam-Putih)</strong></div>
-                        <label class="switch"><input type="checkbox" id="toggle-mono" onchange="toggleProfile('mono', this.checked)"><span class="slider-round"></span></label>
+                    <div class="acc-toggle-row">
+                        <div><strong data-i18n="acc_mono">Monokrom (Hitam-Putih)</strong></div>
+                        <label class="switch-acc"><input type="checkbox" id="chk-mono" onchange="toggleAccFeature('mono', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
-                        <div><strong data-i18n="acc_color_light">Latar Belakang Cerah</strong></div>
-                        <label class="switch"><input type="checkbox" id="toggle-lightbg" onchange="toggleProfile('lightbg', this.checked)"><span class="slider-round"></span></label>
+                    <div class="acc-toggle-row">
+                        <div><strong data-i18n="acc_light_bg">Latar Belakang Cerah</strong></div>
+                        <label class="switch-acc"><input type="checkbox" id="chk-lightbg" onchange="toggleAccFeature('lightbg', this.checked)"><span class="slider-acc"></span></label>
                     </div>
                 </div>
 
                 <!-- ALAT BANTU VISUAL & NAVIGASI -->
                 <div class="acc-section">
-                    <label class="acc-label" data-i18n="acc_tools_title">ALAT BANTU VISUAL & NAVIGASI</label>
+                    <span class="acc-section-label" data-i18n="acc_tools">ALAT BANTU VISUAL & NAVIGASI</span>
 
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_tools_cursor">Kursor Besar</strong>
-                            <small data-i18n="acc_tools_cursor_desc">Perbesar penunjuk mouse</small>
+                            <strong data-i18n="acc_big_cursor">Kursor Besar</strong>
+                            <small data-i18n="acc_big_cursor_sub">Perbesar penunjuk mouse</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-bigcursor" onchange="toggleProfile('bigcursor', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-cursor" onchange="toggleAccFeature('cursor', this.checked)"><span class="slider-acc"></span></label>
                     </div>
 
-                    <div class="acc-toggle-item">
+                    <div class="acc-toggle-row">
                         <div>
-                            <strong data-i18n="acc_tools_audio">Mode Suara (Text-to-Speech)</strong>
-                            <small data-i18n="acc_tools_audio_desc">Bacakan teks saat kursor diarahkan ke teks</small>
+                            <strong data-i18n="acc_tts">Mode Suara</strong>
+                            <small data-i18n="acc_tts_sub">Bacakan teks saat kursor diarahkan ke teksnya</small>
                         </div>
-                        <label class="switch"><input type="checkbox" id="toggle-audio" onchange="toggleProfile('audio', this.checked)"><span class="slider-round"></span></label>
+                        <label class="switch-acc"><input type="checkbox" id="chk-tts" onchange="toggleAccFeature('tts', this.checked)"><span class="slider-acc"></span></label>
                     </div>
                 </div>
 
                 <!-- TOMBOL RESET -->
-                <div style="margin-top: 20px;">
-                    <button onclick="resetAccessibility()" class="btn-acc-reset"><i class="fas fa-undo"></i> <span data-i18n="acc_reset">Reset Semua Pengaturan</span></button>
-                </div>
+                <button onclick="resetAllAccessibility()" class="btn-acc-reset">
+                    <i class="fas fa-undo"></i> <span data-i18n="acc_reset">Reset Semua Pengaturan</span>
+                </button>
             </div>
         </div>
     </div>
@@ -198,52 +203,52 @@
                 </video>
                 <div class="hero-overlay"></div>
                 <div class="hero-content">
-                    <h1 class="hero-title" data-i18n="hero_title">Selamat Datang di Portal Resmi Pemerintah Desa Paleleh</h1>
-                    <p class="hero-subtitle" data-i18n="hero_subtitle">Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera</p>
-                    <button class="btn-hero-cta" onclick="showPage('view-layanan-surat')"><i class="fas fa-paper-plane"></i> <span data-i18n="hero_btn">Ajukan Surat Keterangan Online</span></button>
+                    <h1 class="hero-title">Selamat Datang di Portal Resmi Pemerintah Desa Paleleh</h1>
+                    <p class="hero-subtitle">Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera</p>
+                    <button class="btn-hero-cta" onclick="showPage('view-layanan-surat')"><i class="fas fa-paper-plane"></i> Ajukan Surat Keterangan Online</button>
                 </div>
             </div>
 
             <div class="banner-layanan-cepat">
                 <div>
-                    <h2><i class="fas fa-bullhorn"></i> <span data-i18n="banner_title">Layanan Administrasi Desa Mandiri</span></h2>
-                    <p data-i18n="banner_desc">Pengurusan Surat Keterangan dan Pengaduan Masyarakat kini dapat diajukan secara online.</p>
+                    <h2><i class="fas fa-bullhorn"></i> Layanan Administrasi Desa Mandiri</h2>
+                    <p>Pengurusan Surat Keterangan dan Pengaduan Masyarakat kini dapat diajukan secara online.</p>
                 </div>
-                <button class="btn-banner-layanan" onclick="showPage('view-layanan-surat')"><i class="fas fa-arrow-right"></i> <span data-i18n="banner_btn">Buka Portal Layanan</span></button>
+                <button class="btn-banner-layanan" onclick="showPage('view-layanan-surat')"><i class="fas fa-arrow-right"></i> Buka Portal Layanan</button>
             </div>
 
             <div class="beranda-grid">
                 <div class="card-content">
-                    <h3><i class="fas fa-user-tie"></i> <span data-i18n="kades_title">Sambutan Kepala Desa</span></h3>
+                    <h3><i class="fas fa-user-tie"></i> Sambutan Kepala Desa</h3>
                     <p id="display-beranda-sambutan">Assalamu'alaikum Warahmatullahi Wabarakatuh...</p>
                 </div>
                 <div class="card-content sambutan-kades-card">
                     <img id="display-beranda-kepala-desa" src="https://i.postimg.cc/sxPCtknH/Gemini-Generated-Image-tnppjqtnppjqtnpp.jpg" alt="Kades">
-                    <h5 data-i18n="kades_name">Kepala Desa Paleleh</h5>
+                    <h5>Kepala Desa Paleleh</h5>
                 </div>
             </div>
 
             <div class="card-content" style="margin-top: 35px;">
-                <h3><i class="fas fa-newspaper"></i> <span data-i18n="news_title">Berita & Kegiatan Desa Terbaru</span></h3>
-                <div id="display-beranda-kegiatan-list" class="grid-cards-responsive"><p class="text-muted" data-i18n="no_news">Belum ada informasi kegiatan.</p></div>
+                <h3><i class="fas fa-newspaper"></i> Berita & Kegiatan Desa Terbaru</h3>
+                <div id="display-beranda-kegiatan-list" class="grid-cards-responsive"><p class="text-muted">Belum ada informasi kegiatan.</p></div>
             </div>
 
             <div class="card-content" style="margin-top: 35px;">
-                <h3><i class="fas fa-video"></i> <span data-i18n="video_title">Galeri Video & Informasi Publik</span></h3>
-                <div id="display-beranda-video-list" class="grid-cards-responsive"><p class="text-muted" data-i18n="no_video">Belum ada video.</p></div>
+                <h3><i class="fas fa-video"></i> Galeri Video & Informasi Publik</h3>
+                <div id="display-beranda-video-list" class="grid-cards-responsive"><p class="text-muted">Belum ada video.</p></div>
             </div>
         </section>
 
         <!-- LAYANAN SURAT -->
         <section id="view-layanan-surat" class="page-view" style="display: none;">
             <div class="card-content" style="max-width: 800px; margin: 0 auto;">
-                <h2><i class="fas fa-file-signature"></i> <span data-i18n="surat_header">Permohonan Penerbitan Surat</span></h2>
+                <h2><i class="fas fa-file-signature"></i> Permohonan Penerbitan Surat</h2>
                 <form onsubmit="submitPermohonanSurat(event)" style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
-                    <div><label data-i18n="label_nama">Nama Lengkap Pemohon:</label><input type="text" id="surat-nama" class="form-control" required></div>
-                    <div><label data-i18n="label_nik">NIK Pemohon:</label><input type="text" id="surat-nik" class="form-control" required></div>
-                    <div><label data-i18n="label_wa">Nomor WhatsApp Aktif:</label><input type="text" id="surat-whatsapp" class="form-control" placeholder="Contoh: 081234567890" required></div>
+                    <div><label>Nama Lengkap Pemohon:</label><input type="text" id="surat-nama" class="form-control" required></div>
+                    <div><label>NIK Pemohon:</label><input type="text" id="surat-nik" class="form-control" required></div>
+                    <div><label>Nomor WhatsApp Aktif:</label><input type="text" id="surat-whatsapp" class="form-control" placeholder="Contoh: 081234567890" required></div>
                     <div>
-                        <label data-i18n="label_jenissurat">Jenis Surat:</label>
+                        <label>Jenis Surat:</label>
                         <select id="surat-jenis" class="form-control" required>
                             <option value="Surat Keterangan Kematian">Surat Keterangan Kematian</option>
                             <option value="Surat Keterangan Usaha">Surat Keterangan Usaha</option>
@@ -253,13 +258,13 @@
                             <option value="Surat Keterangan Lainnya">Surat Keterangan Lainnya</option>
                         </select>
                     </div>
-                    <div><label data-i18n="label_keperluan">Keperluan:</label><textarea id="surat-keperluan" class="form-control" rows="3" required></textarea></div>
-                    <div><label data-i18n="label_berkas">Upload Berkas Persyaratan (Max 5MB):</label><input type="file" id="surat-berkas" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required onchange="validateFileSize(this)"></div>
-                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> <span data-i18n="btn_kirim">Kirim Permohonan</span></button>
+                    <div><label>Keperluan:</label><textarea id="surat-keperluan" class="form-control" rows="3" required></textarea></div>
+                    <div><label>Upload Berkas Persyaratan (Max 5MB):</label><input type="file" id="surat-berkas" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required onchange="validateFileSize(this)"></div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Kirim Permohonan</button>
                 </form>
                 <div style="margin-top: 40px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
-                    <h4 data-i18n="cek_surat_title">Cek Status Permohonan Surat</h4>
-                    <div style="display: flex; gap: 10px; margin-top: 10px;"><input type="text" id="cek-nik-surat" placeholder="Masukkan NIK atau No ID Surat..." class="form-control"><button type="button" onclick="cekStatusSurat()" class="btn-accent" data-i18n="btn_cek">Cek</button></div>
+                    <h4>Cek Status Permohonan Surat</h4>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;"><input type="text" id="cek-nik-surat" placeholder="Masukkan NIK atau No ID Surat..." class="form-control"><button type="button" onclick="cekStatusSurat()" class="btn-accent">Cek</button></div>
                     <div id="hasil-cek-surat" style="margin-top: 15px;"></div>
                 </div>
             </div>
@@ -268,17 +273,17 @@
         <!-- PENGADUAN -->
         <section id="view-pengaduan" class="page-view" style="display: none;">
             <div class="card-content" style="max-width: 800px; margin: 0 auto;">
-                <h2><i class="fas fa-bullhorn"></i> <span data-i18n="aduan_header">Pengaduan Masyarakat</span></h2>
+                <h2><i class="fas fa-bullhorn"></i> Pengaduan Masyarakat</h2>
                 <form onsubmit="submitPengaduan(event)" style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
-                    <div><label data-i18n="aduan_nama">Nama Pelapor:</label><input type="text" id="aduan-nama" class="form-control" required></div>
-                    <div><label data-i18n="aduan_telp">Nomor WhatsApp / HP Aktif:</label><input type="text" id="aduan-telp" class="form-control" placeholder="Contoh: 081234567890" required></div>
-                    <div><label data-i18n="aduan_pesan">Isi Pengaduan:</label><textarea id="aduan-pesan" class="form-control" rows="4" required></textarea></div>
-                    <div><label data-i18n="aduan_berkas">Upload Berkas / Bukti Dukung (Max 5MB):</label><input type="file" id="aduan-berkas" class="form-control" accept=".pdf,.jpg,.jpeg,.png" onchange="validateFileSize(this)"></div>
-                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> <span data-i18n="aduan_btn">Kirim Pengaduan</span></button>
+                    <div><label>Nama Pelapor:</label><input type="text" id="aduan-nama" class="form-control" required></div>
+                    <div><label>Nomor WhatsApp / HP Aktif:</label><input type="text" id="aduan-telp" class="form-control" placeholder="Contoh: 081234567890" required></div>
+                    <div><label>Isi Pengaduan:</label><textarea id="aduan-pesan" class="form-control" rows="4" required></textarea></div>
+                    <div><label>Upload Berkas / Bukti Dukung (Max 5MB):</label><input type="file" id="aduan-berkas" class="form-control" accept=".pdf,.jpg,.jpeg,.png" onchange="validateFileSize(this)"></div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Kirim Pengaduan</button>
                 </form>
                 <div style="margin-top: 40px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
-                    <h4 data-i18n="cek_aduan_title">Cek Status Pengaduan</h4>
-                    <div style="display: flex; gap: 10px; margin-top: 10px;"><input type="text" id="cek-nama-aduan" placeholder="Masukkan Nama Pelapor atau ID Aduan..." class="form-control"><button type="button" onclick="cekStatusAduan()" class="btn-accent" data-i18n="btn_cek">Cek</button></div>
+                    <h4>Cek Status Pengaduan</h4>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;"><input type="text" id="cek-nama-aduan" placeholder="Masukkan Nama Pelapor atau ID Aduan..." class="form-control"><button type="button" onclick="cekStatusAduan()" class="btn-accent">Cek</button></div>
                     <div id="hasil-cek-aduan" style="margin-top: 15px;"></div>
                 </div>
             </div>
