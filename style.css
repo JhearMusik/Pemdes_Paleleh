@@ -1,4 +1,30 @@
-/* MODAL AKSESIBILITAS SEPERTI GAMBAR REFERENSI */
+/* ==========================================================
+   MODUL TAMBAHAN: PANEL AKSESIBILITAS & PROFIL
+   ========================================================== */
+
+.accessibility-float-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+.accessibility-float-btn:hover {
+    transform: scale(1.1);
+}
+
 .accessibility-modal {
     position: fixed;
     top: 0;
@@ -97,7 +123,7 @@
     color: #64748b;
 }
 
-/* TOGGLE SWITCH */
+/* TOGGLE SWITCH STYLING */
 .switch {
     position: relative;
     display: inline-block;
@@ -152,3 +178,14 @@ input:checked + .slider-round:before {
 .btn-acc-reset:hover {
     background: #b91c1c;
 }
+
+/* EFEK PROFIL AKSESIBILITAS PADA HALAMAN */
+body.acc-profile-blind { background: #000 !important; color: #ff0 !important; }
+body.acc-profile-blind * { background: #000 !important; color: #ff0 !important; border-color: #ff0 !important; }
+body.acc-profile-heading h1, body.acc-profile-heading h2, body.acc-profile-heading h3, body.acc-profile-heading h4 { background-color: #ffeb3b !important; color: #000 !important; padding: 2px 6px; }
+body.acc-profile-font, body.acc-profile-font * { font-weight: bold !important; }
+body.acc-profile-link a { text-decoration: underline !important; color: #dc2626 !important; font-weight: bold; }
+body.acc-profile-spacing, body.acc-profile-spacing * { letter-spacing: 2px !important; }
+body.acc-color-high { filter: contrast(150%); }
+body.acc-color-mono { filter: grayscale(100%); }
+body.acc-color-light { background: #fff !important; color: #000 !important; }
