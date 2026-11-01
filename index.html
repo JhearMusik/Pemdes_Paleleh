@@ -26,6 +26,7 @@
                     <a class="nav-link"><i class="fas fa-id-card"></i> Profil Desa <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a onclick="showPage('view-sejarah')"><i class="fas fa-history"></i> Sejarah Desa</a></li>
+                        <li><a onclick="showPage('view-geografis')"><i class="fas fa-map-marked-alt"></i> Kondisi Geografis</a></li>
                         <li><a onclick="showPage('view-visimisi')"><i class="fas fa-bullseye"></i> Visi & Misi</a></li>
                         <li><a onclick="showPage('view-tupoksi')"><i class="fas fa-tasks"></i> Tupoksi Perangkat Desa</a></li>
                         <li><a onclick="showPage('view-struktur')"><i class="fas fa-sitemap"></i> Struktur Organisasi Desa</a></li>
@@ -185,6 +186,39 @@
 
         <!-- SEJARAH -->
         <section id="view-sejarah" class="page-view" style="display: none;"><div class="card-content"><h2>Sejarah Desa Paleleh</h2><div id="display-sejarah"></div></div></section>
+
+        <!-- KONDISI GEOGRAFIS -->
+        <section id="view-geografis" class="page-view" style="display: none;">
+            <div class="card-content" style="max-width: 900px; margin: 0 auto;">
+                <h2><i class="fas fa-map-marked-alt"></i> Kondisi Geografis Desa Paleleh</h2>
+                <p class="text-muted">Informasi terperinci mengenai batas wilayah, luas daerah, topografi, dan penggunaan lahan di Desa Paleleh.</p>
+                
+                <div style="margin-top: 20px;">
+                    <h3><i class="fas fa-ruler-combined"></i> Luas Wilayah</h3>
+                    <p id="display-geo-luas" style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary-color);">-</p>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3><i class="fas fa-compass"></i> Batas Wilayah Desa</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px;">
+                        <div style="background: #e0f2fe; padding: 15px; border-radius: 8px;"><strong>Utara:</strong> <span id="display-geo-utara">-</span></div>
+                        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px;"><strong>Selatan:</strong> <span id="display-geo-selatan">-</span></div>
+                        <div style="background: #fdf2f8; padding: 15px; border-radius: 8px;"><strong>Barat:</strong> <span id="display-geo-barat">-</span></div>
+                        <div style="background: #fef3c7; padding: 15px; border-radius: 8px;"><strong>Timur:</strong> <span id="display-geo-timur">-</span></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <h3><i class="fas fa-mountain"></i> Topografi & Ketinggian</h3>
+                    <p id="display-geo-topografi" style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent-color);">-</p>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <h3><i class="fas fa-seedling"></i> Penggunaan Lahan & Orbitasi</h3>
+                    <p id="display-geo-lahan" style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #059669;">-</p>
+                </div>
+            </div>
+        </section>
         
         <!-- VISI MISI -->
         <section id="view-visimisi" class="page-view" style="display: none;">
@@ -289,6 +323,7 @@
                 <button id="btn-tab-notifikasi" onclick="switchTab('tab-notifikasi')" class="tab-btn active">Notifikasi (<span id="badge-notif-count">0</span>)</button>
                 <button id="btn-tab-petugas" onclick="switchTab('tab-petugas')" class="tab-btn">Kelola Petugas</button>
                 <button id="btn-tab-kependudukan" onclick="switchTab('tab-kependudukan')" class="tab-btn">Statistik Kependudukan</button>
+                <button id="btn-tab-geografis" onclick="switchTab('tab-geografis')" class="tab-btn">Kondisi Geografis</button>
                 <button id="btn-tab-aparat" onclick="switchTab('tab-aparat')" class="tab-btn">Aparat Desa</button>
                 <button id="btn-tab-bpd-lpm" onclick="switchTab('tab-bpd-lpm')" class="tab-btn">BPD & LPM</button>
                 <button id="btn-tab-sarana" onclick="switchTab('tab-sarana')" class="tab-btn">Fasilitas Desa</button>
@@ -349,6 +384,34 @@
                         <div><label>Penerima Bansos:</label><input type="number" id="input-penduduk-bansos" class="form-control" required></div>
                     </div>
                     <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Statistik Kependudukan</button>
+                </form>
+            </div>
+
+            <!-- TAB KONDISI GEOGRAFIS -->
+            <div id="tab-geografis" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Kondisi Geografis Desa</h3>
+                <form onsubmit="saveGeografisData(event)">
+                    <div class="form-group">
+                        <label>Luas Wilayah:</label>
+                        <input type="text" id="input-geo-luas" class="form-control" placeholder="Contoh: 15,40 Km²" required>
+                    </div>
+                    <div class="grid-2col" style="margin-bottom: 12px;">
+                        <div><label>Batas Sebelah Utara:</label><input type="text" id="input-geo-utara" class="form-control" required></div>
+                        <div><label>Batas Sebelah Selatan:</label><input type="text" id="input-geo-selatan" class="form-control" required></div>
+                    </div>
+                    <div class="grid-2col" style="margin-bottom: 12px;">
+                        <div><label>Batas Sebelah Barat:</label><input type="text" id="input-geo-barat" class="form-control" required></div>
+                        <div><label>Batas Sebelah Timur:</label><input type="text" id="input-geo-timur" class="form-control" required></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Topografi & Ketinggian:</label>
+                        <input type="text" id="input-geo-topografi" class="form-control" placeholder="Contoh: Dataran rendah dan pesisir pantai (0 - 150 mdpl)" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Penggunaan Lahan & Orbitasi:</label>
+                        <textarea id="input-geo-lahan" class="form-control" rows="3" placeholder="Contoh: Sebagian besar wilayah digunakan sebagai lahan permukiman, perkebunan kelapa, dan area pesisir..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top:10px;">Simpan Kondisi Geografis</button>
                 </form>
             </div>
 
