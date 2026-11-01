@@ -726,10 +726,39 @@ function saveKontakData(e) {
 }
 
 // ==========================================
-// KAMUS BAHASA INDONESIA & ENGLISH
+// KAMUS MULTI-BAHASA LENGKAP (ID & EN)
 // ==========================================
 const translations = {
   id: {
+    // Navbar & Menu
+    nav_kab: "PEMERINTAH KABUPATEN BUOL",
+    nav_kec: "KECAMATAN PALELEH",
+    nav_des: "PEMERINTAH DESA PALELEH",
+    menu_beranda: "Beranda",
+    menu_profil: "Profil Desa",
+    sub_sejarah: "Sejarah Desa",
+    sub_geografis: "Kondisi Geografis",
+    sub_visimisi: "Visi & Misi",
+    sub_tupoksi: "Tupoksi Perangkat Desa",
+    sub_struktur: "Struktur Organisasi Desa",
+    sub_aparat: "Aparat & Staf Desa",
+    menu_sarana: "Fasilitas & Sarana Desa",
+    menu_lembaga: "Lembaga Desa",
+    menu_kependudukan: "Kependudukan",
+    menu_anggaran: "Anggaran Desa",
+    menu_tautan: "Tautan",
+    menu_layanan: "Layanan Desa",
+    sub_permohonan: "Permohonan Surat",
+    sub_pengaduan: "Pengaduan Masyarakat",
+    menu_admin: "Panel Admin Desa",
+    menu_kontak: "Kontak",
+
+    // Hero Beranda
+    hero_title: "Selamat Datang di Portal Resmi Pemerintah Desa Paleleh",
+    hero_subtitle: "Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera",
+    hero_cta: "Ajukan Surat Keterangan Online",
+
+    // Fitur Aksesibilitas
     acc_title: "Fitur Aksesibilitas",
     acc_lang: "Bahasa / Language",
     acc_text_size: "UKURAN TEKS",
@@ -758,6 +787,35 @@ const translations = {
     acc_reset: "Reset Semua Pengaturan"
   },
   en: {
+    // Navbar & Menu
+    nav_kab: "BUOL REGENCY GOVERNMENT",
+    nav_kec: "PALELEH SUB-DISTRICT",
+    nav_des: "PALELEH VILLAGE GOVERNMENT",
+    menu_beranda: "Home",
+    menu_profil: "Village Profile",
+    sub_sejarah: "Village History",
+    sub_geografis: "Geographical Condition",
+    sub_visimisi: "Vision & Mission",
+    sub_tupoksi: "Duties & Functions",
+    sub_struktur: "Organizational Structure",
+    sub_aparat: "Village Apparatus & Staff",
+    menu_sarana: "Village Facilities",
+    menu_lembaga: "Village Institutions",
+    menu_kependudukan: "Population",
+    menu_anggaran: "Village Budget",
+    menu_tautan: "Links",
+    menu_layanan: "Village Services",
+    sub_permohonan: "Letter Request",
+    sub_pengaduan: "Public Complaints",
+    menu_admin: "Admin Panel",
+    menu_kontak: "Contact",
+
+    // Hero Beranda
+    hero_title: "Welcome to the Official Portal of Paleleh Village Government",
+    hero_subtitle: "Realizing Transparent, Accountable, and Prosperous Village Governance",
+    hero_cta: "Apply Online Letter",
+
+    // Fitur Aksesibilitas
     acc_title: "Accessibility Features",
     acc_lang: "Bahasa / Language",
     acc_text_size: "TEXT SIZE",
