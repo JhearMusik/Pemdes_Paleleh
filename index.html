@@ -10,55 +10,55 @@
 <body>
 
     <!-- NAVBAR UTAMA -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo-container" onclick="showPage('view-beranda')">
-                <img id="display-navbar-logo" src="https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg" alt="Logo Buol" style="width: 45px; height: 45px; object-fit: contain; border-radius: 50%;">
-                <div class="logo-text-stack">
-                    <span class="logo-line-1">PEMERINTAH KABUPATEN BUOL</span>
-                    <span class="logo-line-2">KECAMATAN PALELEH</span>
-                    <span class="logo-line-3">PEMERINTAH DESA PALELEH</span>
-                </div>
+<header class="header">
+    <nav class="navbar">
+        <div class="logo-container" onclick="showPage('view-beranda')">
+            <img id="display-navbar-logo" src="https://i.postimg.cc/PJyqnvJX/Gemini-Generated-Image-tqris4tqris4tqri.jpg" alt="Logo Buol" style="width: 45px; height: 45px; object-fit: contain; border-radius: 50%;">
+            <div class="logo-text-stack">
+                <span class="logo-line-1" data-i18n="nav_kab">PEMERINTAH KABUPATEN BUOL</span>
+                <span class="logo-line-2" data-i18n="nav_kec">KECAMATAN PALELEH</span>
+                <span class="logo-line-3" data-i18n="nav_des">PEMERINTAH DESA PALELEH</span>
             </div>
-            <ul class="nav-menu">
-                <li><a class="nav-link active" onclick="showPage('view-beranda')"><i class="fas fa-home"></i> Beranda</a></li>
-                <li class="dropdown">
-                    <a class="nav-link"><i class="fas fa-id-card"></i> Profil Desa <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a onclick="showPage('view-sejarah')"><i class="fas fa-history"></i> Sejarah Desa</a></li>
-                        <li><a onclick="showPage('view-geografis')"><i class="fas fa-map-marked-alt"></i> Kondisi Geografis</a></li>
-                        <li><a onclick="showPage('view-visimisi')"><i class="fas fa-bullseye"></i> Visi & Misi</a></li>
-                        <li><a onclick="showPage('view-tupoksi')"><i class="fas fa-tasks"></i> Tupoksi Perangkat Desa</a></li>
-                        <li><a onclick="showPage('view-struktur')"><i class="fas fa-sitemap"></i> Struktur Organisasi Desa</a></li>
-                        <li><a onclick="showPage('view-aparat')"><i class="fas fa-user-shield"></i> Aparat & Staf Desa</a></li>
-                    </ul>
-                </li>
-                <li><a class="nav-link" onclick="showPage('view-sarana')"><i class="fas fa-building"></i> Fasilitas & Sarana Desa</a></li>
-                <li class="dropdown">
-                    <a class="nav-link"><i class="fas fa-users-cog"></i> Lembaga Desa <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a onclick="showPage('view-bpd-lpm')"><i class="fas fa-landmark"></i> BPD & LPM</a></li>
-                        <li><a onclick="showPage('view-karangtaruna-pkk')"><i class="fas fa-hands-helping"></i> Karang Taruna & PKK</a></li>
-                    </ul>
-                </li>
-                <li><a class="nav-link" onclick="showPage('view-kependudukan')"><i class="fas fa-users"></i> Kependudukan</a></li>
-                <li><a class="nav-link" onclick="showPage('view-anggaran')"><i class="fas fa-coins"></i> Anggaran Desa</a></li>
-                <li class="dropdown">
-                    <a class="nav-link"><i class="fas fa-link"></i> Tautan <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu" id="display-navbar-tautan"></ul>
-                </li>
-                <li class="dropdown">
-                    <a class="nav-link btn-layanan-surat"><i class="fas fa-file-alt"></i> Layanan Desa <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a onclick="showPage('view-layanan-surat')"><i class="fas fa-file-signature"></i> Permohonan Surat</a></li>
-                        <li><a onclick="showPage('view-pengaduan')"><i class="fas fa-bullhorn"></i> Pengaduan Masyarakat</a></li>
-                    </ul>
-                </li>
-                <li><a class="nav-link" onclick="checkLoginAndOpenMenu()"><i class="fas fa-user-lock"></i> Panel Admin Desa</a></li>
-                <li><a class="nav-link" onclick="showPage('view-kontak')"><i class="fas fa-map-marker-alt"></i> Kontak</a></li>
-            </ul>
-        </nav>
-    </header>
+        </div>
+        <ul class="nav-menu">
+            <li><a class="nav-link active" onclick="showPage('view-beranda')"><i class="fas fa-home"></i> <span data-i18n="menu_beranda">Beranda</span></a></li>
+            <li class="dropdown">
+                <a class="nav-link"><i class="fas fa-id-card"></i> <span data-i18n="menu_profil">Profil Desa</span> <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a onclick="showPage('view-sejarah')"><i class="fas fa-history"></i> <span data-i18n="sub_sejarah">Sejarah Desa</span></a></li>
+                    <li><a onclick="showPage('view-geografis')"><i class="fas fa-map-marked-alt"></i> <span data-i18n="sub_geografis">Kondisi Geografis</span></a></li>
+                    <li><a onclick="showPage('view-visimisi')"><i class="fas fa-bullseye"></i> <span data-i18n="sub_visimisi">Visi & Misi</span></a></li>
+                    <li><a onclick="showPage('view-tupoksi')"><i class="fas fa-tasks"></i> <span data-i18n="sub_tupoksi">Tupoksi Perangkat Desa</span></a></li>
+                    <li><a onclick="showPage('view-struktur')"><i class="fas fa-sitemap"></i> <span data-i18n="sub_struktur">Struktur Organisasi Desa</span></a></li>
+                    <li><a onclick="showPage('view-aparat')"><i class="fas fa-user-shield"></i> <span data-i18n="sub_aparat">Aparat & Staf Desa</span></a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link" onclick="showPage('view-sarana')"><i class="fas fa-building"></i> <span data-i18n="menu_sarana">Fasilitas & Sarana Desa</span></a></li>
+            <li class="dropdown">
+                <a class="nav-link"><i class="fas fa-users-cog"></i> <span data-i18n="menu_lembaga">Lembaga Desa</span> <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a onclick="showPage('view-bpd-lpm')"><i class="fas fa-landmark"></i> BPD & LPM</a></li>
+                    <li><a onclick="showPage('view-karangtaruna-pkk')"><i class="fas fa-hands-helping"></i> Karang Taruna & PKK</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link" onclick="showPage('view-kependudukan')"><i class="fas fa-users"></i> <span data-i18n="menu_kependudukan">Kependudukan</span></a></li>
+            <li><a class="nav-link" onclick="showPage('view-anggaran')"><i class="fas fa-coins"></i> <span data-i18n="menu_anggaran">Anggaran Desa</span></a></li>
+            <li class="dropdown">
+                <a class="nav-link"><i class="fas fa-link"></i> <span data-i18n="menu_tautan">Tautan</span> <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" id="display-navbar-tautan"></ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link btn-layanan-surat"><i class="fas fa-file-alt"></i> <span data-i18n="menu_layanan">Layanan Desa</span> <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a onclick="showPage('view-layanan-surat')"><i class="fas fa-file-signature"></i> <span data-i18n="sub_permohonan">Permohonan Surat</span></a></li>
+                    <li><a onclick="showPage('view-pengaduan')"><i class="fas fa-bullhorn"></i> <span data-i18n="sub_pengaduan">Pengaduan Masyarakat</span></a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link" onclick="checkLoginAndOpenMenu()"><i class="fas fa-user-lock"></i> <span data-i18n="menu_admin">Panel Admin Desa</span></a></li>
+            <li><a class="nav-link" onclick="showPage('view-kontak')"><i class="fas fa-map-marker-alt"></i> <span data-i18n="menu_kontak">Kontak</span></a></li>
+        </ul>
+    </nav>
+</header>
 
     <!-- TOMBOL FLOATING AKSESIBILITAS -->
     <button class="accessibility-float-btn" onclick="toggleAccessibilityModal()" title="Fitur Aksesibilitas">
@@ -203,9 +203,9 @@
                 </video>
                 <div class="hero-overlay"></div>
                 <div class="hero-content">
-                    <h1 class="hero-title">Selamat Datang di Portal Resmi Pemerintah Desa Paleleh</h1>
-                    <p class="hero-subtitle">Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera</p>
-                    <button class="btn-hero-cta" onclick="showPage('view-layanan-surat')"><i class="fas fa-paper-plane"></i> Ajukan Surat Keterangan Online</button>
+                    <h1 class="hero-title" data-i18n="hero_title">Selamat Datang di Portal Resmi Pemerintah Desa Paleleh</h1>
+                    <p class="hero-subtitle" data-i18n="hero_subtitle">Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera</p>
+                    <button class="btn-hero-cta" onclick="showPage('view-layanan-surat')"><i class="fas fa-paper-plane"></i> <span data-i18n="hero_cta">Ajukan Surat Keterangan Online</span></button>
                 </div>
             </div>
 
