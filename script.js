@@ -323,6 +323,55 @@ function saveTotalPenduduk(event) {
   alert('Data statistik kependudukan berhasil disimpan!');
 }
 
+// KONDISI GEOGRAFIS
+const defaultGeografis = {
+  luas: '15,40 Km²',
+  utara: 'Laut Sulawesi',
+  selatan: 'Kecamatan Paleleh Barat',
+  barat: 'Desa Molores',
+  timur: 'Desa Taluan',
+  topografi: 'Dataran rendah dan pesisir pantai (ketinggian 0 - 150 mdpl)',
+  lahan: 'Sebagian besar wilayah digunakan untuk permukiman penduduk, perkebunan kelapa/cengkeh, dan wilayah tangkapan nelayan pesisir.'
+};
+
+function getGeografisData() {
+  return JSON.parse(localStorage.getItem('desapaleleh_geografis_data') || JSON.stringify(defaultGeografis));
+}
+
+function renderGeografisData() {
+  const g = getGeografisData();
+  if (document.getElementById('display-geo-luas')) document.getElementById('display-geo-luas').innerText = g.luas;
+  if (document.getElementById('display-geo-utara')) document.getElementById('display-geo-utara').innerText = g.utara;
+  if (document.getElementById('display-geo-selatan')) document.getElementById('display-geo-selatan').innerText = g.selatan;
+  if (document.getElementById('display-geo-barat')) document.getElementById('display-geo-barat').innerText = g.barat;
+  if (document.getElementById('display-geo-timur')) document.getElementById('display-geo-timur').innerText = g.timur;
+  if (document.getElementById('display-geo-topografi')) document.getElementById('display-geo-topografi').innerText = g.topografi;
+  if (document.getElementById('display-geo-lahan')) document.getElementById('display-geo-lahan').innerText = g.lahan;
+
+  if (document.getElementById('input-geo-luas')) document.getElementById('input-geo-luas').value = g.luas;
+  if (document.getElementById('input-geo-utara')) document.getElementById('input-geo-utara').value = g.utara;
+  if (document.getElementById('input-geo-selatan')) document.getElementById('input-geo-selatan').value = g.selatan;
+  if (document.getElementById('input-geo-barat')) document.getElementById('input-geo-barat').value = g.barat;
+  if (document.getElementById('input-geo-timur')) document.getElementById('input-geo-timur').value = g.timur;
+  if (document.getElementById('input-geo-topografi')) document.getElementById('input-geo-topografi').value = g.topografi;
+  if (document.getElementById('input-geo-lahan')) document.getElementById('input-geo-lahan').value = g.lahan;
+}
+
+function saveGeografisData(event) {
+  event.preventDefault();
+  const luas = document.getElementById('input-geo-luas').value.trim();
+  const utara = document.getElementById('input-geo-utara').value.trim();
+  const selatan = document.getElementById('input-geo-selatan').value.trim();
+  const barat = document.getElementById('input-geo-barat').value.trim();
+  const timur = document.getElementById('input-geo-timur').value.trim();
+  const topografi = document.getElementById('input-geo-topografi').value.trim();
+  const lahan = document.getElementById('input-geo-lahan').value.trim();
+
+  localStorage.setItem('desapaleleh_geografis_data', JSON.stringify({ luas, utara, selatan, barat, timur, topografi, lahan }));
+  renderGeografisData();
+  alert('Data kondisi geografis berhasil disimpan!');
+}
+
 // ADMIN NOTIFIKASI
 function renderAdminNotifikasi() {
   const suratList = getPermohonanList();
@@ -683,6 +732,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderBerandaData();
   renderKegiatanList();
   renderPendudukData();
+  renderGeografisData();
   renderAparatList();
   renderPengurusBpdLpmList();
   renderSaranaList();
