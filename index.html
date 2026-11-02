@@ -6,7 +6,6 @@
     <title>Pemerintah Desa Paleleh - Kabupaten Buol</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Bootstrap CSS untuk Modal & Tabel yang Rapi -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -45,7 +44,7 @@
             </li>
             <li><a class="nav-link" onclick="showPage('view-kependudukan')"><i class="fas fa-users"></i> <span data-i18n="menu_kependudukan">Kependudukan</span></a></li>
             <li><a class="nav-link" onclick="showPage('view-anggaran')"><i class="fas fa-coins"></i> <span data-i18n="menu_anggaran">Anggaran Desa</span></a></li>
-            <!-- MENU REGULASI DESA -->
+            <!-- MENU REGULASI PUBLIK -->
             <li><a class="nav-link" onclick="showPage('view-regulasi')"><i class="fas fa-book-open"></i> <span data-i18n="menu_regulasi">Regulasi Desa</span></a></li>
             <li class="dropdown">
                 <a class="nav-link"><i class="fas fa-link"></i> <span data-i18n="menu_tautan">Tautan</span> <i class="fas fa-chevron-down"></i></a>
@@ -243,22 +242,15 @@
             </div>
         </section>
 
-        <!-- HALAMAN REGULASI DESA -->
+        <!-- HALAMAN REGULASI DESA (PUBLIK - BERSIH TANPA TOMBOL AKSI) -->
         <div id="view-regulasi" class="page-view" style="display: none;">
             <div class="container py-4">
                 <div class="section-header text-center mb-4">
                     <h2 class="fw-bold"><i class="fas fa-book-open text-primary"></i> Regulasi & Produk Hukum Desa</h2>
                     <p class="text-muted">Kumpulan dokumen Peraturan Desa, Keputusan Kepala Desa, dan produk hukum lainnya.</p>
                 </div>
-                
-                <!-- Tombol Khusus Admin untuk Tambah Data -->
-                <div id="admin-regulasi-action" class="mb-4" style="display: none;">
-                    <button class="btn btn-primary" onclick="openModalTambahRegulasi()">
-                        <i class="fas fa-plus-circle"></i> Tambah Regulasi Baru
-                    </button>
-                </div>
 
-                <!-- Tabel Daftar Regulasi -->
+                <!-- Tabel Daftar Regulasi Publik -->
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -266,11 +258,10 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th width="5%">No</th>
-                                        <th width="25%">Judul Regulasi</th>
-                                        <th width="15%">Jenis</th>
+                                        <th width="30%">Judul Regulasi</th>
+                                        <th width="20%">Jenis</th>
                                         <th width="15%">Tahun</th>
                                         <th width="30%">Keterangan / Deskripsi</th>
-                                        <th width="10%" class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="display-tabel-regulasi">
@@ -278,47 +269,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL TAMBAH REGULASI (KHUSUS ADMIN) -->
-        <div class="modal fade" id="modalTambahRegulasi" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title"><i class="fas fa-file-alt"></i> Tambah Dokumen Regulasi</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formTambahRegulasi" onsubmit="simpanRegulasi(event)">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Judul Regulasi</label>
-                                <input type="text" class="form-control" id="regJudul" required placeholder="Contoh: APBDes Tahun 2026">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Jenis Regulasi</label>
-                                <select class="form-select" id="regJenis" required>
-                                    <option value="Peraturan Desa (Perdes)">Peraturan Desa (Perdes)</option>
-                                    <option value="Peraturan Kepala Desa (Perkades)">Peraturan Kepala Desa (Perkades)</option>
-                                    <option value="Keputusan Kepala Desa">Keputusan Kepala Desa</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Tahun</label>
-                                <input type="number" class="form-control" id="regTahun" required placeholder="2026" value="2026">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Keterangan / Deskripsi (Opsional)</label>
-                                <textarea class="form-control" id="regKeterangan" rows="3" placeholder="Tuliskan deskripsi singkat..."></textarea>
-                            </div>
-                            <div class="text-end">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                <button type="submit" class="btn btn-primary">Simpan Regulasi</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -511,6 +461,7 @@
 
             <div class="admin-tab-nav">
                 <button id="btn-tab-notifikasi" onclick="switchTab('tab-notifikasi')" class="tab-btn active">Notifikasi (<span id="badge-notif-count">0</span>)</button>
+                <button id="btn-tab-regulasi" onclick="switchTab('tab-regulasi')" class="tab-btn">Regulasi Desa</button>
                 <button id="btn-tab-petugas" onclick="switchTab('tab-petugas')" class="tab-btn">Kelola Petugas</button>
                 <button id="btn-tab-kependudukan" onclick="switchTab('tab-kependudukan')" class="tab-btn">Statistik Kependudukan</button>
                 <button id="btn-tab-geografis" onclick="switchTab('tab-geografis')" class="tab-btn">Kondisi Geografis</button>
@@ -534,6 +485,56 @@
                 <h3 class="admin-section-title">Permohonan Surat & Pengaduan Masuk</h3>
                 <div style="margin-bottom:25px;"><h4>Surat Masuk</h4><div id="admin-list-permohonan-surat"></div></div>
                 <div><h4>Pengaduan Masuk (Dilengkapi Bukti & Tombol WA)</h4><div id="admin-list-pengaduan"></div></div>
+            </div>
+
+            <!-- TAB KELOLA REGULASI (KHUSUS ADMIN) -->
+            <div id="tab-regulasi" class="admin-tab-content admin-card-box" style="display: none;">
+                <h3 class="admin-section-title">Kelola Regulasi & Produk Hukum Desa</h3>
+                <form onsubmit="simpanRegulasiAdmin(event)" style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Judul Regulasi</label>
+                        <input type="text" class="form-control" id="regJudul" required placeholder="Contoh: APBDes Tahun 2026">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Jenis Regulasi</label>
+                        <select class="form-select" id="regJenis" required>
+                            <option value="Peraturan Desa (Perdes)">Peraturan Desa (Perdes)</option>
+                            <option value="Peraturan Kepala Desa (Perkades)">Peraturan Kepala Desa (Perkades)</option>
+                            <option value="Keputusan Kepala Desa">Keputusan Kepala Desa</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tahun</label>
+                        <input type="number" class="form-control" id="regTahun" required placeholder="2026" value="2026">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Keterangan / Deskripsi (Opsional)</label>
+                        <textarea class="form-control" id="regKeterangan" rows="3" placeholder="Tuliskan deskripsi singkat..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Tambah Regulasi Baru</button>
+                </form>
+
+                <div>
+                    <h4>Daftar Dokumen Regulasi (Admin)</h4>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th width="5%">No</th>
+                                    <th width="30%">Judul Regulasi</th>
+                                    <th width="20%">Jenis</th>
+                                    <th width="10%">Tahun</th>
+                                    <th width="25%">Keterangan</th>
+                                    <th width="10%" class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-tabel-regulasi">
+                                <!-- Data dimuat otomatis -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- TAB KELOLA PETUGAS -->
@@ -754,7 +755,6 @@
 
     <footer><p>&copy; 2026 Pemerintah Desa Paleleh - Kecamatan Paleleh, Kabupaten Buol</p></footer>
     
-    <!-- Bootstrap JS agar Modal interaktif berfungsi dengan baik -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
