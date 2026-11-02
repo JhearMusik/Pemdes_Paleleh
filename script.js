@@ -370,6 +370,103 @@ function saveGeografisData(event) {
   alert('Data kondisi geografis berhasil disimpan!');
 }
 
+// MANAJEMEN REGULASI DESA
+const defaultRegulasi = [
+    { id: 1, judul: "Anggaran Pendapatan dan Belanja Desa (APBDes) Tahun 2026", jenis: "Peraturan Desa (Perdes)", tahun: "2026", keterangan: "Transparansi pengelolaan keuangan desa tahun anggaran berjalan." },
+    { id: 2, judul: "Rencana Kerja Pemerintah Desa (RKPDes) Tahun 2026", jenis: "Peraturan Desa (Perdes)", tahun: "2026", keterangan: "Dokumen perencanaan pembangunan desa tahunan." }
+];
+
+function getRegulasiData() {
+    let data = localStorage.getItem('desapaleleh_regulasi');
+    if (!data) {
+        localStorage.setItem('desapaleleh_regulasi', JSON.stringify(defaultRegulasi));
+        return defaultRegulasi;
+    }
+    return JSON.parse(data);
+}
+
+function renderTabelRegulasi() {
+    const tbody = document.getElementById('display-tabel-regulasi');
+    if (!tbody) return;
+
+    let data = getRegulasiData();
+    let html = '';
+
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data regulasi yang diunggah.</td></tr>`;
+        return;
+    }
+
+    data.forEach((item, index) => {
+        let isAdmin = localStorage.getItem('desapaleleh_admin_logged_in') === 'true';
+        let actionBtn = isAdmin ? `<button class="btn btn-sm btn-danger" onclick="hapusRegulasi(${item.id})"><i class="fas fa-trash"></i> Hapus</button>` : `<span class="text-muted">-</span>`;
+
+        html += `
+            <tr>
+                <td>${index + 1}</td>
+                <td class="fw-bold">${item.judul}</td>
+                <td><span class="badge bg-secondary">${item.jenis}</span></td>
+                <td>${item.tahun}</td>
+                <td>${item.keterangan || '-'}</td>
+                <td class="text-center">${actionBtn}</td>
+            </tr>
+        `;
+    });
+
+    tbody.innerHTML = html;
+
+    const adminActionDiv = document.getElementById('admin-regulasi-action');
+    if (adminActionDiv) {
+        adminActionDiv.style.display = isAdmin ? 'block' : 'none';
+    }
+}
+
+function openModalTambahRegulasi() {
+    let modalElement = document.getElementById('modalTambahRegulasi');
+    if (modalElement) {
+        let modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+}
+
+function simpanRegulasi(event) {
+    event.preventDefault();
+    let judul = document.getElementById('regJudul').value;
+    let jenis = document.getElementById('regJenis').value;
+    let tahun = document.getElementById('regTahun').value;
+    let keterangan = document.getElementById('regKeterangan').value;
+
+    let data = getRegulasiData();
+    let newDataItem = {
+        id: Date.now(),
+        judul: judul,
+        jenis: jenis,
+        tahun: tahun,
+        keterangan: keterangan
+    };
+
+    data.push(newDataItem);
+    localStorage.setItem('desapaleleh_regulasi', JSON.stringify(data));
+
+    document.getElementById('formTambahRegulasi').reset();
+    let modalElement = document.getElementById('modalTambahRegulasi');
+    let modal = bootstrap.Modal.getInstance(modalElement);
+    if (modal) modal.hide();
+
+    renderTabelRegulasi();
+    alert('Regulasi desa berhasil ditambahkan!');
+}
+
+function hapusRegulasi(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus dokumen regulasi ini?')) {
+        let data = getRegulasiData();
+        let filteredData = data.filter(item => item.id !== id);
+        localStorage.setItem('desapaleleh_regulasi', JSON.stringify(filteredData));
+        renderTabelRegulasi();
+        alert('Regulasi berhasil dihapus.');
+    }
+}
+
 // ADMIN NOTIFIKASI
 function renderAdminNotifikasi() {
   const suratList = getPermohonanList();
@@ -458,7 +555,7 @@ function ubahStatusAduanCustom(i) {
 
 // LOGIN / LOGOUT (MENDUKUNG MULTI PETUGAS)
 function checkLoginAndOpenMenu() {
-  if (localStorage.getItem('desapaleleh_admin_logged_in') === 'true') { showPage('view-panel-petugas'); renderAdminNotifikasi(); renderPetugasList(); }
+  if (localStorage.getItem('desapaleleh_admin_logged_in') === 'true') { showPage('view-panel-petugas'); renderAdminNotifikasi(); renderPetugasList(); renderTabelRegulasi(); }
   else { showPage('view-login-petugas'); }
 }
 function handleLogin(event) {
@@ -473,11 +570,12 @@ function handleLogin(event) {
     showPage('view-panel-petugas');
     renderAdminNotifikasi();
     renderPetugasList();
+    renderTabelRegulasi();
   } else {
     alert('Username atau Password salah!');
   }
 }
-function handleLogout() { localStorage.removeItem('desapaleleh_admin_logged_in'); showPage('view-beranda'); }
+function handleLogout() { localStorage.removeItem('desapaleleh_admin_logged_in'); showPage('view-beranda'); renderTabelRegulasi(); }
 function switchTab(tabId) {
   document.querySelectorAll('.admin-tab-content').forEach(t => t.style.display = 'none');
   const target = document.getElementById(tabId);
@@ -746,6 +844,7 @@ const translations = {
     menu_lembaga: "Lembaga Desa",
     menu_kependudukan: "Kependudukan",
     menu_anggaran: "Anggaran Desa",
+    menu_regulasi: "Regulasi Desa",
     menu_tautan: "Tautan",
     menu_layanan: "Layanan Desa",
     sub_permohonan: "Permohonan Surat",
@@ -803,6 +902,7 @@ const translations = {
     menu_lembaga: "Village Institutions",
     menu_kependudukan: "Population",
     menu_anggaran: "Village Budget",
+    menu_regulasi: "Village Regulations",
     menu_tautan: "Links",
     menu_layanan: "Village Services",
     sub_permohonan: "Letter Request",
@@ -856,7 +956,7 @@ function changeLanguage(lang) {
 }
 
 // ==========================================
-// FUNGSI UTuh FITUR AKSESIBILITAS & TOGGLE
+// FUNGSI UTUH FITUR AKSESIBILITAS & TOGGLE
 // ==========================================
 function toggleAccFeature(feature, isActive) {
   const b = document.body;
@@ -922,6 +1022,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderKontakData();
   renderAdminNotifikasi();
   renderPetugasList();
+  renderTabelRegulasi();
 
   // Load Bahasa Tersimpan
   const savedLang = localStorage.getItem('desapaleleh_lang') || 'id';
