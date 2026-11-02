@@ -370,10 +370,24 @@ function saveGeografisData(event) {
   alert('Data kondisi geografis berhasil disimpan!');
 }
 
-// MANAJEMEN REGULASI DESA
+// MANAJEMEN REGULASI DESA (DILENGKAPI VIEW & DOWNLOAD)
 const defaultRegulasi = [
-    { id: 1, judul: "Anggaran Pendapatan dan Belanja Desa (APBDes) Tahun 2026", jenis: "Peraturan Desa (Perdes)", tahun: "2026", keterangan: "Transparansi pengelolaan keuangan desa tahun anggaran berjalan." },
-    { id: 2, judul: "Rencana Kerja Pemerintah Desa (RKPDes) Tahun 2026", jenis: "Peraturan Desa (Perdes)", tahun: "2026", keterangan: "Dokumen perencanaan pembangunan desa tahunan." }
+    { 
+        id: 1, 
+        judul: "Anggaran Pendapatan dan Belanja Desa (APBDes) Tahun 2026", 
+        jenis: "Peraturan Desa (Perdes)", 
+        tahun: "2026", 
+        fileUrl: "#", 
+        keterangan: "Transparansi pengelolaan keuangan desa tahun anggaran berjalan." 
+    },
+    { 
+        id: 2, 
+        judul: "Rencana Kerja Pemerintah Desa (RKPDes) Tahun 2026", 
+        jenis: "Peraturan Desa (Perdes)", 
+        tahun: "2026", 
+        fileUrl: "#", 
+        keterangan: "Dokumen perencanaan pembangunan desa tahunan." 
+    }
 ];
 
 function getRegulasiData() {
@@ -385,7 +399,7 @@ function getRegulasiData() {
     return JSON.parse(data);
 }
 
-// Render tabel publik (tanpa tombol aksi)
+// Render tabel publik (Dengan Tombol Lihat & Download)
 function renderTabelRegulasiPublik() {
     const tbody = document.getElementById('display-tabel-regulasi');
     if (!tbody) return;
@@ -394,11 +408,12 @@ function renderTabelRegulasiPublik() {
     let html = '';
 
     if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada data regulasi yang diunggah.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data regulasi yang diunggah.</td></tr>`;
         return;
     }
 
     data.forEach((item, index) => {
+        const hasFile = item.fileUrl && item.fileUrl !== '#';
         html += `
             <tr>
                 <td>${index + 1}</td>
@@ -406,6 +421,18 @@ function renderTabelRegulasiPublik() {
                 <td><span class="badge bg-secondary">${item.jenis}</span></td>
                 <td>${item.tahun}</td>
                 <td>${item.keterangan || '-'}</td>
+                <td class="text-center">
+                    ${hasFile ? `
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="${item.fileUrl}" target="_blank" class="btn btn-outline-primary" title="Lihat Dokumen">
+                                <i class="fas fa-eye"></i> Lihat
+                            </a>
+                            <a href="${item.fileUrl}" download target="_blank" class="btn btn-success" title="Download Dokumen">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    ` : `<span class="badge bg-warning text-dark"><i class="fas fa-exclamation-circle"></i> File Belum Ada</span>`}
+                </td>
             </tr>
         `;
     });
@@ -413,7 +440,7 @@ function renderTabelRegulasiPublik() {
     tbody.innerHTML = html;
 }
 
-// Render tabel khusus di Panel Admin (dilengkapi tombol Hapus)
+// Render tabel khusus di Panel Admin (Dilengkapi Tombol Lihat, Download, dan Hapus)
 function renderTabelRegulasiAdmin() {
     const tbody = document.getElementById('admin-tabel-regulasi');
     if (!tbody) return;
@@ -427,6 +454,7 @@ function renderTabelRegulasiAdmin() {
     }
 
     data.forEach((item, index) => {
+        const hasFile = item.fileUrl && item.fileUrl !== '#';
         html += `
             <tr>
                 <td>${index + 1}</td>
@@ -435,7 +463,19 @@ function renderTabelRegulasiAdmin() {
                 <td>${item.tahun}</td>
                 <td>${item.keterangan || '-'}</td>
                 <td class="text-center">
-                    <button class="btn btn-sm btn-danger" onclick="hapusRegulasi(${item.id})"><i class="fas fa-trash"></i> Hapus</button>
+                    <div class="d-flex justify-content-center gap-1">
+                        ${hasFile ? `
+                            <a href="${item.fileUrl}" target="_blank" class="btn btn-sm btn-outline-primary" title="Lihat">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="${item.fileUrl}" download target="_blank" class="btn btn-sm btn-success" title="Download">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        ` : ''}
+                        <button class="btn btn-sm btn-danger" onclick="hapusRegulasi(${item.id})" title="Hapus Dokumen">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -444,11 +484,13 @@ function renderTabelRegulasiAdmin() {
     tbody.innerHTML = html;
 }
 
+// Simpan regulasi baru dari Panel Admin
 function simpanRegulasiAdmin(event) {
     event.preventDefault();
     let judul = document.getElementById('regJudul').value.trim();
     let jenis = document.getElementById('regJenis').value;
     let tahun = document.getElementById('regTahun').value.trim();
+    let fileUrl = document.getElementById('regFileUrl').value.trim();
     let keterangan = document.getElementById('regKeterangan').value.trim();
 
     let data = getRegulasiData();
@@ -457,6 +499,7 @@ function simpanRegulasiAdmin(event) {
         judul,
         jenis,
         tahun,
+        fileUrl,
         keterangan
     };
 
