@@ -242,37 +242,38 @@
             </div>
         </section>
 
-        <!-- HALAMAN REGULASI DESA (PUBLIK - BERSIH TANPA TOMBOL AKSI) -->
-        <div id="view-regulasi" class="page-view" style="display: none;">
-            <div class="container py-4">
-                <div class="section-header text-center mb-4">
-                    <h2 class="fw-bold"><i class="fas fa-book-open text-primary"></i> Regulasi & Produk Hukum Desa</h2>
-                    <p class="text-muted">Kumpulan dokumen Peraturan Desa, Keputusan Kepala Desa, dan produk hukum lainnya.</p>
-                </div>
+       <!-- HALAMAN REGULASI DESA (PUBLIK) -->
+<div id="view-regulasi" class="page-view" style="display: none;">
+    <div class="container py-4">
+        <div class="section-header text-center mb-4">
+            <h2 class="fw-bold"><i class="fas fa-book-open text-primary"></i> Regulasi & Produk Hukum Desa</h2>
+            <p class="text-muted">Kumpulan dokumen Peraturan Desa, Keputusan Kepala Desa, dan produk hukum lainnya.</p>
+        </div>
 
-                <!-- Tabel Daftar Regulasi Publik -->
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th width="5%">No</th>
-                                        <th width="30%">Judul Regulasi</th>
-                                        <th width="20%">Jenis</th>
-                                        <th width="15%">Tahun</th>
-                                        <th width="30%">Keterangan / Deskripsi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="display-tabel-regulasi">
-                                    <!-- Data dimuat otomatis melalui JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        <!-- Tabel Daftar Regulasi Publik -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th width="5%">No</th>
+                                <th width="25%">Judul Regulasi</th>
+                                <th width="15%">Jenis</th>
+                                <th width="10%">Tahun</th>
+                                <th width="25%">Keterangan / Deskripsi</th>
+                                <th width="20%" class="text-center">Aksi / Dokumen</th>
+                            </tr>
+                        </thead>
+                        <tbody id="display-tabel-regulasi">
+                            <!-- Data dimuat otomatis melalui JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- LAYANAN SURAT -->
         <section id="view-layanan-surat" class="page-view" style="display: none;">
@@ -487,55 +488,60 @@
                 <div><h4>Pengaduan Masuk (Dilengkapi Bukti & Tombol WA)</h4><div id="admin-list-pengaduan"></div></div>
             </div>
 
-            <!-- TAB KELOLA REGULASI (KHUSUS ADMIN) -->
-            <div id="tab-regulasi" class="admin-tab-content admin-card-box" style="display: none;">
-                <h3 class="admin-section-title">Kelola Regulasi & Produk Hukum Desa</h3>
-                <form onsubmit="simpanRegulasiAdmin(event)" style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Judul Regulasi</label>
-                        <input type="text" class="form-control" id="regJudul" required placeholder="Contoh: APBDes Tahun 2026">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Jenis Regulasi</label>
-                        <select class="form-select" id="regJenis" required>
-                            <option value="Peraturan Desa (Perdes)">Peraturan Desa (Perdes)</option>
-                            <option value="Peraturan Kepala Desa (Perkades)">Peraturan Kepala Desa (Perkades)</option>
-                            <option value="Keputusan Kepala Desa">Keputusan Kepala Desa</option>
-                            <option value="Lainnya">Lainnya</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tahun</label>
-                        <input type="number" class="form-control" id="regTahun" required placeholder="2026" value="2026">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Keterangan / Deskripsi (Opsional)</label>
-                        <textarea class="form-control" id="regKeterangan" rows="3" placeholder="Tuliskan deskripsi singkat..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Tambah Regulasi Baru</button>
-                </form>
+           <!-- TAB KELOLA REGULASI (KHUSUS ADMIN) -->
+<div id="tab-regulasi" class="admin-tab-content admin-card-box" style="display: none;">
+    <h3 class="admin-section-title">Kelola Regulasi & Produk Hukum Desa</h3>
+    <form onsubmit="simpanRegulasiAdmin(event)" style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+        <div class="mb-3">
+            <label class="form-label fw-bold">Judul Regulasi</label>
+            <input type="text" class="form-control" id="regJudul" required placeholder="Contoh: APBDes Tahun 2026">
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Jenis Regulasi</label>
+            <select class="form-select" id="regJenis" required>
+                <option value="Peraturan Desa (Perdes)">Peraturan Desa (Perdes)</option>
+                <option value="Peraturan Kepala Desa (Perkades)">Peraturan Kepala Desa (Perkades)</option>
+                <option value="Keputusan Kepala Desa">Keputusan Kepala Desa</option>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Tahun</label>
+            <input type="number" class="form-control" id="regTahun" required placeholder="2026" value="2026">
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">URL Link Dokumen / File PDF</label>
+            <input type="text" class="form-control" id="regFileUrl" placeholder="Contoh: https://domain.com/dokumen/perdes-2026.pdf" required>
+            <small class="text-muted">Masukkan link langsung ke file PDF atau tautan Google Drive / cloud storage dokumen regulasi Anda.</small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Keterangan / Deskripsi (Opsional)</label>
+            <textarea class="form-control" id="regKeterangan" rows="3" placeholder="Tuliskan deskripsi singkat..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Tambah Regulasi Baru</button>
+    </form>
 
-                <div>
-                    <h4>Daftar Dokumen Regulasi (Admin)</h4>
-                    <div class="table-responsive mt-3">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th width="5%">No</th>
-                                    <th width="30%">Judul Regulasi</th>
-                                    <th width="20%">Jenis</th>
-                                    <th width="10%">Tahun</th>
-                                    <th width="25%">Keterangan</th>
-                                    <th width="10%" class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-tabel-regulasi">
-                                <!-- Data dimuat otomatis -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div>
+        <h4>Daftar Dokumen Regulasi (Admin)</h4>
+        <div class="table-responsive mt-3">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="5%">No</th>
+                        <th width="25%">Judul Regulasi</th>
+                        <th width="15%">Jenis</th>
+                        <th width="10%">Tahun</th>
+                        <th width="20%">Keterangan</th>
+                        <th width="25%" class="text-center">Aksi & File</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-tabel-regulasi">
+                    <!-- Data dimuat otomatis -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
             <!-- TAB KELOLA PETUGAS -->
             <div id="tab-petugas" class="admin-tab-content admin-card-box" style="display: none;">
