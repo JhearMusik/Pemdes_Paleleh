@@ -6,6 +6,8 @@
     <title>Pemerintah Desa Paleleh - Kabupaten Buol</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS untuk Modal & Tabel yang Rapi -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -43,6 +45,8 @@
             </li>
             <li><a class="nav-link" onclick="showPage('view-kependudukan')"><i class="fas fa-users"></i> <span data-i18n="menu_kependudukan">Kependudukan</span></a></li>
             <li><a class="nav-link" onclick="showPage('view-anggaran')"><i class="fas fa-coins"></i> <span data-i18n="menu_anggaran">Anggaran Desa</span></a></li>
+            <!-- MENU REGULASI DESA -->
+            <li><a class="nav-link" onclick="showPage('view-regulasi')"><i class="fas fa-book-open"></i> <span data-i18n="menu_regulasi">Regulasi Desa</span></a></li>
             <li class="dropdown">
                 <a class="nav-link"><i class="fas fa-link"></i> <span data-i18n="menu_tautan">Tautan</span> <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" id="display-navbar-tautan"></ul>
@@ -65,7 +69,7 @@
         <i class="fas fa-universal-access"></i>
     </button>
 
-   <!-- MODAL AKSESIBILITAS SIDEBAR (PERSIS GAMBAR REFERENSI) -->
+   <!-- MODAL AKSESIBILITAS SIDEBAR -->
     <div id="accessibilityModal" class="accessibility-modal">
         <div class="accessibility-content">
             <div class="accessibility-header">
@@ -203,7 +207,7 @@
                 </video>
                 <div class="hero-overlay"></div>
                 <div class="hero-content">
-                    <h1 class="hero-title" data-i18n="hero_title">SELAMAT DATANG WEBSITE RESMI PEMERINTAH DESA PALELEH</h1>
+                    <h1 class="hero-title" data-i18n="hero_title">Selamat Datang di Portal Resmi Pemerintah Desa Paleleh</h1>
                     <p class="hero-subtitle" data-i18n="hero_subtitle">Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera</p>
                     <button class="btn-hero-cta" onclick="showPage('view-layanan-surat')"><i class="fas fa-paper-plane"></i> <span data-i18n="hero_cta">Ajukan Surat Keterangan Online</span></button>
                 </div>
@@ -238,6 +242,87 @@
                 <div id="display-beranda-video-list" class="grid-cards-responsive"><p class="text-muted">Belum ada video.</p></div>
             </div>
         </section>
+
+        <!-- HALAMAN REGULASI DESA -->
+        <div id="view-regulasi" class="page-view" style="display: none;">
+            <div class="container py-4">
+                <div class="section-header text-center mb-4">
+                    <h2 class="fw-bold"><i class="fas fa-book-open text-primary"></i> Regulasi & Produk Hukum Desa</h2>
+                    <p class="text-muted">Kumpulan dokumen Peraturan Desa, Keputusan Kepala Desa, dan produk hukum lainnya.</p>
+                </div>
+                
+                <!-- Tombol Khusus Admin untuk Tambah Data -->
+                <div id="admin-regulasi-action" class="mb-4" style="display: none;">
+                    <button class="btn btn-primary" onclick="openModalTambahRegulasi()">
+                        <i class="fas fa-plus-circle"></i> Tambah Regulasi Baru
+                    </button>
+                </div>
+
+                <!-- Tabel Daftar Regulasi -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th width="5%">No</th>
+                                        <th width="25%">Judul Regulasi</th>
+                                        <th width="15%">Jenis</th>
+                                        <th width="15%">Tahun</th>
+                                        <th width="30%">Keterangan / Deskripsi</th>
+                                        <th width="10%" class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="display-tabel-regulasi">
+                                    <!-- Data dimuat otomatis melalui JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL TAMBAH REGULASI (KHUSUS ADMIN) -->
+        <div class="modal fade" id="modalTambahRegulasi" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title"><i class="fas fa-file-alt"></i> Tambah Dokumen Regulasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formTambahRegulasi" onsubmit="simpanRegulasi(event)">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Judul Regulasi</label>
+                                <input type="text" class="form-control" id="regJudul" required placeholder="Contoh: APBDes Tahun 2026">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Jenis Regulasi</label>
+                                <select class="form-select" id="regJenis" required>
+                                    <option value="Peraturan Desa (Perdes)">Peraturan Desa (Perdes)</option>
+                                    <option value="Peraturan Kepala Desa (Perkades)">Peraturan Kepala Desa (Perkades)</option>
+                                    <option value="Keputusan Kepala Desa">Keputusan Kepala Desa</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Tahun</label>
+                                <input type="number" class="form-control" id="regTahun" required placeholder="2026" value="2026">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Keterangan / Deskripsi (Opsional)</label>
+                                <textarea class="form-control" id="regKeterangan" rows="3" placeholder="Tuliskan deskripsi singkat..."></textarea>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan Regulasi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- LAYANAN SURAT -->
         <section id="view-layanan-surat" class="page-view" style="display: none;">
@@ -668,6 +753,9 @@
     </main>
 
     <footer><p>&copy; 2026 Pemerintah Desa Paleleh - Kecamatan Paleleh, Kabupaten Buol</p></footer>
+    
+    <!-- Bootstrap JS agar Modal interaktif berfungsi dengan baik -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
