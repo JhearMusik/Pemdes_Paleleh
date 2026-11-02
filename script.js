@@ -385,7 +385,8 @@ function getRegulasiData() {
     return JSON.parse(data);
 }
 
-function renderTabelRegulasi() {
+// Render tabel publik (tanpa tombol aksi)
+function renderTabelRegulasiPublik() {
     const tbody = document.getElementById('display-tabel-regulasi');
     if (!tbody) return;
 
@@ -393,14 +394,11 @@ function renderTabelRegulasi() {
     let html = '';
 
     if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data regulasi yang diunggah.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada data regulasi yang diunggah.</td></tr>`;
         return;
     }
 
     data.forEach((item, index) => {
-        let isAdmin = localStorage.getItem('desapaleleh_admin_logged_in') === 'true';
-        let actionBtn = isAdmin ? `<button class="btn btn-sm btn-danger" onclick="hapusRegulasi(${item.id})"><i class="fas fa-trash"></i> Hapus</button>` : `<span class="text-muted">-</span>`;
-
         html += `
             <tr>
                 <td>${index + 1}</td>
@@ -408,52 +406,66 @@ function renderTabelRegulasi() {
                 <td><span class="badge bg-secondary">${item.jenis}</span></td>
                 <td>${item.tahun}</td>
                 <td>${item.keterangan || '-'}</td>
-                <td class="text-center">${actionBtn}</td>
             </tr>
         `;
     });
 
     tbody.innerHTML = html;
-
-    const adminActionDiv = document.getElementById('admin-regulasi-action');
-    if (adminActionDiv) {
-        adminActionDiv.style.display = isAdmin ? 'block' : 'none';
-    }
 }
 
-function openModalTambahRegulasi() {
-    let modalElement = document.getElementById('modalTambahRegulasi');
-    if (modalElement) {
-        let modal = new bootstrap.Modal(modalElement);
-        modal.show();
+// Render tabel khusus di Panel Admin (dilengkapi tombol Hapus)
+function renderTabelRegulasiAdmin() {
+    const tbody = document.getElementById('admin-tabel-regulasi');
+    if (!tbody) return;
+
+    let data = getRegulasiData();
+    let html = '';
+
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data regulasi.</td></tr>`;
+        return;
     }
+
+    data.forEach((item, index) => {
+        html += `
+            <tr>
+                <td>${index + 1}</td>
+                <td class="fw-bold">${item.judul}</td>
+                <td><span class="badge bg-secondary">${item.jenis}</span></td>
+                <td>${item.tahun}</td>
+                <td>${item.keterangan || '-'}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-danger" onclick="hapusRegulasi(${item.id})"><i class="fas fa-trash"></i> Hapus</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    tbody.innerHTML = html;
 }
 
-function simpanRegulasi(event) {
+function simpanRegulasiAdmin(event) {
     event.preventDefault();
-    let judul = document.getElementById('regJudul').value;
+    let judul = document.getElementById('regJudul').value.trim();
     let jenis = document.getElementById('regJenis').value;
-    let tahun = document.getElementById('regTahun').value;
-    let keterangan = document.getElementById('regKeterangan').value;
+    let tahun = document.getElementById('regTahun').value.trim();
+    let keterangan = document.getElementById('regKeterangan').value.trim();
 
     let data = getRegulasiData();
     let newDataItem = {
         id: Date.now(),
-        judul: judul,
-        jenis: jenis,
-        tahun: tahun,
-        keterangan: keterangan
+        judul,
+        jenis,
+        tahun,
+        keterangan
     };
 
     data.push(newDataItem);
     localStorage.setItem('desapaleleh_regulasi', JSON.stringify(data));
 
-    document.getElementById('formTambahRegulasi').reset();
-    let modalElement = document.getElementById('modalTambahRegulasi');
-    let modal = bootstrap.Modal.getInstance(modalElement);
-    if (modal) modal.hide();
-
-    renderTabelRegulasi();
+    document.getElementById('tab-regulasi').querySelector('form').reset();
+    renderTabelRegulasiPublik();
+    renderTabelRegulasiAdmin();
     alert('Regulasi desa berhasil ditambahkan!');
 }
 
@@ -462,7 +474,8 @@ function hapusRegulasi(id) {
         let data = getRegulasiData();
         let filteredData = data.filter(item => item.id !== id);
         localStorage.setItem('desapaleleh_regulasi', JSON.stringify(filteredData));
-        renderTabelRegulasi();
+        renderTabelRegulasiPublik();
+        renderTabelRegulasiAdmin();
         alert('Regulasi berhasil dihapus.');
     }
 }
@@ -555,9 +568,16 @@ function ubahStatusAduanCustom(i) {
 
 // LOGIN / LOGOUT (MENDUKUNG MULTI PETUGAS)
 function checkLoginAndOpenMenu() {
-  if (localStorage.getItem('desapaleleh_admin_logged_in') === 'true') { showPage('view-panel-petugas'); renderAdminNotifikasi(); renderPetugasList(); renderTabelRegulasi(); }
-  else { showPage('view-login-petugas'); }
+  if (localStorage.getItem('desapaleleh_admin_logged_in') === 'true') { 
+    showPage('view-panel-petugas'); 
+    renderAdminNotifikasi(); 
+    renderPetugasList(); 
+    renderTabelRegulasiAdmin(); 
+  } else { 
+    showPage('view-login-petugas'); 
+  }
 }
+
 function handleLogin(event) {
   event.preventDefault();
   const uInput = document.getElementById('login-user').value.trim();
@@ -570,12 +590,18 @@ function handleLogin(event) {
     showPage('view-panel-petugas');
     renderAdminNotifikasi();
     renderPetugasList();
-    renderTabelRegulasi();
+    renderTabelRegulasiAdmin();
   } else {
     alert('Username atau Password salah!');
   }
 }
-function handleLogout() { localStorage.removeItem('desapaleleh_admin_logged_in'); showPage('view-beranda'); renderTabelRegulasi(); }
+
+function handleLogout() { 
+  localStorage.removeItem('desapaleleh_admin_logged_in'); 
+  showPage('view-beranda'); 
+  renderTabelRegulasiPublik(); 
+}
+
 function switchTab(tabId) {
   document.querySelectorAll('.admin-tab-content').forEach(t => t.style.display = 'none');
   const target = document.getElementById(tabId);
@@ -828,7 +854,6 @@ function saveKontakData(e) {
 // ==========================================
 const translations = {
   id: {
-    // Navbar & Menu
     nav_kab: "PEMERINTAH KABUPATEN BUOL",
     nav_kec: "KECAMATAN PALELEH",
     nav_des: "PEMERINTAH DESA PALELEH",
@@ -851,13 +876,9 @@ const translations = {
     sub_pengaduan: "Pengaduan Masyarakat",
     menu_admin: "Panel Admin Desa",
     menu_kontak: "Kontak",
-
-    // Hero Beranda
     hero_title: "Selamat Datang di Portal Resmi Pemerintah Desa Paleleh",
     hero_subtitle: "Mewujudkan Tata Kelola Desa yang Transparan, Akuntabel, dan Sejahtera",
     hero_cta: "Ajukan Surat Keterangan Online",
-
-    // Fitur Aksesibilitas
     acc_title: "Fitur Aksesibilitas",
     acc_lang: "Bahasa / Language",
     acc_text_size: "UKURAN TEKS",
@@ -886,7 +907,6 @@ const translations = {
     acc_reset: "Reset Semua Pengaturan"
   },
   en: {
-    // Navbar & Menu
     nav_kab: "BUOL REGENCY GOVERNMENT",
     nav_kec: "PALELEH SUB-DISTRICT",
     nav_des: "PALELEH VILLAGE GOVERNMENT",
@@ -909,13 +929,9 @@ const translations = {
     sub_pengaduan: "Public Complaints",
     menu_admin: "Admin Panel",
     menu_kontak: "Contact",
-
-    // Hero Beranda
     hero_title: "Welcome to the Official Portal of Paleleh Village Government",
     hero_subtitle: "Realizing Transparent, Accountable, and Prosperous Village Governance",
     hero_cta: "Apply Online Letter",
-
-    // Fitur Aksesibilitas
     acc_title: "Accessibility Features",
     acc_lang: "Bahasa / Language",
     acc_text_size: "TEXT SIZE",
@@ -955,9 +971,7 @@ function changeLanguage(lang) {
   });
 }
 
-// ==========================================
-// FUNGSI UTUH FITUR AKSESIBILITAS & TOGGLE
-// ==========================================
+// AKSESIBILITAS & TOGGLE
 function toggleAccFeature(feature, isActive) {
   const b = document.body;
   if (feature === 'rabun') isActive ? b.classList.add('acc-rabun') : b.classList.remove('acc-rabun');
@@ -1002,7 +1016,7 @@ function resetAllAccessibility() {
   alert('Pengaturan aksesibilitas berhasil direset!');
 }
 
-// Inisialisasi Saat Halaman Dimuat
+// INISIALISASI SAAT HALAMAN DIMUAT
 window.addEventListener('DOMContentLoaded', () => {
   renderBerandaData();
   renderKegiatanList();
@@ -1022,9 +1036,9 @@ window.addEventListener('DOMContentLoaded', () => {
   renderKontakData();
   renderAdminNotifikasi();
   renderPetugasList();
-  renderTabelRegulasi();
+  renderTabelRegulasiPublik();
+  renderTabelRegulasiAdmin();
 
-  // Load Bahasa Tersimpan
   const savedLang = localStorage.getItem('desapaleleh_lang') || 'id';
   const langSelect = document.getElementById('accLanguageSelector');
   if (langSelect) langSelect.value = savedLang;
